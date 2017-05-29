@@ -14,7 +14,7 @@ sudo apt-get update
 sudo apt-get upgrade -y gdal-bin libgdal-dev
 touch install_packages.R
 echo '#!/usr/bin/Rscript' >> install_packages.R
-echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata"), repos="https://cloud.r-project.org/")' >> install_packages.R
+echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata", "magrittr", "tidytext"), repos="https://cloud.r-project.org/")' >> install_packages.R
 ./install_packages.R
 rm install_packages.R
 
