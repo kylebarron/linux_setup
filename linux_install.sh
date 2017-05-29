@@ -124,6 +124,21 @@ nvcc -V
 # sudo make
 # cd bin
 
+# Install SSH Server
+sudo apt-get install -y openssh-server
+
+# Install OpenVPN to use PIA
+#sudo apt-get install -y openvpn unzip
+#cd /etc/openvpn
+#sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
+#sudo unzip openvpn.zip
+#sudo rm openvpn.zip
+#touch pass.txt ## Add username and pasword in here manually
+#for filename in *.ovpn
+#do
+#  sudo echo 'auth-user-pass pass.txt' >> $filename
+#done
+#sudo openvpn 'config-filename-goes-here.ovpn'
 
 
 # MANUAL INSTALLS:
