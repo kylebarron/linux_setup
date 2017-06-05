@@ -1,0 +1,83 @@
+# ---------------------------------------------------------------------
+# Server-specific settings
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific aliases and functions
+module load gcc
+module load slurm
+
+# Sloan config module
+module use -a /home/software/sloan/modulefiles
+module load sloan/config
+module load sloan/stata-mp/14
+module load sloan/python/modules/3.5
+module load sloan/texlive/2016
+
+# Pretty colors
+eval $(dircolors -b $HOME/.dircolors)
+
+# Landing dir for Joe's projects
+export mhome=/nfs/sloanlab001/projects/jjdoyle.med_proj
+cd $mhome
+
+# ---------------------------------------------------------------------
+# Useful
+
+export mtex=`kpsewhich -var-value=TEXMFHOME`
+
+# Options
+set noclobber
+export PROMPT_DIRTRIM=2
+PS1='[\u@\h \w]\$ '
+
+# ls and dir
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+
+# grep
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# some more ls aliases
+alias ll='ls -alFh'
+alias la='ls -A'
+alias l='ls -lhF'
+
+# Random aliases to prevent accidental deletes/overwrites
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+
+# PS aliases
+alias psg='ps -ax | grep \!* | grep -v grep'
+alias topme='top -c -u `whoami`'
+alias psme='ps aux | grep `whoami`'
+
+# check out CSV file in buffer
+function lesscsv () {
+    column -s, -t < $1 | less -#2 -N -S
+}
+
+# ---------------------------------------------------------------------
+# History
+
+# Avoid duplicates
+export HISTCONTROL=ignoredups
+export HISTFILESIZE=8192
+
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
+
+# After each command, append to the history file and reread it
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+# Check the size in disk of a directory
+function mdu() {
+    du -h $1 --apparent-size --max-depth=0
+}
