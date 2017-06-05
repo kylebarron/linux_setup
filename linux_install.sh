@@ -32,6 +32,15 @@ echo "www-address=127.0.0.1" >> /etc/rstudio/rserver.conf
 sudo rstudio-server restart
 rm rstudio-server-1.0.143-amd64.deb
 
+# Install Node.js and npm
+# Needed to install term3 as an Atom package
+cd /opt
+sudo wget https://nodejs.org/dist/v6.10.3/node-v6.10.3-linux-x64.tar.xz
+sudo tar xvfJ node-v6.10.3-linux-x64.tar.xz
+sudo rm node-v6.10.3-linux-x64.tar.xz
+sudo mv node-v6.10.3-linux-x64 node
+echo 'export PATH="/opt/node/bin:$PATH"' >> ~/.bashrc
+
 # Install Google Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
@@ -87,7 +96,7 @@ sudo wget https://julialang-s3.julialang.org/bin/linux/x64/0.5/julia-0.5.2-linux
 sudo tar -xzf julia-0.5.2-linux-x86_64.tar.gz
 sudo mv julia-f4c6c9d4bb/ julia/
 sudo rm julia-0.5.2-linux-x86_64.tar.gz
-echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.profile
+echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.bashrc
 cd
 
 # Download and install Keybase but not run
