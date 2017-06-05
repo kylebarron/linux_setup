@@ -14,7 +14,7 @@ sudo apt-get update
 sudo apt-get upgrade -y gdal-bin libgdal-dev
 touch install_packages.R
 echo '#!/usr/bin/Rscript' >> install_packages.R
-echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata", "magrittr", "tidytext"), repos="https://cloud.r-project.org/")' >> install_packages.R
+echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata", "magrittr", "tidytext", "lintr", "formatR"), repos="https://cloud.r-project.org/")' >> install_packages.R
 ./install_packages.R
 rm install_packages.R
 
@@ -54,6 +54,11 @@ sudo apt-get install -y texmaker
 sudo add-apt-repository -y ppa:lyx-devel/release
 sudo apt-get update
 sudo apt-get install -y lyx
+
+# Update Git config
+git config --global user.name "Kyle Barron"
+git config --global user.email barronk@mit.edu
+git config --global core.editor nano
 
 # Install Git Kraken
 wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
@@ -103,11 +108,40 @@ wget https://atom-installer.github.com/v1.17.2/atom-amd64.deb
 sudo dpkg -i atom-amd64.deb
 rm atom-amd64.deb
 
+# Change Atom Icon to atom-material-ui Icon
+# Download icons
+cd ~
+wget https://www.dropbox.com/s/8gyn40sw95626dx/Atom-MD-Icon.zip?dl=1
+unzip Atom-MD-Icon.zip?dl=1
+sudo cp ~/Atom\ Icon/PNGs/icon_512x512@2x.png /usr/share/pixmaps/atom_material_ui.png
+sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
+rm -r ~/__MACOSX/
+rm -r ~/Atom\ Icon/
+rm ~/Atom-MD-Icon.zip
+
+# Install Atom Packages
+# The below packages are just from Atom on mac-linux
+apm install aligner aligner-javascript aligner-python atom-alignment
+apm install atom-beautify atom-clock atom-material-syntax atom-material-ui
+apm install hydrogen script busy-signal
+apm install git-control git-log git-plus git-time-machine tree-view-git-status
+apm install intentions
+apm install ink julia-client language-julia
+apm install language-markdown markdown-preview-plus
+apm install language-r linter-lintr
+apm install language-stata
+apm install latex latex-completions latexer latextools language-latex pdf-view
+apm install linter linter-flake8 linter-ui-default linter-write-good
+apm install python-tools autocomplete-python python-indent
+apm install qolor color-picker
+apm install css-snippets autoclose-html
+apm install webbox-color
+
 # Install Anaconda
 wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
 sudo bash Anaconda3-4.3.1-Linux-x86_64.sh -b -p /opt/anaconda
 rm Anaconda3-4.3.1-Linux-x86_64.sh
-echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.profile
+echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.bashrc
 
 # Install CUDA
 wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
@@ -115,14 +149,17 @@ mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
 sudo dpkg -i cuda.deb
 sudo apt-get update
 sudo apt-get install -y cuda
-echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.profile
-echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.profile
+echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.bashrc
 rm cuda.deb
 nvcc -V
 # compile examples:
 # cd /usr/local/cuda-8.0/samples
 # sudo make
 # cd bin
+
+# Other .bashrc edits
+
 
 # Install SSH Server
 sudo apt-get install -y openssh-server
