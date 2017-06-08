@@ -126,7 +126,7 @@ sudo cp ~/Atom\ Icon/PNGs/icon_512x512@2x.png /usr/share/pixmaps/atom_material_u
 sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
 rm -r ~/__MACOSX/
 rm -r ~/Atom\ Icon/
-rm ~/Atom-MD-Icon.zip
+rm ~/Atom-MD-Icon.zip?dl=1
 
 # Install Atom Packages
 # The below packages are just from Atom on mac-linux
