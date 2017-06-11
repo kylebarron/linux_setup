@@ -1,10 +1,10 @@
 [user]
-    email  = caceres@mit.edu
-    name   = Mauricio Caceres bravo
-    editor = vim
+    email  = barronk@mit.edu
+    name   = Kyle Barron
+    editor = nano
 
 [core]
-    editor = vim
+    editor = nano
 
 [push]
     default = simple
