@@ -73,6 +73,21 @@ git config --global core.editor nano
 wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
 sudo dpkg -i gitkraken-amd64.deb
 
+# Install SSH Server
+sudo apt-get install -y openssh-server
+
+# SSH Server for encrypted home folder
+sudo mkdir /etc/ssh/$(whoami)
+sudo chmod 755 /etc/ssh/$(whoami)
+#sudo mv ~/.ssh/authorized_keys /etc/ssh/$(whoami)/authorized_keys
+sudo touch /etc/ssh/$(whoami)/authorized_keys
+sudo chmod 644 /etc/ssh/$(whoami)/authorized_keys
+sudo echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9qYxWBMPHc22t7gEa1mbDPlBkISDXGYGsJt9z6skeQqzZnqrqhqoXOQUXTSwJm5p4+1gCPR63KjwKPp5rAIKNuNKAM1Cf+1RDyLu1I6Ixtf6fv5NtWr1oK2VwTyMP+rPvaYAaNpr5aMF6JqJGt37/qVY9hyJu2D6p2tw5N/fzgtALeK820qeposmfb5DCn90zsDyTHi7khpp5nO9WfCFXFYO87Vxk2pzeMYSwmiabHdL6Tqs7jjNC3XLuOxaB9drv0J+PcNLclFEjeLq0dGWPleIGmjEx2xi7xWBsmYM2bnpADcuAMd25xpICf4rkr/tVlIbuiy8nUli9p6wiK8PKMcwxVs8+kVD+VuEmqTPKdNnk2zYSLkkEZSyo+X1wReXq56rtRJQWhpvFMvEUMbne4oHk90QYpVgMXZSiNF4h6srQq1yeSnV72UTmr9M2cgYkQXw9j0oB93Yoh8mpZIgCn9wBHWGljMURyR28Le1/dAPJvFSri6HhcV5+jy54g2q5PxlLNcA2AZneh5VW88VnW0iNrS9gN/Btk1EumcD3x2+M4XCdNhTzI548WFBEDNF2TO4VcEZIsqIsScWdoK6o/A7Bp2k5Pxj0RTkbB8jX5VbCwWrNQuY7ZPiiGBJchR18agWJDtlSV2AzvXW0tiAYG8yapBgvdzn3L9lvJ0vQnw== kyle@mac-linux" >> /etc/ssh/$(whoami)/authorized_keys
+sudo sed -i 's@#AuthorizedKeysFile@AuthorizedKeysFile@g' /etc/ssh/sshd_config
+sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/sshd_config
+sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
+sudo service ssh restart
+
 # Install FileZilla
 sudo apt-get install -y filezilla
 
@@ -170,8 +185,7 @@ nvcc -V
 # Other .bashrc edits
 
 
-# Install SSH Server
-sudo apt-get install -y openssh-server
+
 
 # Install OpenVPN to use PIA
 #sudo apt-get install -y openvpn unzip
