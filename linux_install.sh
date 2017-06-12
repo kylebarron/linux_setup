@@ -86,6 +86,7 @@ sudo echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9qYxWBMPHc22t7gEa1mbDPlBkISDXG
 sudo sed -i 's@#AuthorizedKeysFile@AuthorizedKeysFile@g' /etc/ssh/sshd_config
 sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/sshd_config
 sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
+sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
 sudo service ssh restart
 
 # Install FileZilla
