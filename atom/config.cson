@@ -1,0 +1,111 @@
+"*":
+  aligner:
+    alignComments: true
+  "atom-alignment":
+    addSpacePostfix: true
+    alignBy: [
+      "=>"
+      ":="
+      ":"
+      "="
+      "\""
+      "\\"
+      "`"
+      ">="
+      "<="
+    ]
+    alignmentSpaceChars: [
+      "=>"
+      ":="
+      ":"
+    ]
+  "atom-clock":
+    dateFormat: "ddd MMM D YYYY h:mm A"
+  "atom-material-ui":
+    colors: {}
+    tabs:
+      compactTabs: true
+    ui:
+      panelContrast: true
+      panelShadows: true
+  "atom-shell-commands": {}
+  "autocomplete-plus":
+    confirmCompletion: "tab"
+  "autocomplete-python": {}
+  core:
+    closeDeletedFileTabs: true
+    customFileTypes:
+      "source.ini": [
+        ".buckconfig"
+        ".hgrc"
+      ]
+      "source.json": [
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUCK"
+      ]
+    disabledPackages: [
+      "welcome"
+      "linter-write-good"
+      "language-gfm"
+      "block-cursor"
+      "language-stata-plus"
+      "linter-flake8"
+      "linter-shellcheck"
+      "linter-ui-default"
+    ]
+    projectHome: "/home/kyle"
+    telemetryConsent: "limited"
+    themes: [
+      "atom-material-ui"
+      "atom-material-syntax"
+    ]
+  docblockr: {}
+  editor:
+    fontSize: 12
+    scrollPastEnd: true
+    softWrap: true
+    softWrapHangingIndent: 4
+    tabLength: 4
+  "exception-reporting":
+    userId: "296dbb37-446a-fe4d-8a55-bc079614f5ca"
+  latex:
+    buildOnSave: true
+    engine: "pdflatex"
+  linter: {}
+  "linter-flake8":
+    ignoreErrorCodes: [
+      "E221"
+      "E251"
+    ]
+  "linter-ui-default":
+    panelHeight: 61
+    showPanel: true
+  "package-generator":
+    packageSyntax: "coffeescript"
+  "pdf-view":
+    fitToWidthOnOpen: true
+    paneToUseInSynctex: "right"
+    reverseSyncBehaviour: "Double click"
+  "platformio-ide-terminal":
+    core:
+      mapTerminalsTo: "File"
+    style: {}
+    toggles:
+      autoClose: true
+  "tree-view": {}
+  welcome:
+    showOnStartup: false
+".bibtex.text":
+  editor:
+    scrollPastEnd: true
+    softWrap: true
+".latex.tex.text":
+  editor:
+    scrollPastEnd: true
+    softWrap: true
+".source.stata":
+  editor:
+    showIndentGuide: true
+    showInvisibles: false
