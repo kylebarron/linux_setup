@@ -15,7 +15,11 @@ sudo apt-get upgrade -y gdal-bin libgdal-dev
 touch install_packages.R
 echo '#!/usr/bin/Rscript' >> install_packages.R
 echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata", "magrittr", "tidytext", "lintr", "formatR"), repos="https://cloud.r-project.org/")' >> install_packages.R
-./install_packages.R
+# IRkernel support:
+echo "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'))" >> install_packages.R
+echo "devtools::install_github('IRkernel/IRkernel')" >> install_packages.R
+echo "IRkernel::installspec()" >> install_packages.R
+sudo ./install_packages.R
 rm install_packages.R
 
 # Install RStudio Desktop
