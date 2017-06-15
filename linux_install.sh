@@ -1,3 +1,4 @@
+IRkernel::installspec()
 #!/bin/bash
 
 # Install R
@@ -118,6 +119,9 @@ sudo mv julia-f4c6c9d4bb/ julia/
 sudo rm julia-0.5.2-linux-x86_64.tar.gz
 echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.bashrc
 cd
+
+# Install IJulia
+# Pkg.add("IJulia")
 
 # Download and install Keybase but not run
 curl -O https://prerelease.keybase.io/keybase_amd64.deb
