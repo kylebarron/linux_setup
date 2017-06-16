@@ -1,5 +1,12 @@
-IRkernel::installspec()
 #!/bin/bash
+
+sudo apt-get install curl
+
+# Install Anaconda
+wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
+sudo bash Anaconda3-4.3.1-Linux-x86_64.sh -b -p /opt/anaconda
+rm Anaconda3-4.3.1-Linux-x86_64.sh
+echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.bashrc
 
 # Install R
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
@@ -84,6 +91,7 @@ git config --global core.editor nano
 # Install Git Kraken
 wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
 sudo dpkg -i gitkraken-amd64.deb
+rm gitkraken-amd64.deb
 
 # Install SSH Server
 sudo apt-get install -y openssh-server
@@ -113,6 +121,7 @@ rm google-earth-stable_current_amd64.deb
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 33D40BC6
 sudo add-apt-repository "deb http://rodeo-deb.yhat.com/ rodeo main"
 sudo apt-get update
+sudo apt-get -fy install
 sudo apt-get -y install rodeo
 
 # Install VLC
@@ -140,6 +149,7 @@ sudo add-apt-repository "deb http://qgis.org/ubuntugis-ltr xenial main/"
 sudo add-apt-repository "deb-src http://qgis.org/ubuntugis-ltr xenial main"
 sudo add-apt-repository "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main"
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
 sudo apt-get update
 sudo apt-get install -y qgis python-qgis qgis-plugin-grass
 
@@ -177,12 +187,6 @@ apm install qolor color-picker
 apm install css-snippets autoclose-html
 apm install webbox-color
 
-# Install Anaconda
-wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
-sudo bash Anaconda3-4.3.1-Linux-x86_64.sh -b -p /opt/anaconda
-rm Anaconda3-4.3.1-Linux-x86_64.sh
-echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.bashrc
-
 # Install CUDA
 wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
 mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
@@ -219,11 +223,9 @@ nvcc -V
 
 # MANUAL INSTALLS:
 # Install Dropbox
-cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-~/.dropbox-dist/dropboxd
+#cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+#~/.dropbox-dist/dropboxd
 # Needs manual input to link accounts
 
 # Keybase
 run_keybase
-
-# Atom Packages
