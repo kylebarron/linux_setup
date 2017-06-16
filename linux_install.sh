@@ -33,7 +33,7 @@ echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather",
 # IRkernel support:
 echo "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'), repos='https://cloud.r-project.org/')" >> install_packages.R
 echo "devtools::install_github('IRkernel/IRkernel')" >> install_packages.R
-echo "IRkernel::installspec()" >> install_packages.R
+echo "IRkernel::installspec( )" >> install_packages.R
 sudo chmod +x install_packages.R
 sudo ./install_packages.R
 rm install_packages.R
@@ -181,11 +181,11 @@ rm ~/Atom-MD-Icon.zip?dl=1
 # Install Atom Packages
 apm install --packages-file "atom/package-list.txt"
 
-# Miscellaneous 
+# Miscellaneous
 sudo apt-get install pandoc
 
 # Flat plat design
-sudo apt-get install gnome-themes-standard gnome-tweak-tool pixmap 
+sudo apt-get install gnome-themes-standard gnome-tweak-tool pixmap
 curl -sL https://github.com/nana-4/Flat-Plat/archive/v20170605.tar.gz | tar xz
 cd Flat-Plat-20170605 && sudo ./install.sh
 
