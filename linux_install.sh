@@ -179,6 +179,15 @@ rm ~/Atom-MD-Icon.zip?dl=1
 # Install Atom Packages
 apm install --packages-file "atom/package-list.txt"
 
+# Miscellaneous 
+sudo apt-get install pandoc
+
+# Flat plat design
+sudo apt-get install gnome-themes-standard gnome-tweak-tool pixmap 
+curl -sL https://github.com/nana-4/Flat-Plat/archive/v20170605.tar.gz | tar xz
+cd Flat-Plat-20170605 && sudo ./install.sh
+
+
 # Install CUDA
 wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
 mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
