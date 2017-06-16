@@ -230,9 +230,3 @@ function catlatexwc() {
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
-
-export PATH="/opt/node/bin:$PATH"
-export PATH="/opt/julia/bin:$PATH"
-export PATH="/opt/anaconda/bin:$PATH"
-export PATH="/usr/local/cuda-8.0/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"
