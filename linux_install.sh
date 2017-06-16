@@ -20,6 +20,7 @@ echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather",
 echo "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'))" >> install_packages.R
 echo "devtools::install_github('IRkernel/IRkernel')" >> install_packages.R
 echo "IRkernel::installspec()" >> install_packages.R
+sudo chmod +x install_packages.R
 sudo ./install_packages.R
 rm install_packages.R
 
