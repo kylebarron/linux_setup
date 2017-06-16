@@ -170,22 +170,7 @@ rm -r ~/Atom\ Icon/
 rm ~/Atom-MD-Icon.zip?dl=1
 
 # Install Atom Packages
-# The below packages are just from Atom on mac-linux
-apm install aligner aligner-javascript aligner-python atom-alignment
-apm install atom-beautify atom-clock atom-material-syntax atom-material-ui
-apm install hydrogen script busy-signal
-apm install git-control git-log git-plus git-time-machine tree-view-git-status
-apm install intentions
-apm install ink julia-client language-julia
-apm install language-markdown markdown-preview-plus
-apm install language-r linter-lintr
-apm install language-stata
-apm install latex latex-completions latexer latextools language-latex pdf-view
-apm install linter linter-flake8 linter-ui-default linter-write-good
-apm install python-tools autocomplete-python python-indent
-apm install qolor color-picker
-apm install css-snippets autoclose-html
-apm install webbox-color
+apm install --packages-file "atom/package-list.txt"
 
 # Install CUDA
 wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
