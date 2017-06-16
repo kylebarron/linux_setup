@@ -17,7 +17,7 @@ touch install_packages.R
 echo '#!/usr/bin/Rscript' >> install_packages.R
 echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata", "magrittr", "tidytext", "lintr", "formatR"), repos="https://cloud.r-project.org/")' >> install_packages.R
 # IRkernel support:
-echo "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'))" >> install_packages.R
+echo "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'), repos='https://cloud.r-project.org/')" >> install_packages.R
 echo "devtools::install_github('IRkernel/IRkernel')" >> install_packages.R
 echo "IRkernel::installspec()" >> install_packages.R
 sudo chmod +x install_packages.R
@@ -34,8 +34,9 @@ rm rstudio-1.0.143-amd64.deb
 sudo apt-get install -y gdebi-core
 wget https://download2.rstudio.org/rstudio-server-1.0.143-amd64.deb
 sudo gdebi --n rstudio-server-1.0.143-amd64.deb
-echo "www-address=127.0.0.1" >> /etc/rstudio/rserver.conf
-sudo rstudio-server restart
+sudo echo "www-address=127.0.0.1" >> /etc/rstudio/rserver.conf
+#sudo rstudio-server restart
+sudo rstudio-server start
 rm rstudio-server-1.0.143-amd64.deb
 
 # Install Node.js and npm
@@ -46,9 +47,11 @@ sudo tar xvfJ node-v6.10.3-linux-x64.tar.xz
 sudo rm node-v6.10.3-linux-x64.tar.xz
 sudo mv node-v6.10.3-linux-x64 node
 echo 'export PATH="/opt/node/bin:$PATH"' >> ~/.bashrc
+cd
 
 # Install Google Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt-get -fy install
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 # doesn't work on headless remote linux machine because audio/visual drivers not installed
 rm google-chrome-stable_current_amd64.deb
