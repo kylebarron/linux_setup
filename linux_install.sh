@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt-get upgrade -y
+
 # Update .bashrc
 cp ~/.bashrc ~/.bashrc_original
 cp dotfiles/.bashrc_personal ~/.bashrc
