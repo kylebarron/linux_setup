@@ -36,6 +36,8 @@ wget https://download1.rstudio.org/rstudio-1.0.143-amd64.deb
 sudo apt-get -fy install
 sudo dpkg -i rstudio-1.0.143-amd64.deb
 rm rstudio-1.0.143-amd64.deb
+# Replace RStudio settings
+cp rstudio/user-settings /home/kyle/.rstudio-desktop/monitored/user-settings/user-settings
 
 # Install RStudio Server
 sudo apt-get install -y gdebi-core
