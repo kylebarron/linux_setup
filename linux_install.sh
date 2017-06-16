@@ -73,6 +73,9 @@ sudo add-apt-repository -y ppa:lyx-devel/release
 sudo apt-get update
 sudo apt-get install -y lyx
 
+# Install Git
+sudo apt-get install git
+
 # Update Git config
 git config --global user.name "Kyle Barron"
 git config --global user.email barronk@mit.edu
