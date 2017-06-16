@@ -1,4 +1,8 @@
 "*":
+  Hydrogen:
+    gateways: "[{\"name\": \"desktop\", \"options\": {\"baseUrl\": \"127.0.0.1:8887\", \"token\": \"32532c78eb4b4655c8d9311ad86e45a0aec1b51f0bddd86c\"} }]"
+    languageMappings: "{\"ir\": \"r\"}"
+    startDir: "dirOfFile"
   aligner:
     alignComments: true
   "atom-alignment":
@@ -54,6 +58,7 @@
       "linter-flake8"
       "linter-shellcheck"
       "linter-ui-default"
+      "minimap-autohide"
     ]
     projectHome: "/home/kyle"
     telemetryConsent: "limited"
@@ -70,6 +75,8 @@
     tabLength: 4
   "exception-reporting":
     userId: "296dbb37-446a-fe4d-8a55-bc079614f5ca"
+  "grammar-token-limit":
+    maxTokensPerLine: 150
   latex:
     buildOnSave: true
     engine: "pdflatex"
@@ -82,6 +89,22 @@
   "linter-ui-default":
     panelHeight: 61
     showPanel: true
+  minimap:
+    absoluteMode: true
+    adjustAbsoluteModeHeight: true
+    plugins:
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
+      "minimap-autohide": false
+      "minimap-autohideDecorationsZIndex": 0
+      selection: true
+      selectionDecorationsZIndex: 0
   "package-generator":
     packageSyntax: "coffeescript"
   "pdf-view":

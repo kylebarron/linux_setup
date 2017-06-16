@@ -31,11 +31,15 @@
 # Atom Flight Manual:
 # http://flight-manual.atom.io/using-atom/sections/basic-customization/#_cson
 
+
+# atom-text-editor[data-grammar="source julia"], .platform
+
 "atom-text-editor":
-    'ctrl-alt-a': 'atom-alignment:align'
-    'ctrl-enter': 'platformio-ide-terminal:insert-selected-text'
-    'ctrl-shift-down': 'editor:add-selection-below'
-    'ctrl-shift-up': 'editor:add-selection-above'
+  'ctrl-alt-a': 'atom-alignment:align'
+  'ctrl-shift-down': 'editor:add-selection-below'
+  'ctrl-shift-up': 'editor:add-selection-above'
+'atom-text-editor[data-grammar="source stata"]':
+  'ctrl-enter': 'platformio-ide-terminal:insert-selected-text'
 'body':
   'ctrl-tab': 'pane:show-next-item'
   'ctrl-shift-tab': 'pane:show-previous-item'
