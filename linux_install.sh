@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Update .bashrc
+cp ~/.bashrc ~/.bashrc_original
+cp dotfiles/.bashrc_personal ~/.bashrc
+. ~/.bashrc
+
 sudo apt-get install curl
 
 # Install Anaconda
@@ -56,7 +61,7 @@ sudo tar xvfJ node-v6.10.3-linux-x64.tar.xz
 sudo rm node-v6.10.3-linux-x64.tar.xz
 sudo mv node-v6.10.3-linux-x64 node
 echo 'export PATH="/opt/node/bin:$PATH"' >> ~/.bashrc
-cd
+cd ~/linux_setup
 
 # Install Google Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -136,7 +141,7 @@ sudo tar -xzf julia-0.5.2-linux-x86_64.tar.gz
 sudo mv julia-f4c6c9d4bb/ julia/
 sudo rm julia-0.5.2-linux-x86_64.tar.gz
 echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.bashrc
-cd
+cd ~/linux_setup
 
 # Install IJulia
 # Pkg.add("IJulia")
@@ -162,7 +167,7 @@ rm atom-amd64.deb
 
 # Change Atom Icon to atom-material-ui Icon
 # Download icons
-cd ~
+cd ~/linux_setup
 wget https://www.dropbox.com/s/8gyn40sw95626dx/Atom-MD-Icon.zip?dl=1
 unzip Atom-MD-Icon.zip?dl=1
 sudo cp ~/Atom\ Icon/PNGs/icon_512x512@2x.png /usr/share/pixmaps/atom_material_ui.png
