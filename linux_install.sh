@@ -2,10 +2,17 @@
 
 sudo apt-get upgrade -y
 
-# Update .bashrc
-cp ~/.bashrc ~/.bashrc_original
-cp dotfiles/.bashrc_personal ~/.bashrc
-. ~/.bashrc
+# Install Zsh
+sudo apt-get install zsh
+
+# Install Oh My Zsh
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
+
+# Update .zshrc
+mv ~/.zshrc ~/.zshrc_original
+cp dotfiles/.zshrc ~/.zshrc
+# zsh ~/.bashrc
 
 sudo apt-get install curl
 
@@ -13,7 +20,7 @@ sudo apt-get install curl
 wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
 sudo bash Anaconda3-4.3.1-Linux-x86_64.sh -b -p /opt/anaconda
 rm Anaconda3-4.3.1-Linux-x86_64.sh
-echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.zshrc
 
 # Install R
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
@@ -62,7 +69,7 @@ sudo wget https://nodejs.org/dist/v6.10.3/node-v6.10.3-linux-x64.tar.xz
 sudo tar xvfJ node-v6.10.3-linux-x64.tar.xz
 sudo rm node-v6.10.3-linux-x64.tar.xz
 sudo mv node-v6.10.3-linux-x64 node
-echo 'export PATH="/opt/node/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="/opt/node/bin:$PATH"' >> ~/.zshrc
 cd ~/linux_setup
 
 # Install Google Chrome
@@ -93,9 +100,8 @@ sudo apt-get install -y lyx
 sudo apt-get install git
 
 # Update Git config
-git config --global user.name "Kyle Barron"
-git config --global user.email barronk@mit.edu
-git config --global core.editor nano
+mv ~/.gitconfig ~/.gitconfig_original
+cp dotfiles/.gitconfig ~/.gitconfig
 
 # Install Git Kraken
 wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
@@ -117,6 +123,17 @@ sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/s
 sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
 sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
 sudo service ssh restart
+
+# Fuzzy File Finder
+cd ~/linux_setup
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+# autokey-gtk
+sudo add-apt-repository ppa:troxor/autokey
+sudo apt update
+sudo apt install autokey-gtk
+# My stata commands are in autokey/
 
 # Install FileZilla
 sudo apt-get install -y filezilla
@@ -142,7 +159,7 @@ sudo wget https://julialang-s3.julialang.org/bin/linux/x64/0.5/julia-0.5.2-linux
 sudo tar -xzf julia-0.5.2-linux-x86_64.tar.gz
 sudo mv julia-f4c6c9d4bb/ julia/
 sudo rm julia-0.5.2-linux-x86_64.tar.gz
-echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.zshrc
 cd ~/linux_setup
 
 # Install IJulia
@@ -179,10 +196,22 @@ rm -r ~/Atom\ Icon/
 rm ~/Atom-MD-Icon.zip?dl=1
 
 # Install Atom Packages
+# apm list --installed --bare > package-list.txt
 apm install --packages-file "atom/package-list.txt"
 
 # Miscellaneous
 sudo apt-get install pandoc
+
+# autokey-gtk
+sudo add-apt-repository ppa:troxor/autokey
+sudo apt update
+sudo apt install autokey-gtk
+
+# Update .bashrc
+mv ~/.bashrc ~/.bashrc_original
+cp dotfiles/.bashrc_personal ~/.bashrc
+. ~/.bashrc
+
 
 # Flat plat design
 sudo apt-get install gnome-themes-standard gnome-tweak-tool pixmap
@@ -200,19 +229,14 @@ mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
 sudo dpkg -i cuda.deb
 sudo apt-get update
 sudo apt-get install -y cuda
-echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.bashrc
-echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.bashrc
+echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.zshrc
+echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.zshrc
 rm cuda.deb
 nvcc -V
 # compile examples:
 # cd /usr/local/cuda-8.0/samples
 # sudo make
 # cd bin
-
-# Other .bashrc edits
-
-
-
 
 # Install OpenVPN to use PIA
 #sudo apt-get install -y openvpn unzip
