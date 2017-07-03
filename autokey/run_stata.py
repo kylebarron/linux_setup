@@ -5,6 +5,8 @@ shortdelay = 0.05
 current = window.get_active_title()
 keyboard.send_keys("<ctrl>+l")
 window.activate("Stata/MP 14.1")
+window.activate("Stata/MP 14.2")
+window.activate("Stata/SE 15.0")
 cmd = clipboard.get_selection()
 
 time.sleep(shortdelay)
