@@ -8,6 +8,14 @@ sudo apt-get install zsh
 # Install Oh My Zsh
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
+# Install the materialshell theme for zsh
+cd ~/linux_setup
+git clone https://github.com/carloscuesta/materialshell.git
+cp materialshell/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
+# Remove black background from folders and symlinks 
+sed -i "s@export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'@#export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'@g" ~/.oh-my-zsh/themes/materialshell.zsh-theme
+echo "export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'" >> ~/.oh-my-zsh/themes/materialshell.zsh-theme
+
 
 # Update .zshrc
 mv ~/.zshrc ~/.zshrc_original
