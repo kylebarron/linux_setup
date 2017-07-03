@@ -198,9 +198,17 @@ rm ~/Atom-MD-Icon.zip?dl=1
 # Install Atom Packages
 # apm list --installed --bare > package-list.txt
 apm install --packages-file "atom/package-list.txt"
+apm update
 
-# Miscellaneous
+# Install Pandoc
 sudo apt-get install pandoc
+# My PATH puts /opt/anaconda/bin before /usr/bin because I want python 3.6 to be automatically sourced
+# But /opt/anaconda/bin has old versions of pandoc and pandoc-citeproc, and I want the newer versions to be used
+# So I'll remove those binaries in /opt/anaconda/bin and symlink it to /usr/bin
+sudo rm /opt/anaconda/bin/pandoc
+sudo rm /opt/anaconda/bin/pandoc-citeproc
+sudo ln -s /usr/bin/pandoc /opt/anaconda/bin/pandoc
+sudo ln -s /usr/bin/pandoc-citeproc /opt/anaconda/bin/pandoc-citeproc
 
 # autokey-gtk
 sudo add-apt-repository ppa:troxor/autokey
