@@ -270,6 +270,10 @@ do
   sudo sed -i 's@auth-user-pass@auth-user-pass pass.txt@g' $filename
 done
 
+# Remove Unity App Animations (cause I like hiding the launcher)
+# 1) Installed Compiz Sttings Manager 2) Compiz Setting Manager -> Unity -> Experimental tab 3) Launch Animation: None Urgent Animation: None Hide Animation: Fade Only Dash Blur: No Blur 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
+# https://askubuntu.com/a/320734/654313
+
 
 # MANUAL INSTALLS:
 # Install Dropbox
