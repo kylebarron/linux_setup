@@ -175,6 +175,10 @@ cd ~/linux_setup
 # Install IJulia
 # Pkg.add("IJulia")
 
+# Bash Jupyter Kernel
+pip install bash_kernel
+python -m bash_kernel.install
+
 # Download and install Keybase but not run
 curl -O https://prerelease.keybase.io/keybase_amd64.deb
 sudo dpkg -i keybase_amd64.deb
