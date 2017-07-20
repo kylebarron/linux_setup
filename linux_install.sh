@@ -12,6 +12,7 @@ sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install
 cd ~/linux_setup
 git clone https://github.com/carloscuesta/materialshell.git
 cp materialshell/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
+sed -i 's@ZSH_THEME="robbyrussell"@ZSH_THEME="materialshell"@g' ~/.zshrc
 # Remove black background from folders and symlinks
 sed -i "s@export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'@#export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'@g" ~/.oh-my-zsh/themes/materialshell.zsh-theme
 echo "export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'" >> ~/.oh-my-zsh/themes/materialshell.zsh-theme
@@ -175,6 +176,10 @@ cd ~/linux_setup
 # Install IJulia
 # Pkg.add("IJulia")
 
+# Bash Jupyter Kernel
+pip install bash_kernel
+python -m bash_kernel.install
+
 # Download and install Keybase but not run
 curl -O https://prerelease.keybase.io/keybase_amd64.deb
 sudo dpkg -i keybase_amd64.deb
@@ -260,6 +265,7 @@ nvcc -V
 # cd bin
 
 # Install OpenVPN to use PIA
+<<<<<<< HEAD
 #sudo apt install -y openvpn unzip
 #cd /etc/openvpn
 #sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
@@ -272,6 +278,24 @@ nvcc -V
 # don't use sudo echo
 #done
 #sudo openvpn 'config-filename-goes-here.ovpn'
+=======
+sudo apt-get install -y openvpn unzip
+cd /etc/openvpn
+sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
+sudo apt-get install unzip
+sudo unzip openvpn.zip
+sudo rm openvpn.zip
+touch pass.txt ## Add username and pasword in here manually
+sudo chmod 600 pass.txt
+for filename in *.ovpn
+do
+  sudo sed -i 's@auth-user-pass@auth-user-pass pass.txt@g' $filename
+done
+
+# Remove Unity App Animations (cause I like hiding the launcher)
+# 1) Installed Compiz Sttings Manager 2) Compiz Setting Manager -> Unity -> Experimental tab 3) Launch Animation: None Urgent Animation: None Hide Animation: Fade Only Dash Blur: No Blur 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
+# https://askubuntu.com/a/320734/654313
+>>>>>>> ee0fc31ef02f2cbdbaacbfb71e215c2c73f21078
 
 
 # MANUAL INSTALLS:
