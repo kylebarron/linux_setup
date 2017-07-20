@@ -3,7 +3,7 @@
 sudo apt-get upgrade -y
 
 # Install Zsh
-sudo apt-get install zsh
+sudo apt install zsh
 
 # Install Oh My Zsh
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
@@ -23,7 +23,7 @@ mv ~/.zshrc ~/.zshrc_original
 cp dotfiles/.zshrc ~/.zshrc
 # zsh ~/.bashrc
 
-sudo apt-get install curl
+sudo apt install curl
 
 # Install Anaconda
 wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
@@ -35,11 +35,11 @@ echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.zshrc
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 sudo apt-get update
-sudo apt-get install r-base r-base-dev -y
+sudo apt install r-base r-base-dev -y
 
 # Install R Packages
 sudo apt-get -fy install
-sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
+sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
 sudo add-apt-repository -y ppa:ubuntugis/ppa
 sudo apt-get update
 sudo apt-get upgrade -y gdal-bin libgdal-dev
@@ -63,7 +63,7 @@ rm rstudio-1.0.143-amd64.deb
 cp rstudio/user-settings /home/kyle/.rstudio-desktop/monitored/user-settings/user-settings
 
 # Install RStudio Server
-sudo apt-get install -y gdebi-core
+sudo apt install -y gdebi-core
 wget https://download2.rstudio.org/rstudio-server-1.0.143-amd64.deb
 sudo gdebi --n rstudio-server-1.0.143-amd64.deb
 echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
@@ -92,21 +92,21 @@ rm google-chrome-stable_current_amd64.deb
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 sudo apt-get update -y
-sudo apt-get install -y spotify-client
+sudo apt install -y spotify-client
 
 # Install TeX
-sudo apt-get install -y texlive-full
+sudo apt install -y texlive-full
 
 # Install Texmaker
-sudo apt-get install -y texmaker
+sudo apt install -y texmaker
 
 # Install Lyx
 sudo add-apt-repository -y ppa:lyx-devel/release
 sudo apt-get update
-sudo apt-get install -y lyx
+sudo apt install -y lyx
 
 # Install Git
-sudo apt-get install git
+sudo apt install git
 
 # Update Git config
 mv ~/.gitconfig ~/.gitconfig_original
@@ -118,7 +118,7 @@ sudo dpkg -i gitkraken-amd64.deb
 rm gitkraken-amd64.deb
 
 # Install SSH Server
-sudo apt-get install -y openssh-server
+sudo apt install -y openssh-server
 
 # SSH Server for encrypted home folder
 sudo mkdir /etc/ssh/$(whoami)
@@ -127,6 +127,7 @@ sudo chmod 755 /etc/ssh/$(whoami)
 sudo touch /etc/ssh/$(whoami)/authorized_keys
 sudo chmod 644 /etc/ssh/$(whoami)/authorized_keys
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9qYxWBMPHc22t7gEa1mbDPlBkISDXGYGsJt9z6skeQqzZnqrqhqoXOQUXTSwJm5p4+1gCPR63KjwKPp5rAIKNuNKAM1Cf+1RDyLu1I6Ixtf6fv5NtWr1oK2VwTyMP+rPvaYAaNpr5aMF6JqJGt37/qVY9hyJu2D6p2tw5N/fzgtALeK820qeposmfb5DCn90zsDyTHi7khpp5nO9WfCFXFYO87Vxk2pzeMYSwmiabHdL6Tqs7jjNC3XLuOxaB9drv0J+PcNLclFEjeLq0dGWPleIGmjEx2xi7xWBsmYM2bnpADcuAMd25xpICf4rkr/tVlIbuiy8nUli9p6wiK8PKMcwxVs8+kVD+VuEmqTPKdNnk2zYSLkkEZSyo+X1wReXq56rtRJQWhpvFMvEUMbne4oHk90QYpVgMXZSiNF4h6srQq1yeSnV72UTmr9M2cgYkQXw9j0oB93Yoh8mpZIgCn9wBHWGljMURyR28Le1/dAPJvFSri6HhcV5+jy54g2q5PxlLNcA2AZneh5VW88VnW0iNrS9gN/Btk1EumcD3x2+M4XCdNhTzI548WFBEDNF2TO4VcEZIsqIsScWdoK6o/A7Bp2k5Pxj0RTkbB8jX5VbCwWrNQuY7ZPiiGBJchR18agWJDtlSV2AzvXW0tiAYG8yapBgvdzn3L9lvJ0vQnw== kyle@mac-linux" | sudo tee --append /etc/ssh/$(whoami)/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLj+wWR7tstScXy6vDi7NmMqSu40tiF1Qa6OLIqtMVCRRvxhu+AAL6Ig/7wcPz1A0vwgMbpahfNq//FgyHIZLiYz+ysrrfUZxhBr6jQMXe+BDugZTBV9epsVxw3qzHvI4X04/sT7v0mybQb4MLWZ8rpeJLChKxASMO02JPLIi6tK9qlh+SMJFld+joMZTa8uxaBLipWSJL2F3kEZveA7/lAWqz/Kj6zERTVUb6kxSDujCRCP2oPOP3/546/1iwSI8pmo1WXifStAmJ5DQp0xBGdn495zVV5RVyqz2+qUnN7LKg+U3AqJdKmBHT9CDGm9+nBagSXoO8CRx/mmmQR3rp kyle@mac-osx" | sudo tee --append /etc/ssh/$(whoami)/authorized_keys
 sudo sed -i 's@#AuthorizedKeysFile@AuthorizedKeysFile@g' /etc/ssh/sshd_config
 sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/sshd_config
 sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
@@ -145,7 +146,7 @@ sudo apt install autokey-gtk
 # My stata commands are in autokey/
 
 # Install FileZilla
-sudo apt-get install -y filezilla
+sudo apt install -y filezilla
 
 # Install Google Earth
 wget https://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb
@@ -160,7 +161,7 @@ sudo apt-get -fy install
 sudo apt-get -y install rodeo
 
 # Install VLC
-sudo apt-get install -y vlc
+sudo apt install -y vlc
 
 # Install Julia
 cd /opt
@@ -177,7 +178,7 @@ cd ~/linux_setup
 # Download and install Keybase but not run
 curl -O https://prerelease.keybase.io/keybase_amd64.deb
 sudo dpkg -i keybase_amd64.deb
-sudo apt-get install -fy
+sudo apt install -fy
 
 # Install QGIS
 sudo add-apt-repository "deb http://qgis.org/ubuntugis-ltr xenial main/"
@@ -186,7 +187,7 @@ sudo add-apt-repository "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstab
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
 sudo apt-get update
-sudo apt-get install -y qgis python-qgis qgis-plugin-grass
+sudo apt install -y qgis python-qgis qgis-plugin-grass
 
 # Install Atom
 wget https://atom-installer.github.com/v1.17.2/atom-amd64.deb
@@ -210,7 +211,7 @@ apm install --packages-file "atom/package-list.txt"
 apm update
 
 # Install Pandoc
-sudo apt-get install pandoc
+sudo apt install pandoc
 # My PATH puts /opt/anaconda/bin before /usr/bin because I want python 3.6 to be automatically sourced
 # But /opt/anaconda/bin has old versions of pandoc and pandoc-citeproc, and I want the newer versions to be used
 # So I'll remove those binaries in /opt/anaconda/bin and symlink it to /usr/bin
@@ -224,6 +225,9 @@ sudo add-apt-repository ppa:troxor/autokey
 sudo apt update
 sudo apt install autokey-gtk
 
+# Install tmux
+sudo apt install tmux
+
 # Update .bashrc
 mv ~/.bashrc ~/.bashrc_original
 cp dotfiles/.bashrc_personal ~/.bashrc
@@ -231,12 +235,12 @@ cp dotfiles/.bashrc_personal ~/.bashrc
 
 
 # Flat plat design
-sudo apt-get install gnome-themes-standard gnome-tweak-tool pixmap
+sudo apt install gnome-themes-standard gnome-tweak-tool pixmap
 curl -sL https://github.com/nana-4/Flat-Plat/archive/v20170605.tar.gz | tar xz
 cd Flat-Plat-20170605 && sudo ./install.sh
 
 # Install Ruby and Jekyll
-sudo apt-get install ruby-full
+sudo apt install ruby-full
 sudo gem install jekyll
 
 
@@ -245,7 +249,7 @@ wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-r
 mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
 sudo dpkg -i cuda.deb
 sudo apt-get update
-sudo apt-get install -y cuda
+sudo apt install -y cuda
 echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.zshrc
 echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.zshrc
 rm cuda.deb
@@ -256,7 +260,7 @@ nvcc -V
 # cd bin
 
 # Install OpenVPN to use PIA
-#sudo apt-get install -y openvpn unzip
+#sudo apt install -y openvpn unzip
 #cd /etc/openvpn
 #sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
 #sudo unzip openvpn.zip
