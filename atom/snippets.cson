@@ -24,22 +24,22 @@
 '.source.stata':
   'do file header':
     'prefix': 'header'
-    'body': """* ---------------------------------------------------------------------
-      * Project: ${1:RCT Geisinger - Base Data}
-      * Program: ${2:01process.do}
-      * Author:  Kyle Barron <barronk@mit.edu>
-      * Created: ${3:ctrl-shift-alt-T}
-      * Updated: ${4:ctrl-shift-alt-T}
-      * Purpose: ${5:Process data into clean .dta files}
-      * Depends: ${6:data/base}
-      *              demographic.dta
-      *              encounter.dta
-      *              findings.dta
-      * Output:  ${7:output-datasets:tab}
-      * Stata start-up options
-      * ----------------------
+    'body': """/* ---------------------------------------------------------------------
+      Project: ${1:RCT Geisinger - Base Data}
+      Program: ${2:01process.do}
+      Author:  Kyle Barron <barronk@mit.edu>
+      Created: ${3:ctrl-shift-alt-T}
+      Updated: ${4:ctrl-shift-alt-T}
+      Purpose: ${5:Process data into clean .dta files}
+      Depends: ${6:data/base}
+                   demographic.dta
+                   encounter.dta
+                   findings.dta
+      Output:  ${7:output-datas..:tab}
+      Stata start-up options
+      ----------------------
+      */
 
-      set rmsg on
       version 13
       clear all
       set varabbrev off
