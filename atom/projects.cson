@@ -1,0 +1,64 @@
+[
+  {
+    title: "Geisinger-local"
+    group: "Doyle"
+    paths: [
+      "~/Documents/research/doyle/eosloan/geisinger"
+    ]
+  }
+  {
+    title: "Geisinger-remote"
+    group: "Doyle"
+    paths: [
+      "/run/user/1000/gvfs/sftp:host=eosloan.mit.edu,user=barronk/home/barronk/projects/jjdoyle.med_proj/geisinger"
+    ]
+  }
+  {
+    title: "VA End of Life"
+    group: "Doyle"
+    paths: [
+      "~/Documents/research/doyle/va-eol"
+    ]
+  }
+  {
+    title: "Language Stata"
+    group: "Atom"
+    paths: [
+      "~/github/language-stata"
+    ]
+  }
+  {
+    title: "Foster Care"
+    group: "Doyle"
+    paths: [
+      "~/Documents/research/doyle/misc/foster"
+    ]
+  }
+  {
+    title: "Airbnb New"
+    group: "Personal"
+    paths: [
+      "~/Documents/research/personal/airbnb-personal"
+    ]
+  }
+  {
+    title: "Airbnb Old"
+    group: "Personal"
+    paths: [
+      "~/Dropbox/research/Airbnb"
+    ]
+  }
+  {
+    title: "Lib -- local"
+    group: "Doyle"
+    paths: [
+      "~/Documents/research/doyle/lib"
+    ]
+  }
+  {
+    title: "Linux Setup"
+    paths: [
+      "~/Documents/config/linux_setup"
+    ]
+  }
+]
