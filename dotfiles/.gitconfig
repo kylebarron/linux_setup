@@ -2,6 +2,7 @@
     email  = barronk@mit.edu
     name   = Kyle Barron
     editor = nano
+        signingkey = 08980A3727ED30B6
 
 [core]
     editor = nano
