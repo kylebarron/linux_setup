@@ -154,13 +154,6 @@ wget https://dl.google.com/dl/earth/client/current/google-earth-stable_current_a
 sudo dpkg -i google-earth-stable_current_amd64.deb
 rm google-earth-stable_current_amd64.deb
 
-# Install Rodeo
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 33D40BC6
-sudo add-apt-repository "deb http://rodeo-deb.yhat.com/ rodeo main"
-sudo apt-get update
-sudo apt-get -fy install
-sudo apt-get -y install rodeo
-
 # Install VLC
 sudo apt install -y vlc
 
