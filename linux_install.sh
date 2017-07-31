@@ -18,6 +18,9 @@ sed -i "s@export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;4
 echo "export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'" >> ~/.oh-my-zsh/themes/materialshell.zsh-theme
 # https://askubuntu.com/questions/466198/how-do-i-change-the-color-for-directories-with-ls-in-the-console
 
+# zsh syntax highlighting:
+sudo apt install zsh-syntax-highlighting
+
 # Update .zshrc
 mv ~/.zshrc ~/.zshrc_original
 cp dotfiles/.zshrc ~/.zshrc
@@ -133,6 +136,21 @@ sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/s
 sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
 sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
 sudo service ssh restart
+
+## Rclone
+# Fetch and unpack
+curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip rclone-current-linux-amd64.zip
+rm rclone-current-linux-amd64.zip 
+cd rclone-*-linux-amd64
+# Copy binary file
+sudo cp rclone /usr/bin/
+sudo chown root:root /usr/bin/rclone
+sudo chmod 755 /usr/bin/rclone
+# Install manpage
+sudo mkdir -p /usr/local/share/man/man1
+sudo cp rclone.1 /usr/local/share/man/man1/
+sudo mandb
 
 # Fuzzy File Finder
 cd ~/linux_setup
