@@ -120,6 +120,9 @@ wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
 sudo dpkg -i gitkraken-amd64.deb
 rm gitkraken-amd64.deb
 
+# Install Jekyll for making static sites
+sudo gem install jekyll
+
 # Install SSH Server
 sudo apt install -y openssh-server
 
