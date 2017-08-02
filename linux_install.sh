@@ -121,7 +121,10 @@ sudo dpkg -i gitkraken-amd64.deb
 rm gitkraken-amd64.deb
 
 # Install Jekyll for making static sites
+sudo apt install ruby
 sudo gem install jekyll
+sudo gem install bundler
+# Need to run (sudo) bundle install or bundle update in website folder to install other dependent gems.
 
 # Install SSH Server
 sudo apt install -y openssh-server
