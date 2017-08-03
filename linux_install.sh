@@ -1,32 +1,29 @@
 #!/bin/bash
 
+cwd=$(pwd)
+
 sudo apt-get upgrade -y
+sudo apt install curl
 
-# Install Zsh
+# Install Git
+sudo apt install git
+
+# Download my dotfiles
+cd $cwd
+git clone git@github.com:kylebarron/dotfiles.git
+
+# Install Zsh, Oh My Zsh, and Zsh Syntax Highlighting
 sudo apt install zsh
-
-# Install Oh My Zsh
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-
-# Install the materialshell theme for zsh
-cd ~/linux_setup
-git clone https://github.com/carloscuesta/materialshell.git
-cp materialshell/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
-sed -i 's@ZSH_THEME="robbyrussell"@ZSH_THEME="materialshell"@g' ~/.zshrc
-# Remove black background from folders and symlinks
-sed -i "s@export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'@#export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'@g" ~/.oh-my-zsh/themes/materialshell.zsh-theme
-echo "export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'" >> ~/.oh-my-zsh/themes/materialshell.zsh-theme
-# https://askubuntu.com/questions/466198/how-do-i-change-the-color-for-directories-with-ls-in-the-console
-
-# zsh syntax highlighting:
 sudo apt install zsh-syntax-highlighting
 
-# Update .zshrc
-mv ~/.zshrc ~/.zshrc_original
-cp dotfiles/.zshrc ~/.zshrc
-# zsh ~/.bashrc
+# Install the materialshell theme for zsh and update .zshrc
+cd $cwd
+cp dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
+cp dotfiles/zsh/zshrc_desktop ~/.zshrc
 
-sudo apt install curl
+# Update .bashrc
+cp dotfiles/bash/bashrc_desktop ~/.bashrc
 
 # Install Anaconda
 wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
@@ -63,7 +60,7 @@ sudo apt-get -fy install
 sudo dpkg -i rstudio-1.0.143-amd64.deb
 rm rstudio-1.0.143-amd64.deb
 # Replace RStudio settings
-cp rstudio/user-settings /home/kyle/.rstudio-desktop/monitored/user-settings/user-settings
+cp dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
 
 # Install RStudio Server
 sudo apt install -y gdebi-core
@@ -82,7 +79,7 @@ sudo tar xvfJ node-v6.10.3-linux-x64.tar.xz
 sudo rm node-v6.10.3-linux-x64.tar.xz
 sudo mv node-v6.10.3-linux-x64 node
 echo 'export PATH="/opt/node/bin:$PATH"' >> ~/.zshrc
-cd ~/linux_setup
+cd $cwd
 
 # Install Google Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -108,12 +105,8 @@ sudo add-apt-repository -y ppa:lyx-devel/release
 sudo apt-get update
 sudo apt install -y lyx
 
-# Install Git
-sudo apt install git
-
 # Update Git config
-mv ~/.gitconfig ~/.gitconfig_original
-cp dotfiles/.gitconfig ~/.gitconfig
+cp dotfiles/git/gitconfig_desktop ~/.gitconfig
 
 # Install Git Kraken
 wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
@@ -121,7 +114,7 @@ sudo dpkg -i gitkraken-amd64.deb
 rm gitkraken-amd64.deb
 
 # Install Jekyll for making static sites
-sudo apt install ruby
+sudo apt install ruby-full
 sudo gem install jekyll
 sudo gem install bundler
 # Need to run (sudo) bundle install or bundle update in website folder to install other dependent gems.
@@ -159,15 +152,9 @@ sudo cp rclone.1 /usr/local/share/man/man1/
 sudo mandb
 
 # Fuzzy File Finder
-cd ~/linux_setup
+cd $cwd
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
-
-# autokey-gtk
-sudo add-apt-repository ppa:troxor/autokey
-sudo apt update
-sudo apt install autokey-gtk
-# My stata commands are in autokey/
 
 # Install FileZilla
 sudo apt install -y filezilla
@@ -187,7 +174,7 @@ sudo tar -xzf julia-0.5.2-linux-x86_64.tar.gz
 sudo mv julia-f4c6c9d4bb/ julia/
 sudo rm julia-0.5.2-linux-x86_64.tar.gz
 echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.zshrc
-cd ~/linux_setup
+cd $cwd
 
 sudo apt update
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
@@ -215,8 +202,8 @@ sudo apt install -fy
 sudo add-apt-repository "deb http://qgis.org/ubuntugis-ltr xenial main/"
 sudo add-apt-repository "deb-src http://qgis.org/ubuntugis-ltr xenial main"
 sudo add-apt-repository "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main"
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
+sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
+sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
 sudo apt-get update
 sudo apt install -y qgis python-qgis qgis-plugin-grass
 
@@ -225,20 +212,15 @@ wget https://atom-installer.github.com/v1.17.2/atom-amd64.deb
 sudo dpkg -i atom-amd64.deb
 rm atom-amd64.deb
 
+# Restore Atom Settings
+cp dotfiles/atom/* ~/.atom/
 # Change Atom Icon to atom-material-ui Icon
-# Download icons
-cd ~/linux_setup
-wget https://www.dropbox.com/s/8gyn40sw95626dx/Atom-MD-Icon.zip?dl=1
-unzip Atom-MD-Icon.zip?dl=1
-sudo cp ~/Atom\ Icon/PNGs/icon_512x512@2x.png /usr/share/pixmaps/atom_material_ui.png
+sudo cp dotfiles/atom/atom_icon.png /usr/share/pixmaps/atom_material_ui.png
 sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
-rm -r ~/__MACOSX/
-rm -r ~/Atom\ Icon/
-rm ~/Atom-MD-Icon.zip?dl=1
 
 # Install Atom Packages
 # apm list --installed --bare > package-list.txt
-apm install --packages-file "atom/package-list.txt"
+apm install --packages-file "dotfiles/atom/desktop_package_list.txt"
 apm update
 
 # Install Pandoc
@@ -255,25 +237,18 @@ sudo ln -s /usr/bin/pandoc-citeproc /opt/anaconda/bin/pandoc-citeproc
 sudo add-apt-repository ppa:troxor/autokey
 sudo apt update
 sudo apt install autokey-gtk
+cp dotfiles/autokey/run_stata.py          ~/.config/autokey/data/Sample\ Scripts/run_stata.py
+cp dotfiles/autokey/.run_stata.json       ~/.config/autokey/data/Sample\ Scripts/.run_stata.json
+cp dotfiles/autokey/run_stata_chunk.py    ~/.config/autokey/data/Sample\ Scripts/run_stata_chunk.py
+cp dotfiles/autokey/.run_stata_chunk.json ~/.config/autokey/data/Sample\ Scripts/.run_stata_chunk.json
 
 # Install tmux
 sudo apt install tmux
-
-# Update .bashrc
-mv ~/.bashrc ~/.bashrc_original
-cp dotfiles/.bashrc_personal ~/.bashrc
-. ~/.bashrc
-
 
 # Flat plat design
 sudo apt install gnome-themes-standard gnome-tweak-tool pixmap
 curl -sL https://github.com/nana-4/Flat-Plat/archive/v20170605.tar.gz | tar xz
 cd Flat-Plat-20170605 && sudo ./install.sh
-
-# Install Ruby and Jekyll
-sudo apt install ruby-full
-sudo gem install jekyll
-
 
 # Install CUDA
 wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
