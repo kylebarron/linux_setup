@@ -263,6 +263,13 @@ extract hub-linux-amd64-2.2.9.tgz
 cd hub-linux-amd64-2.2.9
 sudo ./install
 
+# Fira Code Font
+mkdir -p ~/.local/share/fonts
+for type in Bold Light Medium Regular Retina; do
+    wget -O ~/.local/share/fonts/FiraCode-${type}.ttf \
+    "https://github.com/tonsky/FiraCode/blob/master/distr/ttf/FiraCode-${type}.ttf?raw=true";
+done
+fc-cache -f
 
 # Flat plat design
 sudo apt install -y gnome-themes-standard gnome-tweak-tool pixmap
@@ -305,9 +312,15 @@ done
 
 # MANUAL INSTALLS:
 # Install Dropbox
+sudo apt install python-gpgme
 #cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 #~/.dropbox-dist/dropboxd
 # Needs manual input to link accounts
 
 # Keybase
 run_keybase
+
+# Other manual stuff:
+# go to gnome-tweak-tool and turn on flat-plat-dark
+# 
+# 
