@@ -10,7 +10,7 @@ sudo apt install git
 
 # Download my dotfiles
 cd $cwd
-git clone git@github.com:kylebarron/dotfiles.git
+git clone https://github.com/kylebarron/dotfiles.git
 
 # Install Zsh, Oh My Zsh, and Zsh Syntax Highlighting
 sudo apt install zsh
