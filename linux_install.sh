@@ -2,7 +2,7 @@
 
 cwd=$(pwd)
 
-sudo apt-get upgrade -y
+sudo apt upgrade -y
 sudo apt install curl
 
 # Install Git
@@ -34,15 +34,15 @@ echo 'export PATH="/opt/anaconda/bin:$PATH"' >> ~/.zshrc
 # Install R
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-sudo apt-get update
+sudo apt update
 sudo apt install r-base r-base-dev -y
 
 # Install R Packages
-sudo apt-get -fy install
+sudo apt -fy install
 sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
 sudo add-apt-repository -y ppa:ubuntugis/ppa
-sudo apt-get update
-sudo apt-get upgrade -y gdal-bin libgdal-dev
+sudo apt update
+sudo apt upgrade -y gdal-bin libgdal-dev
 touch install_packages.R
 echo '#!/usr/bin/Rscript' >> install_packages.R
 echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata", "magrittr", "tidytext", "lintr", "formatR"), repos="https://cloud.r-project.org/")' >> install_packages.R
@@ -56,7 +56,7 @@ rm install_packages.R
 
 # Install RStudio Desktop
 wget https://download1.rstudio.org/rstudio-1.0.143-amd64.deb
-sudo apt-get -fy install
+sudo apt -fy install
 sudo dpkg -i rstudio-1.0.143-amd64.deb
 rm rstudio-1.0.143-amd64.deb
 # Replace RStudio settings
@@ -83,7 +83,7 @@ cd $cwd
 
 # Install Google Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt-get -fy install
+sudo apt -fy install
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 # doesn't work on headless remote linux machine because audio/visual drivers not installed
 rm google-chrome-stable_current_amd64.deb
@@ -91,7 +91,7 @@ rm google-chrome-stable_current_amd64.deb
 # Install Spotify
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-sudo apt-get update -y
+sudo apt update -y
 sudo apt install -y spotify-client
 
 # Install TeX
@@ -102,7 +102,7 @@ sudo apt install -y texmaker
 
 # Install Lyx
 sudo add-apt-repository -y ppa:lyx-devel/release
-sudo apt-get update
+sudo apt update
 sudo apt install -y lyx
 
 # Update Git config
@@ -177,7 +177,7 @@ echo 'export PATH="/opt/julia/bin:$PATH"' >> ~/.zshrc
 cd $cwd
 
 sudo apt update
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
@@ -204,7 +204,7 @@ sudo add-apt-repository "deb-src http://qgis.org/ubuntugis-ltr xenial main"
 sudo add-apt-repository "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main"
 sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
 sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
-sudo apt-get update
+sudo apt update
 sudo apt install -y qgis python-qgis qgis-plugin-grass
 
 # Install Atom
@@ -254,7 +254,7 @@ cd Flat-Plat-20170605 && sudo ./install.sh
 wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
 mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
 sudo dpkg -i cuda.deb
-sudo apt-get update
+sudo apt update
 sudo apt install -y cuda
 echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.zshrc
 echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.zshrc
@@ -266,10 +266,10 @@ nvcc -V
 # cd bin
 
 # Install OpenVPN to use PIA
-sudo apt-get install -y openvpn unzip
+sudo apt install -y openvpn unzip
 cd /etc/openvpn
 sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
-sudo apt-get install unzip
+sudo apt install unzip
 sudo unzip openvpn.zip
 sudo rm openvpn.zip
 touch pass.txt ## Add username and pasword in here manually
