@@ -38,6 +38,8 @@ rm Anaconda2-4.4.0-Linux-x86_64.sh
 # Make /usr/local/lib world readable
 sudo chmod -R a+rX /usr/local/lib
 
+# Install other python packages
+pip install mkdocs-material mkdocs
 
 # Install R
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
