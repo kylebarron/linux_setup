@@ -26,10 +26,18 @@ cp dotfiles/zsh/zshrc_desktop ~/.zshrc
 cp dotfiles/bash/bashrc_desktop ~/.bashrc
 
 # Install Anaconda
+# I'm sick of permission denied errors, so I'm going to install a user copy of both Python 2 and python 3
+# Python 3.6:
 wget https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
-sudo bash Anaconda3-4.4.0-Linux-x86_64.sh -b -p /opt/anaconda
+bash Anaconda3-4.4.0-Linux-x86_64.sh -b -p ~/opt/anaconda3
 rm Anaconda3-4.4.0-Linux-x86_64.sh
-sudo chown -R $USER:$USER /opt/anaconda
+# Python 2.7:
+wget https://repo.continuum.io/archive/Anaconda2-4.4.0-Linux-x86_64.sh
+bash Anaconda2-4.4.0-Linux-x86_64.sh -b -p ~/opt/anaconda
+rm Anaconda2-4.4.0-Linux-x86_64.sh
+# Make /usr/local/lib world readable
+sudo chmod -R a+rX /usr/local/lib
+
 
 # Install R
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
@@ -202,6 +210,8 @@ sudo docker run hello-world
 
 # Bash Jupyter Kernel
 pip install bash_kernel
+sudo mkdir /usr/local/share/jupyter
+sudo chown $USER:$USER /usr/local/share/jupyter
 python -m bash_kernel.install
 
 # Download and install Keybase but not run
@@ -243,21 +253,22 @@ sudo apt install pandoc
 # So I'll remove those binaries in /opt/anaconda/bin and symlink it to /usr/bin
 # sudo rm /opt/anaconda/bin/pandoc Doesn't exist?
 # sudo rm /opt/anaconda/bin/pandoc-citeproc
-sudo ln -s /usr/bin/pandoc /opt/anaconda/bin/pandoc
-sudo ln -s /usr/bin/pandoc-citeproc /opt/anaconda/bin/pandoc-citeproc
+sudo ln -s /usr/bin/pandoc          ~/opt/anaconda/bin/pandoc
+sudo ln -s /usr/bin/pandoc-citeproc ~/opt/anaconda/bin/pandoc-citeproc
 
 # autokey-gtk
 sudo add-apt-repository ppa:troxor/autokey
 sudo apt update
 sudo apt install -y autokey-gtk
 mkdir -p ~/.config/autokey/data/Sample\ Scripts/
-cp dotfiles/autokey/run_stata.py          ~/.config/autokey/data/Sample\ Scripts/run_stata.py
-cp dotfiles/autokey/.run_stata.json       ~/.config/autokey/data/Sample\ Scripts/.run_stata.json
-cp dotfiles/autokey/run_stata_chunk.py    ~/.config/autokey/data/Sample\ Scripts/run_stata_chunk.py
-cp dotfiles/autokey/.run_stata_chunk.json ~/.config/autokey/data/Sample\ Scripts/.run_stata_chunk.json
+cp dotfiles/autokey/run_stata.py          ~/.config/autokey/data/My\ Phrases/run_stata.py
+cp dotfiles/autokey/.run_stata.json       ~/.config/autokey/data/My\ Phrases/.run_stata.json
+cp dotfiles/autokey/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrases/run_stata_chunk.py
+cp dotfiles/autokey/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
 
 # Other small things
 sudo apt install -y tmux
+cp dotfiles/tmux/tmux.conf ~/.tmux.conf
 sudo apt install python3-dev python3-pip
 sudo pip3 install thefuck
 wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz
@@ -308,7 +319,14 @@ do
 done
 
 # Remove Unity App Animations (cause I like hiding the launcher)
-# 1) Installed Compiz Sttings Manager 2) Compiz Setting Manager -> Unity -> Experimental tab 3) Launch Animation: None Urgent Animation: None Hide Animation: Fade Only Dash Blur: No Blur 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
+# 1) Install Compiz Settings Manager
+sudo apt install compizconfig-settings-manager
+ccsm
+# 2) Compiz Setting Manager -> Desktop -> Ubuntu Unity Plugin -> Launcher
+# 3) Launch Animation: None 
+#    Urgent Animation: None 
+#    Hide Animation: Fade Only Dash Blur: No Blur 
+# 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
 # https://askubuntu.com/a/320734/654313
 
 
