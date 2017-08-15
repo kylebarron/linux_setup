@@ -83,6 +83,13 @@ echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
 sudo rstudio-server start
 rm rstudio-server-1.0.153-amd64.deb
 
+# Install MySQL
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.7-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.7-1_all.deb
+# Select options
+sudo apt update
+sudo apt install mysql-server
+
 # Install Node.js and npm
 # Needed to install term3 as an Atom package
 cd /opt
