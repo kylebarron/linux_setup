@@ -152,6 +152,7 @@ wget http://download.virtualbox.org/virtualbox/5.1.26/virtualbox-5.1_5.1.26-1172
 sudo dpkg -i virtualbox-5.1_5.1.26-117224-Ubuntu-xenial_amd64.deb
 # Download VirtualBox Extension Pack
 wget http://download.virtualbox.org/virtualbox/5.1.26/Oracle_VM_VirtualBox_Extension_Pack-5.1.26-117224.vbox-extpack
+sudo adduser `whoami` vboxusers
 
 # Install SSH Server
 sudo apt install -y openssh-server
