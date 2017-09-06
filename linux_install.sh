@@ -290,6 +290,8 @@ sudo apt install -y tmux
 cp dotfiles/tmux/tmux.conf ~/.tmux.conf
 sudo apt install python3-dev python3-pip
 sudo pip3 install thefuck
+sudo apt install tree
+sudo apt install shellcheck
 wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz
 extract hub-linux-amd64-2.2.9.tgz
 cd hub-linux-amd64-2.2.9
