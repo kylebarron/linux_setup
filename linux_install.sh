@@ -240,13 +240,24 @@ sudo apt install -fy
 rm keybase_amd64.deb
 
 # Install QGIS
-sudo add-apt-repository "deb http://qgis.org/ubuntugis-ltr xenial main/"
-sudo add-apt-repository "deb-src http://qgis.org/ubuntugis-ltr xenial main"
+sudo add-apt-repository "deb http://qgis.org/ubuntugis xenial main"
+sudo add-apt-repository "deb-src http://qgis.org/ubuntugis xenial main"
 sudo add-apt-repository "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main"
 sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
 sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
 sudo apt update
 sudo apt install -y qgis python-qgis qgis-plugin-grass
+
+# Install PostgreSQL
+sudo touch /etc/apt/sources.list.d/pgdg.list
+echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' | sudo tee --append /etc/apt/sources.list.d/pgdg.list
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
+sudo apt install postgresql-9.6
+
+# Install PostGIS
+# NOTE Must have already added UbuntuGIS GPG keys
+sudo apt install postgis
 
 # Install Atom
 wget https://github.com/atom/atom/releases/download/v1.19.0/atom-amd64.deb
