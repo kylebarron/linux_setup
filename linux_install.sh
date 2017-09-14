@@ -26,16 +26,10 @@ cp dotfiles/zsh/zshrc_desktop ~/.zshrc
 cp dotfiles/bash/bashrc_desktop ~/.bashrc
 
 # Install Anaconda
-# I'm sick of permission denied errors, so I'm going to install a user copy of both Python 2 and python 3
 # Python 3.6:
 wget https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
 bash Anaconda3-4.4.0-Linux-x86_64.sh -b -p ~/opt/anaconda3
 rm Anaconda3-4.4.0-Linux-x86_64.sh
-# # Python 2.7:
-# wget https://repo.continuum.io/archive/Anaconda2-4.4.0-Linux-x86_64.sh
-# bash Anaconda2-4.4.0-Linux-x86_64.sh -b -p ~/opt/anaconda
-# rm Anaconda2-4.4.0-Linux-x86_64.sh
-# Make /usr/local/lib world readable
 sudo chmod -R a+rX /usr/local/lib
 
 # Install other python packages
