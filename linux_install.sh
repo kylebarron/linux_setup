@@ -270,6 +270,12 @@ sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.de
 apm install --packages-file "dotfiles/atom/desktop_package_list.txt"
 apm update
 
+# Install Sublime Text
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt update
+sudo apt install sublime-text
+
 # Install Pandoc
 sudo apt install pandoc
 # My PATH puts /opt/anaconda/bin before /usr/bin because I want python 3.6 to be automatically sourced
