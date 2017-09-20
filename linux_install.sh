@@ -296,17 +296,21 @@ cp dotfiles/autokey/.run_stata.json       ~/.config/autokey/data/My\ Phrases/.ru
 cp dotfiles/autokey/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrases/run_stata_chunk.py
 cp dotfiles/autokey/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
 
-# Other small things
+# Miscellaneous random other small things
 sudo apt install -y tmux
 cp dotfiles/tmux/tmux.conf ~/.tmux.conf
 sudo apt install python3-dev python3-pip
 sudo pip3 install thefuck
 sudo apt install tree
 sudo apt install shellcheck
+sudo apt install xclip
+
 wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz
 extract hub-linux-amd64-2.2.9.tgz
 cd hub-linux-amd64-2.2.9
 sudo ./install
+
+sudo apt install -y libmagick++-dev
 
 # Fira Code Font
 mkdir -p ~/.local/share/fonts
