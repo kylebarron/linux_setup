@@ -11,6 +11,9 @@ sudo apt install git
 # Download my dotfiles
 cd $cwd
 git clone https://github.com/kylebarron/dotfiles.git
+cd dotfiles
+git submodule update --init --recursive
+cd ../
 
 # Install Zsh, Oh My Zsh, and Zsh Syntax Highlighting
 sudo apt install zsh
@@ -291,10 +294,10 @@ sudo add-apt-repository ppa:troxor/autokey
 sudo apt update
 sudo apt install -y autokey-gtk
 mkdir -p ~/.config/autokey/data/Sample\ Scripts/
-cp dotfiles/autokey/run_stata.py          ~/.config/autokey/data/My\ Phrases/run_stata.py
-cp dotfiles/autokey/.run_stata.json       ~/.config/autokey/data/My\ Phrases/.run_stata.json
-cp dotfiles/autokey/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrases/run_stata_chunk.py
-cp dotfiles/autokey/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
+cp dotfiles/autokey/code/run_stata.py          ~/.config/autokey/data/My\ Phrases/run_stata.py
+cp dotfiles/autokey/code/.run_stata.json       ~/.config/autokey/data/My\ Phrases/.run_stata.json
+cp dotfiles/autokey/code/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrases/run_stata_chunk.py
+cp dotfiles/autokey/code/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
 
 # Miscellaneous random other small things
 sudo apt install -y tmux
