@@ -308,6 +308,11 @@ sudo apt install tree
 sudo apt install shellcheck
 sudo apt install xclip
 
+# For having different wallpapers on each monitor
+# https://askubuntu.com/questions/390367/using-different-wallpapers-on-multiple-monitors-gnome-2-compiz
+sudo apt install nitrogen
+
+
 wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz
 extract hub-linux-amd64-2.2.9.tgz
 cd hub-linux-amd64-2.2.9
