@@ -167,6 +167,23 @@ sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh
 sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
 sudo service ssh restart
 
+## Lastpass CLI
+sudo apt install openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
+git clone git@github.com:lastpass/lastpass-cli.git
+cd lastpass-cli
+make
+sudo make install
+cd ..
+rm -rf lastpass-cli
+
+# Note: Make sure your PATH is ok. I encountered an error by having anaconda too high in my PATH
+
+# link=$(curl -s https://api.github.com/repos/lastpass/lastpass-cli/releases/latest | grep tarball_url | cut -d '"' -f 4)
+# wget $link -O lastpass-cli.tar.gz
+# tar -xvzf lastpass-cli.tar.gz
+# cd lastpass-lastpass-cli-96977ad
+# make
+
 ## Rclone
 # Fetch and unpack
 curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
