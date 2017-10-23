@@ -1,32 +1,57 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
-cwd=$(pwd)
+cd $HOME
+sudo='True'
+sudo='False'
 
-sudo apt upgrade -y
-sudo apt install curl
+if [$sudo = 'True']
+then
+   sudo apt upgrade -y
+   sudo apt install curl
 
-# Install Git
-sudo apt install git
+   # Install Git
+   sudo apt install git
+fi
+
 
 # Download my dotfiles
-cd $cwd
+cd $HOME
 git clone https://github.com/kylebarron/dotfiles.git
 cd dotfiles
 git submodule update --init --recursive
 cd ../
 
 # Install Zsh, Oh My Zsh, and Zsh Syntax Highlighting
-sudo apt install zsh
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-sudo apt install zsh-syntax-highlighting
+if [$sudo = 'True']
+then
+   sudo apt install zsh
+   sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+   sudo apt install zsh-syntax-highlighting
+else
+   wget -O zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
+   mkdir zsh && tar -xvzf zsh.tar.gz -C zsh --strip-components 1
+   cd zsh
+   
+   ./configure --prefix=$HOME
+   make
+   make install
+   cd ..
+   rm -rf zsh.tar.gz zsh
+   
+   git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+fi
 
 # Install the materialshell theme for zsh and update .zshrc
-cd $cwd
+cd $HOME
 cp dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
 cp dotfiles/zsh/zshrc_desktop ~/.zshrc
 
 # Update .bashrc
 cp dotfiles/bash/bashrc_desktop ~/.bashrc
+if [$sudo = 'False']
+then
+   cat 'exec $HOME/bin/zsh -l' >> ~/.bashrc
+fi
 
 # Install Anaconda
 # Python 3.6:
@@ -94,7 +119,7 @@ sudo wget https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.xz
 sudo tar xvfJ node-v6.11.2-linux-x64.tar.xz
 sudo rm node-v6.11.2-linux-x64.tar.xz
 sudo mv node-v6.11.2-linux-x64 node
-cd $cwd
+cd $HOME
 
 # Install Google Chrome
 sudo apt install libappindicator1
@@ -198,11 +223,11 @@ sudo chmod 755 /usr/bin/rclone
 sudo mkdir -p /usr/local/share/man/man1
 sudo cp rclone.1 /usr/local/share/man/man1/
 sudo mandb
-cd $cwd
+cd $HOME
 rm -r rclone-v1.37-linux-amd64
 
 # Fuzzy File Finder
-cd $cwd
+cd $HOME
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
@@ -225,7 +250,7 @@ sudo wget https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.0-linux
 sudo tar -xzf julia-0.6.0-linux-x86_64.tar.gz
 sudo mv julia-903644385b/ julia/
 sudo rm julia-0.6.0-linux-x86_64.tar.gz
-cd $cwd
+cd $HOME
 
 # Install Docker
 sudo apt update
