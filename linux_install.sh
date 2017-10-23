@@ -299,7 +299,7 @@ sudo apt install postgresql-9.6
 sudo apt install postgis
 
 # Install Atom
-wget https://github.com/atom/atom/releases/download/v1.19.0/atom-amd64.deb
+wget `curl -s https://api.github.com/repos/atom/atom/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4`
 sudo dpkg -i atom-amd64.deb
 rm atom-amd64.deb
 
@@ -355,10 +355,12 @@ sudo apt install xclip
 sudo apt install nitrogen
 
 
-wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz
-extract hub-linux-amd64-2.2.9.tgz
-cd hub-linux-amd64-2.2.9
+wget `curl -s https://api.github.com/repos/github/hub/releases/latest | grep 'browser_download_url' | grep 'linux-amd64' | cut -d '"' -f 4`
+extract hub-linux-amd64*.tgz
+cd hub-linux-amd64*
 sudo ./install
+cd ..
+rm -rf hub-linux-amd64*.tgz hub-linux-amd64*
 
 sudo apt install -y libmagick++-dev
 
