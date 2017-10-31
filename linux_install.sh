@@ -327,6 +327,8 @@ sudo pip3 install thefuck
 sudo apt install tree
 sudo apt install shellcheck
 sudo apt install xclip
+sudo npm install -g speed-test
+sudo npm install -g gtop
 
 # For having different wallpapers on each monitor
 # https://askubuntu.com/questions/390367/using-different-wallpapers-on-multiple-monitors-gnome-2-compiz
