@@ -267,11 +267,14 @@ sudo touch /etc/apt/sources.list.d/pgdg.list
 echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' | sudo tee --append /etc/apt/sources.list.d/pgdg.list
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt update
-sudo apt install postgresql-9.6
+sudo apt install postgresql-10
+sudo apt install pgloader
 
 # Install PostGIS
 # NOTE Must have already added UbuntuGIS GPG keys
 sudo apt install postgis
+sudo apt install postgresql-10-postgis-2.4
+
 
 # Install Atom
 wget https://github.com/atom/atom/releases/download/v1.19.0/atom-amd64.deb
