@@ -75,16 +75,8 @@ sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev 
 sudo add-apt-repository -y ppa:ubuntugis/ppa
 sudo apt update
 sudo apt upgrade -y gdal-bin libgdal-dev
-touch install_packages.R
-echo '#!/usr/bin/Rscript' >> install_packages.R
-echo 'install.packages(c("tidyverse", "foreach", "doParallel", "AER", "feather", "stringr", "maptools", "ggmap", "sf", "gtrendsR", "gdata", "magrittr", "tidytext", "lintr", "formatR"), repos="https://cloud.r-project.org/")' >> install_packages.R
-# IRkernel support:
-echo "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'), repos='https://cloud.r-project.org/')" >> install_packages.R
-echo "devtools::install_github('IRkernel/IRkernel')" >> install_packages.R
-echo "IRkernel::installspec( )" >> install_packages.R
-chmod +x install_packages.R
-./install_packages.R
-rm install_packages.R
+chmod +x dotfiles/install_packages.R
+./dotfiles/install_packages.R
 
 # Install RStudio Desktop
 wget https://download1.rstudio.org/rstudio-1.0.153-amd64.deb
