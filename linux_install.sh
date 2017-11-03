@@ -306,7 +306,6 @@ sudo cp dotfiles/atom/atom_icon.png /usr/share/pixmaps/atom_material_ui.png
 sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
 
 # Install Atom Packages
-# apm list --installed --bare > package-list.txt
 apm install --packages-file "dotfiles/atom/desktop_package_list.txt"
 apm update
 
@@ -337,20 +336,14 @@ cp dotfiles/autokey/code/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrase
 cp dotfiles/autokey/code/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
 
 # Miscellaneous random other small things
-sudo apt install -y tmux
+sudo apt install -y tmux tree shellcheck xclip jq nitrogen libmagick++-dev
 cp dotfiles/tmux/tmux.conf ~/.tmux.conf
 sudo apt install python3-dev python3-pip
 sudo pip3 install thefuck
-sudo apt install tree
-sudo apt install shellcheck
-sudo apt install xclip
-sudo npm install -g speed-test
-sudo npm install -g gtop
+sudo npm install -g speed-test gtop
 
 # For having different wallpapers on each monitor
 # https://askubuntu.com/questions/390367/using-different-wallpapers-on-multiple-monitors-gnome-2-compiz
-sudo apt install nitrogen
-
 
 wget `curl -s https://api.github.com/repos/github/hub/releases/latest | grep 'browser_download_url' | grep 'linux-amd64' | cut -d '"' -f 4`
 extract hub-linux-amd64*.tgz
@@ -358,8 +351,6 @@ cd hub-linux-amd64*
 sudo ./install
 cd ..
 rm -rf hub-linux-amd64*.tgz hub-linux-amd64*
-
-sudo apt install -y libmagick++-dev
 
 # Fira Code Font
 mkdir -p ~/.local/share/fonts
