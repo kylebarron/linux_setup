@@ -97,12 +97,12 @@ echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
 sudo rstudio-server start
 rm rstudio-server-1.0.153-amd64.deb
 
-# Install MySQL
-wget https://dev.mysql.com/get/mysql-apt-config_0.8.7-1_all.deb
-sudo dpkg -i mysql-apt-config_0.8.7-1_all.deb
-# Select options
-sudo apt update
-sudo apt install mysql-server
+# # Install MySQL
+# wget https://dev.mysql.com/get/mysql-apt-config_0.8.7-1_all.deb
+# sudo dpkg -i mysql-apt-config_0.8.7-1_all.deb
+# # Select options
+# sudo apt update
+# sudo apt install mysql-server
 
 # Install Node.js and npm
 # Needed to install term3 as an Atom package
@@ -138,14 +138,14 @@ sudo add-apt-repository -y ppa:lyx-devel/release
 sudo apt update
 sudo apt install -y lyx
 
-# Install f.lux
-sudo apt install git python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
-git clone "https://github.com/xflux-gui/xflux-gui.git"
-cd xflux-gui
-python download-xflux.py
-sudo python setup.py install
-cd ../
-rm -rf xflux-gui
+# # Install f.lux
+# sudo apt install git python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
+# git clone "https://github.com/xflux-gui/xflux-gui.git"
+# cd xflux-gui
+# python download-xflux.py
+# sudo python setup.py install
+# cd ../
+# rm -rf xflux-gui
 
 # Update Git config
 cp dotfiles/git/gitconfig_desktop ~/.gitconfig
