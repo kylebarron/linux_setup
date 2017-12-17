@@ -1,18 +1,19 @@
 #! /usr/bin/env bash
 
 cd $HOME
-sudo='True'
-sudo='False'
 
-if [$sudo = 'True']
-then
-   sudo apt upgrade -y
-   sudo apt install curl
-
-   # Install Git
-   sudo apt install git
+if [[ $sudo = 'True' ]]; then
+    sudo apt update
+    sudo apt upgrade
 fi
 
+if [[ $curl = 'True' ]]; then
+    sudo apt install curl
+fi
+
+if [[ $git = 'True' ]]; then
+    sudo apt install git
+fi
 
 # Download my dotfiles
 cd $HOME
@@ -21,81 +22,140 @@ cd dotfiles
 git submodule update --init --recursive
 cd ../
 
-# Install Zsh, Oh My Zsh, and Zsh Syntax Highlighting
-if [$sudo = 'True']
-then
-   sudo apt install zsh
-   sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-   sudo apt install zsh-syntax-highlighting
-else
-   wget -O zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
-   mkdir zsh && tar -xvzf zsh.tar.gz -C zsh --strip-components 1
-   cd zsh
-   
-   ./configure --prefix=$HOME
-   make
-   make install
-   cd ..
-   rm -rf zsh.tar.gz zsh
-   
-   git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+if [[ $git = 'True' ]]; then
+    cp dotfiles/git/gitconfig_desktop ~/.gitconfig
 fi
 
-# Install the materialshell theme for zsh and update .zshrc
-cd $HOME
-cp dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
-cp dotfiles/zsh/zshrc_desktop ~/.zshrc
-
-# Update .bashrc
-cp dotfiles/bash/bashrc_desktop ~/.bashrc
-if [$sudo = 'False']
-then
-   cat 'exec $HOME/bin/zsh -l' >> ~/.bashrc
+if [[ $zsh = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y zsh
+    else
+        wget -O zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
+        mkdir zsh && tar -xvzf zsh.tar.gz -C zsh --strip-components 1
+        cd zsh
+        
+        ./configure --prefix=$HOME
+        make
+        make install
+        cd ..
+        rm -rf zsh.tar.gz zsh
+    fi
 fi
 
-# Install Anaconda
-# Python 3.6:
-wget https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
-bash Anaconda3-4.4.0-Linux-x86_64.sh -b -p ~/opt/anaconda3
-rm Anaconda3-4.4.0-Linux-x86_64.sh
-sudo chmod -R a+rX /usr/local/lib
+if [[ $oh-my-zsh = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    else
+        git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    fi
+fi
 
-# Install other python packages
-pip install mkdocs-material mkdocs
+if [[ $zsh-syntax-highlighting = 'True' ]]; then
+    sudo apt install -y zsh-syntax-highlighting
+fi
 
-# Install R
-sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-sudo apt update
-sudo apt install r-base r-base-dev -y
+if [[ $materialshell = 'True' ]]; then
+    cp ~/dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
+fi
 
-# Install R Packages
-sudo apt -fy install
-sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
-sudo add-apt-repository -y ppa:ubuntugis/ppa
-sudo apt update
-sudo apt upgrade -y gdal-bin libgdal-dev
-chmod +x dotfiles/install_packages.R
-./dotfiles/install_packages.R
+if [[ $zshrc = 'True' ]]; then
+    cp ~/dotfiles/zsh/zshrc_desktop ~/.zshrc
+fi
 
-# Install RStudio Desktop
-wget https://download1.rstudio.org/rstudio-1.0.153-amd64.deb
-sudo apt install libjpeg62 libgstreamer0.10-0 libgstreamer-plugins-base0.10-0
-sudo apt -fy install
-sudo dpkg -i rstudio-1.0.153-amd64.deb
-rm rstudio-1.0.153-amd64.deb
-# Replace RStudio settings
-mkdir -p ~/.rstudio-desktop/monitored/user-settings/
-cp dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
+if [[ $bashrc = 'True' ]]; then
+    cp ~/dotfiles/bash/bashrc_desktop ~/.bashrc
+    if [[ $sudo = 'False' ]]; then
+        cat 'exec $HOME/bin/zsh -l' >> ~/.bashrc
+    fi
+fi
 
-# Install RStudio Server
-sudo apt install -y gdebi-core
-wget https://download2.rstudio.org/rstudio-server-1.0.153-amd64.deb
-sudo gdebi --n rstudio-server-1.0.153-amd64.deb
-echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
-#sudo rstudio-server restart
-sudo rstudio-server start
-rm rstudio-server-1.0.153-amd64.deb
+if [[ $anaconda3 = 'True' ]]; then
+    latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda3-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
+    wget 'https://repo.continuum.io/archive/'$latest
+    bash Anaconda3-*-Linux-x86_64.sh -b -p ~/opt/anaconda3
+    rm Anaconda3-*-Linux-x86_64.sh
+fi
+
+if [[ $anaconda2 = 'True' ]]; then
+    latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda2-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
+    wget 'https://repo.continuum.io/archive/'$latest
+    bash Anaconda2-*-Linux-x86_64.sh -b -p ~/opt/anaconda2
+    rm Anaconda2-*-Linux-x86_64.sh
+fi
+
+if [[ $mkdocs = 'True' ]]; then
+    pip install mkdocs mkdocs-material
+fi
+
+if [[ $r = 'True' ]]; then
+    sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+    sudo apt update
+    sudo apt install -y r-base r-base-dev
+    sudo chown -R $USER:$USER /usr/local/lib/R/site-library
+    # https://stackoverflow.com/questions/29969838/setting-r-libs-avoiding-would-you-like-to-use-a-personal-library-instead
+fi
+
+if [[ $r-tidyverse = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo chown -R $USER:$USER /usr/local/lib/R/site-library
+        sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+    else
+        mkdir -p ~/R/site-library/
+        export R_LIBS_USER='~/R/site-library/'
+    fi
+    Rscript -e "install.packages('tidyverse', repos='https://cran.us.r-project.org')"
+fi
+
+if [[ $r-gis = 'True' ]]; then
+    # sudo apt -fy install
+    # sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
+    # sudo add-apt-repository -y ppa:ubuntugis/ppa
+    # sudo apt update
+    # sudo apt upgrade -y gdal-bin libgdal-dev
+    # Rscript ~/dotfiles/install_packages.R
+fi
+
+if [[ $r-all = 'True' ]]; then
+    sudo apt -fy install
+    sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
+    sudo add-apt-repository -y ppa:ubuntugis/ppa
+    sudo apt update
+    sudo apt upgrade -y gdal-bin libgdal-dev
+    Rscript ~/dotfiles/install_packages.R
+fi
+
+if [[ $rstudio-desktop = 'True' ]]; then
+    latest="$(curl https://www.rstudio.com/products/rstudio/download/ | grep 'href' | grep -i -E 'rstudio-xenial-1\.[[:digit:]]+\.[[:digit:]]+-amd64\.deb' | cut -d '"' -f 2)"
+    if [[ -n "$latest" ]]; then
+        wget $latest
+    else
+        wget https://download1.rstudio.org/rstudio-xenial-1.1.383-amd64.deb
+    fi
+    sudo apt install -y libjpeg62 libgstreamer0.10-0 libgstreamer-plugins-base0.10-0
+    sudo apt -fy install
+    sudo dpkg -i rstudio-1*-amd64.deb
+    rm rstudio-1*-amd64.deb
+    # Replace RStudio settings
+    mkdir -p ~/.rstudio-desktop/monitored/user-settings/
+    cp dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
+fi
+
+if [[ $rstudio-server = 'True' ]]; then
+    latest="$(curl https://www.rstudio.com/products/rstudio/download-server/ | grep '$ wget' | grep 'amd64' | grep -o -P 'http.+?(?=</code)')"
+    if [[ -n "$latest" ]]; then
+        wget $latest
+    else
+        wget https://download2.rstudio.org/rstudio-server-1.1.383-amd64.deb
+    fi
+    sudo apt install -y gdebi-core
+    sudo gdebi rstudio-server-1*amd64.deb
+    echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
+    #sudo rstudio-server restart
+    sudo rstudio-server start
+    rm rstudio-server-1*amd64.deb
+fi
+
 
 # # Install MySQL
 # wget https://dev.mysql.com/get/mysql-apt-config_0.8.7-1_all.deb
@@ -148,7 +208,6 @@ sudo apt install -y lyx
 # rm -rf xflux-gui
 
 # Update Git config
-cp dotfiles/git/gitconfig_desktop ~/.gitconfig
 
 # Install Git Kraken
 wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
@@ -205,7 +264,7 @@ rm -rf lastpass-cli
 # Fetch and unpack
 curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
 unzip rclone-current-linux-amd64.zip
-rm rclone-current-linux-amd64.zip 
+rm rclone-current-linux-amd64.zip
 cd rclone-*-linux-amd64
 # Copy binary file
 sudo cp rclone /usr/bin/
@@ -399,9 +458,9 @@ done
 sudo apt install compizconfig-settings-manager
 ccsm
 # 2) Compiz Setting Manager -> Desktop -> Ubuntu Unity Plugin -> Launcher
-# 3) Launch Animation: None 
-#    Urgent Animation: None 
-#    Hide Animation: Fade Only Dash Blur: No Blur 
+# 3) Launch Animation: None
+#    Urgent Animation: None
+#    Hide Animation: Fade Only Dash Blur: No Blur
 # 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
 # https://askubuntu.com/a/320734/654313
 
@@ -418,5 +477,5 @@ run_keybase
 
 # Other manual stuff:
 # go to gnome-tweak-tool and turn on flat-plat-dark
-# 
-# 
+#
+#
