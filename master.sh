@@ -2,10 +2,9 @@
 
 sudo='True'
 
-
 ### Essentals:
 curl
-git # Also update gitconfig
+git
 zsh
 oh-my-zsh
 materialshell
@@ -53,9 +52,6 @@ autokey-gtk
 
 cuda
 
-### Ubuntu Stuff
-flat-plat
-
 # NodeJS
 node='False'
 
@@ -82,36 +78,40 @@ jekyll
 # VirtualBox
 virtualbox
 
-# LastPass
-lastpass-cli
-
 # Helpful Utilities
-rclone
-fuzzy-file-finder
-filezilla
-vlc
 bash-kernel
-keybase
-tmux
-tree
-shellcheck
-xclip
-jq
-nitrogen
-libmagick++-dev
-thefuck
-hub
-openvpn
+caprine
 compizconfig
 dropbox
-keybase
-
-# NPM packages
-speed-test
+filezilla
+flat-plat
+flux
+fuzzy-file-finder
 gtop
+hub
+jq
+keybase
+lastpass-cli
+libmagick
+micro
+nitrogen
+openvpn
+peek
+rclone
+redshift
+ripgrep
+shellcheck
+speed-test
+thefuck
+tmux
+tree
+vlc
+xclip
+xsv
 
 docker
 
+source linux_install.sh
 
-STR=$'Hello\nWorld'
-echo "$STR"
+# STR=$'Hello\nWorld'
+# echo "$STR"
