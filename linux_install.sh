@@ -374,7 +374,7 @@ fi
 if [[ $compizconfig = 'True' ]]; then
     # Remove Unity App Animations (cause I like hiding the launcher)
     # 1) Install Compiz Settings Manager
-    sudo apt install -y compizconfig-settings-manager
+    sudo apt install -y compizconfig-settings-manager compiz-plugins-extra
     ccsm
     # 2) Compiz Setting Manager -> Desktop -> Ubuntu Unity Plugin -> Launcher
     # 3) Launch Animation: None
@@ -382,6 +382,10 @@ if [[ $compizconfig = 'True' ]]; then
     #    Hide Animation: Fade Only Dash Blur: No Blur
     # 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
     # https://askubuntu.com/a/320734/654313
+    #
+    # Keyboard shortcut to move window between monitors
+    # currently mapped to ctrl + super + alt + left and ctrl + super + alt + right
+    # http://www.arj.no/2017/01/03/move-windows-ubuntu/
 fi
 
 if [[ $dropbox = 'True' ]]; then
