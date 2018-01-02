@@ -108,6 +108,12 @@ if [[ $anaconda2 = 'True' ]]; then
     fi
 fi
 
+if [[ $jupyter-notebook-remote = 'True' ]]; then
+    jupyter notebook --generate-config
+    sed -i "s@#c.NotebookApp.port = 8888@c.NotebookApp.port = 8888@g" ~/.jupyter/jupyter_notebook_config.py
+    sed -i "s@#c.NotebookApp.open_browser = True@c.NotebookApp.open_browser = False@g" ~/.jupyter/jupyter_notebook_config.py
+fi
+
 if [[ $mkdocs = 'True' ]]; then
     pip install mkdocs mkdocs-material
 fi

@@ -18,6 +18,7 @@ bashrc
 # Python
 anaconda3
 anaconda2
+jupyter-notebook-remote
 
 mkdocs
 
