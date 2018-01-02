@@ -293,8 +293,14 @@ if [[ $pandoc = 'True' ]]; then
         wget `curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep 'browser_download_url' | grep '.tar.gz' | cut -d '"' -f 4`
         mkdir pandoc
         tar xvzf pandoc-2.*-linux.tar.gz --strip-components 1 -C pandoc
+        
         mkdir -p ~/local/bin
         mv pandoc/bin/* ~/local/bin/
+        
+        mkdir -p ~/local/share/man/man1
+        gunzip pandoc/share/man/man1/*
+        mv pandoc/share/man/man1/* ~/local/share/man/man1/
+        
         rm -r pandoc pandoc-2.*-linux.tar.gz
     fi
 fi
