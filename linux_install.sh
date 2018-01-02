@@ -95,6 +95,7 @@ if [[ $anaconda3 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
+    rm ~/local/anaconda3/bin/curl
 fi
 
 if [[ $anaconda2 = 'True' ]]; then
@@ -575,8 +576,32 @@ if [[ $thefuck = 'True' ]]; then
 fi
 
 if [[ $tmux = 'True' ]]; then
-    sudo apt install -y tmux
-    cp dotfiles/tmux/tmux.conf ~/.tmux.conf
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install libevent-dev
+    else
+        mkdir -p ~/local/share
+        echo 'CPPFLAGS=-I$HOME/local/include' > ~/local/share/config.site
+        echo 'LDFLAGS=-L$HOME/local/lib' >> ~/local/share/config.site
+        wget `curl -s https://api.github.com/repos/libevent/libevent/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4` -O libevent.tar.gz
+        tar -xvzf libevent.tar.gz
+        mv libevent*stable/ libevent/
+        cd libevent
+        ./configure --prefix=$HOME/local
+        make
+        make install
+        cd $HOME
+        rm -rf libevent/ libevent.tar.gz
+    fi
+    
+    wget `curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4` -O tmux.tar.gz
+    tar -xvzf tmux.tar.gz
+    mv tmux*/ tmux/
+    cd tmux
+    ./configure --prefix=$HOME/local
+    make
+    make install
+    cd $HOME
+    rm -rf tmux/ tmux.tar.gz
 fi
 
 if [[ $tree = 'True' ]]; then
