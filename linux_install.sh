@@ -271,8 +271,8 @@ if [[ $pandoc = 'True' ]]; then
         wget `curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep 'browser_download_url' | grep '.tar.gz' | cut -d '"' -f 4`
         mkdir pandoc
         tar xvzf pandoc-2.*-linux.tar.gz --strip-components 1 -C pandoc
-        mkdir -p ~/bin
-        mv pandoc/bin/* ~/bin/
+        mkdir -p ~/local/bin
+        mv pandoc/bin/* ~/local/bin/
         rm -r pandoc pandoc-2.*-linux.tar.gz
     fi
 fi
@@ -477,7 +477,7 @@ fi
 if [[ $micro = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/zyedidia/micro/releases/latest | grep 'browser_download_url' | grep 'linux64' | cut -d '"' -f 4`
     tar -xzvf micro-*-linux64.tar.gz
-    mv micro-*/micro ~/bin/
+    mv micro-*/micro ~/local/bin/
     rm -rf micro-*/  micro-*-linux64.tar.gz
     mkdir -p ~/.config/micro
     cp ~/dotfiles/micro/* ~/.config/micro/
@@ -537,7 +537,7 @@ fi
 if [[ $ripgrep = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
     tar -xvzf ripgrep-*-x86_64-unknown-linux-musl.tar.gz
-    mv ripgrep*/rg ~/bin/
+    mv ripgrep*/rg ~/local/bin/
     rm -r ripgrep-*-x86_64-unknown-linux-musl.tar.gz ripgrep-*-x86_64-unknown-linux-musl
 fi
 
@@ -586,7 +586,7 @@ fi
 if [[ $xsv = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/BurntSushi/xsv/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
     tar -xvzf xsv-*-x86_64-unknown-linux-musl.tar.gz
-    mv xsv ~/bin/
+    mv xsv ~/local/bin/
     rm xsv-*-x86_64-unknown-linux-musl.tar.gz
 fi
 
