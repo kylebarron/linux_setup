@@ -34,7 +34,7 @@ if [[ $zsh = 'True' ]]; then
         mkdir zsh && tar -xvzf zsh.tar.gz -C zsh --strip-components 1
         cd zsh
         
-        ./configure --prefix=$HOME/opt/
+        ./configure --prefix=$HOME/local/
         make
         make install
         cd ..
@@ -90,7 +90,7 @@ fi
 if [[ $anaconda3 = 'True' ]]; then
     latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda3-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
     wget 'https://repo.continuum.io/archive/'$latest
-    bash Anaconda3-*-Linux-x86_64.sh -b -p ~/opt/anaconda3
+    bash Anaconda3-*-Linux-x86_64.sh -b -p ~/local/anaconda3
     rm Anaconda3-*-Linux-x86_64.sh
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
@@ -100,7 +100,7 @@ fi
 if [[ $anaconda2 = 'True' ]]; then
     latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda2-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
     wget 'https://repo.continuum.io/archive/'$latest
-    bash Anaconda2-*-Linux-x86_64.sh -b -p ~/opt/anaconda2
+    bash Anaconda2-*-Linux-x86_64.sh -b -p ~/local/anaconda2
     rm Anaconda2-*-Linux-x86_64.sh
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
@@ -186,14 +186,35 @@ if [[ $julia = 'True' ]]; then
     else
         wget https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.1-linux-x86_64.tar.gz
     fi
-    tar -xzf julia-*-linux-x86_64.tar.gz
-    mv julia-*/ ~/opt/julia
-    rm julia-*-linux-x86_64.tar.gz
+    tar -xzvf julia-*-linux-x86_64.tar.gz
+    mv julia-*/ julia
+    
+    mkdir -p ~/local/bin/
+    mv julia/bin/* ~/local/bin/
+    
+    mkdir -p ~/local/include/
+    mv julia/include/* ~/local/include/
+    
+    mkdir -p ~/local/lib/
+    mv julia/lib/* ~/local/lib/
+    
+    mkdir -p ~/local/share/applications/
+    mv julia/share/applications/* ~/local/share/applications/
+    
+    mkdir -p ~/local/share/doc/
+    mv julia/share/doc/* ~/local/share/doc/
+    
+    mkdir -p ~/local/share/man/man1/
+    mv julia/share/man/man1/* ~/local/share/man/man1/
+    
+    mv julia/share/julia ~/local/share/
+
+    rm -r julia julia-*-linux-x86_64.tar.gz
     cd $HOME
 fi
 
 if [[ $ijulia = 'True' ]]; then
-    ~/opt/julia/bin/julia -e 'Pkg.add("IJulia")'
+    ~/local/bin/julia -e 'Pkg.add("IJulia")'
 fi
 
 if [[ $mysql = 'True' ]]; then
@@ -574,7 +595,7 @@ if [[ $xclip = 'True' ]]; then
         git clone https://github.com/astrand/xclip.git
         cd xclip
         autoreconf
-        ./configure --prefix=$HOME/opt/
+        ./configure --prefix=$HOME/local/
         make
         make install
         make install.man
