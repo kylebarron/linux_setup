@@ -113,6 +113,11 @@ xsv
 
 docker
 
+### Photography software
+
+darktable
+digikam
+
 source linux_install.sh
 
 # STR=$'Hello\nWorld'

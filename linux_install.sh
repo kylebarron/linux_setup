@@ -695,3 +695,15 @@ if [[ $cuda ]]; then
     # sudo make
     # cd bin
 fi
+
+### Photography software
+
+if [[ $darktable = 'True' ]]; then
+    sudo add-apt-repository ppa:pmjdebruijn/darktable-release
+    sudo apt update
+    sudo apt install darktable
+fi
+
+if [[ digikam = 'True' ]]; then
+    wget https://download.kde.org/stable/digikam/digikam-5.7.0-01-x86-64.appimage -O digikam.appimage
+fi
