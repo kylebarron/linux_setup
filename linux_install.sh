@@ -22,7 +22,7 @@ cd dotfiles
 git submodule update --init --recursive
 cd ../
 
-if [[ $git = 'True' ]]; then
+if [[ $gitconfig = 'True' ]]; then
     cp dotfiles/git/gitconfig_desktop ~/.gitconfig
 fi
 
@@ -35,8 +35,7 @@ if [[ $zsh = 'True' ]]; then
         cd zsh
         
         ./configure --prefix=$HOME/local/
-        make
-        make install
+        make && make install
         cd ..
         rm -rf zsh.tar.gz zsh
     fi
@@ -561,7 +560,7 @@ if [[ $rclone = 'True' ]]; then
     sudo cp rclone.1 /usr/local/share/man/man1/
     sudo mandb
     cd $HOME
-    rm -r rclone-v1.37-linux-amd64
+    rm -r rclone-*-linux-amd64
 fi
 
 if [[ $redshift = 'True' ]]; then
@@ -606,8 +605,7 @@ if [[ $tmux = 'True' ]]; then
         mv libevent*stable/ libevent/
         cd libevent
         ./configure --prefix=$HOME/local
-        make
-        make install
+        make && make install
         cd $HOME
         rm -rf libevent/ libevent.tar.gz
     fi
@@ -617,8 +615,7 @@ if [[ $tmux = 'True' ]]; then
     mv tmux*/ tmux/
     cd tmux
     ./configure --prefix=$HOME/local
-    make
-    make install
+    make && make install
     cd $HOME
     rm -rf tmux/ tmux.tar.gz
 fi
@@ -651,8 +648,7 @@ if [[ $xclip = 'True' ]]; then
         cd xclip
         autoreconf
         ./configure --prefix=$HOME/local/
-        make
-        make install
+        make && make install
         make install.man
         cd ..
         rm -rf xclip

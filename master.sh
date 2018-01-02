@@ -5,6 +5,7 @@ sudo='True'
 ### Essentals:
 curl
 git
+gitconfig
 zsh
 oh-my-zsh
 materialshell
