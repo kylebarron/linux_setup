@@ -624,7 +624,18 @@ if [[ $tmux = 'True' ]]; then
 fi
 
 if [[ $tree = 'True' ]]; then
-    sudo apt install -y tree
+    if [[ sudo = 'True' ]]; then
+        sudo apt install -y tree
+    else
+        wget ftp://mama.indstate.edu/linux/tree/tree-1.7.0.tgz
+        tar -xzvf tree-*.tgz
+        mv tree*/ tree
+        cd tree
+        sed -i "s@prefix = /usr@prefix = $HOME/local@g" Makefile
+        make && make install
+        cd $HOME
+        rm -rf tree/ tree*.tgz
+    fi
 fi
 
 if [[ $vlc = 'True' ]]; then
