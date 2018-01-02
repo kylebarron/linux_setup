@@ -101,6 +101,7 @@ rclone
 redshift
 ripgrep
 shellcheck
+smem
 speed-test
 thefuck
 tmux

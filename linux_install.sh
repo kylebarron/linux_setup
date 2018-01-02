@@ -573,6 +573,13 @@ if [[ $shellcheck = 'True' ]]; then
     sudo apt install -y shellcheck
 fi
 
+if [[ $smem = 'True' ]]; then
+    wget https://selenic.com/repo/smem/archive/tip.tar.gz
+    tar -xzvf tip.tar.gz
+    mv smem*/smem ~/local/bin/
+    rm -rf smem*/ tip.tar.gz
+fi
+
 if [[ $speed-test = 'True' ]]; then
     sudo npm install -g speed-test
 fi
