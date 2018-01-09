@@ -44,6 +44,8 @@ postgres
 postgis
 qgis
 
+readstat
+
 atom
 atom-packages
 fira-code
@@ -100,6 +102,7 @@ micro
 nitrogen
 openvpn
 peek
+pv # measure pipe throughput
 rclone
 redshift
 ripgrep
