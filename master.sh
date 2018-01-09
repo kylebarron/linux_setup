@@ -43,6 +43,8 @@ postgres
 postgis
 qgis
 
+readstat
+
 atom
 atom-packages
 fira-code

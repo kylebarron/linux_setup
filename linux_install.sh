@@ -257,6 +257,22 @@ if [[ $qgis = 'True' ]]; then
     sudo apt install -y qgis python-qgis qgis-plugin-grass
 fi
 
+if [[ $readstat = 'True' ]]; then
+    # NOTE: this assumes you installed Anaconda in the same location I did
+    # NOTE: This depends on you having correct values of LD_LIBRARY_PATH
+    git clone https://github.com/WizardMac/ReadStat.git
+    cd ReadStat
+    ./autogen.sh
+    cat ~/local/anaconda3/share/aclocal/libtool.m4 >> aclocal.m4
+    cat ~/local/anaconda3/share/aclocal/ltoptions.m4 >> aclocal.m4
+    cat ~/local/anaconda3/share/aclocal/ltversion.m4 >> aclocal.m4
+    cat ~/local/anaconda3/share/aclocal/lt\~obsolete.m4 >> aclocal.m4
+    make
+    make install
+    cd ..
+    rm -rf ReadStat
+fi
+
 if [[ $atom = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/atom/atom/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4`
     sudo dpkg -i atom-amd64.deb
