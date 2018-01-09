@@ -612,6 +612,8 @@ if [[ $smem = 'True' ]]; then
     wget https://selenic.com/repo/smem/archive/tip.tar.gz
     tar -xzvf tip.tar.gz
     mv smem*/smem ~/local/bin/
+    mkdir -p ~/local/man/man8/
+    mv smem*/smem.8 ~/local/man/man8/
     rm -rf smem*/ tip.tar.gz
 fi
 
