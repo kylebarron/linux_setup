@@ -9,6 +9,7 @@ gitconfig
 zsh
 oh-my-zsh
 materialshell
+zsh-autosuggestions
 zsh-syntax-highlighting
 ssh-server
 
