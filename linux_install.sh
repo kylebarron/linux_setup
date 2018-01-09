@@ -554,11 +554,21 @@ if [[ $openvpn = 'True' ]]; then
     done
 fi
 
-if [[ $peek ]]; then
+if [[ $peek = 'True' ]]; then
     # https://github.com/phw/peek
     sudo add-apt-repository ppa:peek-developers/stable
     sudo apt update
     sudo apt install peek
+fi
+
+if [[ $pv = 'True' ]]; then
+    wget https://www.ivarch.com/programs/sources/pv-1.6.6.tar.gz
+    tar -xzvf pv-*.tar.gz
+    cd pv-*/
+    ./configure --prefix=$HOME/local
+    make && make install
+    cd ../
+    rm -rf pv-*/ pv-*.tar.gz
 fi
 
 if [[ $rclone = 'True' ]]; then

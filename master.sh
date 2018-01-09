@@ -101,6 +101,7 @@ micro
 nitrogen
 openvpn
 peek
+pv # measure pipe throughput
 rclone
 redshift
 ripgrep
