@@ -271,6 +271,7 @@ if [[ $readstat = 'True' ]]; then
     cat ~/local/anaconda3/share/aclocal/ltoptions.m4 >> aclocal.m4
     cat ~/local/anaconda3/share/aclocal/ltversion.m4 >> aclocal.m4
     cat ~/local/anaconda3/share/aclocal/lt\~obsolete.m4 >> aclocal.m4
+    ./configure --prefix=$HOME/local
     make
     make install
     cd ..
