@@ -77,7 +77,7 @@ if [[ $ssh-server = 'True' ]]; then
     sudo apt install -y openssh-server
 
     # SSH Server for encrypted home folder
-    sudo mkdir /etc/ssh/$(whoami)
+    sudo mkdir -p /etc/ssh/$(whoami)
     sudo chmod 755 /etc/ssh/$(whoami)
     #sudo mv ~/.ssh/authorized_keys /etc/ssh/$(whoami)/authorized_keys
     sudo touch /etc/ssh/$(whoami)/authorized_keys
@@ -531,6 +531,7 @@ fi
 if [[ $micro = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/zyedidia/micro/releases/latest | grep 'browser_download_url' | grep 'linux64' | cut -d '"' -f 4`
     tar -xzvf micro-*-linux64.tar.gz
+    mkdir -p ~/local/bin
     mv micro-*/micro ~/local/bin/
     rm -rf micro-*/  micro-*-linux64.tar.gz
     mkdir -p ~/.config/micro
@@ -601,6 +602,7 @@ fi
 if [[ $ripgrep = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
     tar -xvzf ripgrep-*-x86_64-unknown-linux-musl.tar.gz
+    mkdir -p ~/local/bin/
     mv ripgrep*/rg ~/local/bin/
     rm -r ripgrep-*-x86_64-unknown-linux-musl.tar.gz ripgrep-*-x86_64-unknown-linux-musl
 fi
@@ -612,6 +614,7 @@ fi
 if [[ $smem = 'True' ]]; then
     wget https://selenic.com/repo/smem/archive/tip.tar.gz
     tar -xzvf tip.tar.gz
+    mkdir -p ~/local/bin/
     mv smem*/smem ~/local/bin/
     mkdir -p ~/local/man/man8/
     mv smem*/smem.8 ~/local/man/man8/
@@ -657,6 +660,7 @@ if [[ $tree = 'True' ]]; then
     if [[ sudo = 'True' ]]; then
         sudo apt install -y tree
     else
+        mkdir -p ~/local/
         wget ftp://mama.indstate.edu/linux/tree/tree-1.7.0.tgz
         tar -xzvf tree-*.tgz
         mv tree*/ tree
@@ -691,6 +695,7 @@ fi
 if [[ $xsv = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/BurntSushi/xsv/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
     tar -xvzf xsv-*-x86_64-unknown-linux-musl.tar.gz
+    mkdir -p ~/local/bin/
     mv xsv ~/local/bin/
     rm xsv-*-x86_64-unknown-linux-musl.tar.gz
 fi
