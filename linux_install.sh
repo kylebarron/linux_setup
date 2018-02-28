@@ -647,8 +647,12 @@ fi
 if [[ $ripgrep = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
     tar -xvzf ripgrep-*-x86_64-unknown-linux-musl.tar.gz
+    cd ripgrep*/
     mkdir -p ~/local/bin/
-    mv ripgrep*/rg ~/local/bin/
+    mv rg ~/local/bin/
+    mkdir -p ~/local/share/man/man1/
+    mv doc/rg.1 ~/local/share/man/man1/
+    cd ../
     rm -r ripgrep-*-x86_64-unknown-linux-musl.tar.gz ripgrep-*-x86_64-unknown-linux-musl
 fi
 
