@@ -12,7 +12,9 @@ if [[ $curl = 'True' ]]; then
 fi
 
 if [[ $git = 'True' ]]; then
-    sudo apt install git
+    sudo add-apt-repository ppa:git-core/ppa -y
+    sudo apt-get update
+    sudo apt-get install git -y
 fi
 
 # Download my dotfiles
