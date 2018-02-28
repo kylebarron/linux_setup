@@ -100,6 +100,7 @@ if [[ $anaconda3 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
+    conda update --all
     rm ~/local/anaconda3/bin/curl
 fi
 
@@ -111,6 +112,7 @@ if [[ $anaconda2 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
+    conda update --all
 fi
 
 if [[ $jupyter-notebook-remote = 'True' ]]; then
