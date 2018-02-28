@@ -115,6 +115,13 @@ if [[ $anaconda2 = 'True' ]]; then
     conda update --all
 fi
 
+if [[ $miniconda3 = 'True' ]]; then
+    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/local/miniconda3
+    rm Miniconda3-latest-Linux-x86_64.sh
+    conda update --all
+fi
+
 if [[ $jupyter-notebook-remote = 'True' ]]; then
     jupyter notebook --generate-config
     sed -i "s@#c.NotebookApp.port = 8888@c.NotebookApp.port = 8888@g" ~/.jupyter/jupyter_notebook_config.py
