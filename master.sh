@@ -117,6 +117,7 @@ tmux
 tree
 vlc
 xclip
+xsel
 xsv
 
 docker

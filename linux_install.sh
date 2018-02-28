@@ -756,6 +756,16 @@ if [[ $xclip = 'True' ]]; then
     fi
 fi
 
+if [[ $xsel = 'True' ]]; then
+    git clone https://github.com/kfish/xsel
+    cd xsel/
+    ./autogen.sh --prefix=$HOME/local
+    make
+    make install
+    cd ../
+    rm -rf xsel/
+fi
+
 if [[ $xsv = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/BurntSushi/xsv/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
     tar -xvzf xsv-*-x86_64-unknown-linux-musl.tar.gz
