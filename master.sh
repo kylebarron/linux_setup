@@ -84,6 +84,7 @@ jekyll
 virtualbox
 
 # Helpful Utilities
+ag
 bash-kernel
 caprine
 compizconfig

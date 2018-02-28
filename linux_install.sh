@@ -412,6 +412,39 @@ fi
 
 ### Utilities
 
+if [[ $ag = 'True' ]]; then
+    # Dependencies:
+    # PCRE
+    wget https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz
+    tar -xzvf pcre-8.41.tar.gz
+    cd pcre-8.41/
+    ./configure --prefix=$HOME/local
+    make
+    make install
+    cd ..
+    rm -rf pcre-8.41*
+
+    # LZMA
+    wget https://tukaani.org/xz/xz-5.2.3.tar.gz
+    tar -xzvf xz-5.2.3.tar.gz
+    cd xz-5.2.3/
+    ./configure --prefix=$HOME/local
+    make
+    make install
+    cd ..
+    rm -rf xz-5.2.3*
+
+    wget https://github.com/ggreer/the_silver_searcher/archive/2.1.0.tar.gz
+    tar -xzvf 2.1.0.tar.gz
+    cd the_silver_searcher-2.1.0/
+    ./autogen.sh
+    ./configure --prefix=$HOME/local
+    make
+    make install
+    cd ..
+    rm -rf the_silver_searcher-2.1.0/ 2.1.0.tar.gz
+fi
+
 if [[ $bash-kernel = 'True' ]]; then
     pip install bash_kernel
     sudo mkdir /usr/local/share/jupyter
