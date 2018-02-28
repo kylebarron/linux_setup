@@ -451,6 +451,18 @@ if [[ $dropbox = 'True' ]]; then
     # Needs manual input to link accounts
 fi
 
+if [[ $fd = 'True' ]]; then
+    wget `curl -s https://api.github.com/repos/sharkdp/fd/releases/latest | grep 'browser_download_url' | grep 'x86_64-unknown-linux-musl.tar.gz' | cut -d '"' -f 4`
+    tar -xzvf fd-v*-x86_64-unknown-linux-musl.tar.gz
+    cd fd-v*-x86_64-unknown-linux-musl/
+    mkdir -p ~/local/bin/
+    mv fd ~/local/bin/
+    mkdir -p ~/local/share/man/man1/
+    mv fd.1 ~/local/share/man/man1/
+    cd ..
+    rm -r fd-v*-x86_64-unknown-linux-musl*
+fi
+
 if [[ $filezilla = 'True' ]]; then
     sudo apt install -y filezilla
 fi

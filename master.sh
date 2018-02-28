@@ -88,6 +88,7 @@ bash-kernel
 caprine
 compizconfig
 dropbox
+fd
 filezilla
 flat-plat
 flux
