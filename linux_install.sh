@@ -121,6 +121,12 @@ if [[ $mkdocs = 'True' ]]; then
     pip install mkdocs mkdocs-material
 fi
 
+if [[ $yapf = 'True' ]]; then
+    pip install yapf
+    mkdir -p ~/.config/yapf/
+    cp ~/dotfiles/yapf/yapf.py ~/.config/yapf/style
+fi
+
 if [[ $r = 'True' ]]; then
     sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9

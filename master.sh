@@ -23,6 +23,7 @@ anaconda2
 jupyter-notebook-remote
 
 mkdocs
+yapf
 
 # R
 r
