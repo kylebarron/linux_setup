@@ -67,7 +67,7 @@ google-earth
 markdown-here
 
 # TeX
-tex
+texlive
 texmaker
 lyx='False'
 

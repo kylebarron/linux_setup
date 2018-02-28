@@ -367,8 +367,17 @@ if [[ $google-earth = 'True' ]]; then
     rm google-earth-stable_current_amd64.deb
 fi
 
-if [[ $tex = 'True' ]]; then
-    sudo apt install -y texlive-full
+if [[ $texlive = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y texlive-full
+    else
+        wget https://mirrors.sorengard.com/ctan/systems/texlive/tlnet/install-tl-unx.tar.gz
+        tar -xvzf install-tl-unx.tar.gz
+        cd install-tl-*/
+        ./install-tl --profile=$HOME/dotfiles/tex/texlive.profile
+        cd ..
+        rm -rf install-tl-*
+    fi
 fi
 
 if [[ $texmaker = 'True' ]]; then
