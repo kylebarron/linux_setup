@@ -33,7 +33,7 @@ if [[ $zsh = 'True' ]]; then
         wget -O zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
         mkdir zsh && tar -xvzf zsh.tar.gz -C zsh --strip-components 1
         cd zsh
-        
+
         ./configure --prefix=$HOME/local/
         make && make install
         cd ..
@@ -198,25 +198,25 @@ if [[ $julia = 'True' ]]; then
     fi
     tar -xzvf julia-*-linux-x86_64.tar.gz
     mv julia-*/ julia
-    
+
     mkdir -p ~/local/bin/
     mv julia/bin/* ~/local/bin/
-    
+
     mkdir -p ~/local/include/
     mv julia/include/* ~/local/include/
-    
+
     mkdir -p ~/local/lib/
     mv julia/lib/* ~/local/lib/
-    
+
     mkdir -p ~/local/share/applications/
     mv julia/share/applications/* ~/local/share/applications/
-    
+
     mkdir -p ~/local/share/doc/
     mv julia/share/doc/* ~/local/share/doc/
-    
+
     mkdir -p ~/local/share/man/man1/
     mv julia/share/man/man1/* ~/local/share/man/man1/
-    
+
     mv julia/share/julia ~/local/share/
 
     rm -r julia julia-*-linux-x86_64.tar.gz
@@ -282,7 +282,7 @@ if [[ $atom = 'True' ]]; then
     wget `curl -s https://api.github.com/repos/atom/atom/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4`
     sudo dpkg -i atom-amd64.deb
     rm atom-amd64.deb
-    
+
     mkdir -p ~/.atom
     cp dotfiles/atom/* ~/.atom/
     # Change Atom Icon to atom-material-ui Icon
@@ -319,14 +319,14 @@ if [[ $pandoc = 'True' ]]; then
         wget `curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep 'browser_download_url' | grep '.tar.gz' | cut -d '"' -f 4`
         mkdir pandoc
         tar xvzf pandoc-2.*-linux.tar.gz --strip-components 1 -C pandoc
-        
+
         mkdir -p ~/local/bin
         mv pandoc/bin/* ~/local/bin/
-        
+
         mkdir -p ~/local/share/man/man1
         gunzip pandoc/share/man/man1/*
         mv pandoc/share/man/man1/* ~/local/share/man/man1/
-        
+
         rm -r pandoc pandoc-2.*-linux.tar.gz
     fi
 fi
@@ -642,7 +642,7 @@ if [[ $tmux = 'True' ]]; then
         cd $HOME
         rm -rf libevent/ libevent.tar.gz
     fi
-    
+
     wget `curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4` -O tmux.tar.gz
     tar -xvzf tmux.tar.gz
     mv tmux*/ tmux/
