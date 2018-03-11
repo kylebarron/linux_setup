@@ -89,6 +89,7 @@ virtualbox
 ag
 bash-kernel
 caprine
+chromedriver
 compizconfig
 dropbox
 fd

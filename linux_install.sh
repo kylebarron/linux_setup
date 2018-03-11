@@ -484,6 +484,19 @@ if [[ $caprine = 'True' ]]; then
     rm caprine_*_amd64.deb
 fi
 
+if [[ $chromedriver = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y unzip
+    fi
+
+    latest="$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)"
+    wget https://chromedriver.storage.googleapis.com/${latest}/chromedriver_linux64.zip
+    unzip chromedriver_linux64.zip
+    mv chromedriver ~/local/bin/
+    rm chromedriver_linux64.zip
+fi
+
+
 if [[ $compizconfig = 'True' ]]; then
     # Remove Unity App Animations (cause I like hiding the launcher)
     # 1) Install Compiz Settings Manager
