@@ -8,7 +8,7 @@ if [[ $sudo = 'True' ]]; then
 fi
 
 if [[ $curl = 'True' ]]; then
-    sudo apt install curl
+    sudo apt install -y curl
 fi
 
 if [[ $git = 'True' ]]; then
@@ -249,7 +249,7 @@ if [[ $mysql = 'True' ]]; then
     sudo dpkg -i mysql-apt-config_0.8.7-1_all.deb
     # Select options
     sudo apt update
-    sudo apt install mysql-server
+    sudo apt install -y mysql-server
 fi
 
 if [[ $postgres = 'True' ]]; then
@@ -257,15 +257,15 @@ if [[ $postgres = 'True' ]]; then
     echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' | sudo tee --append /etc/apt/sources.list.d/pgdg.list
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
     sudo apt update
-    sudo apt install postgresql-10
-    sudo apt install pgloader
+    sudo apt install -y postgresql-10
+    sudo apt install -y pgloader
 fi
 
 if [[ $postgis = 'True' ]]; then
     sudo add-apt-repository -y ppa:ubuntugis/ppa
     sudo apt update
-    sudo apt install postgis
-    sudo apt install postgresql-10-postgis-2.4
+    sudo apt install -y postgis
+    sudo apt install -y postgresql-10-postgis-2.4
 fi
 
 if [[ $qgis = 'True' ]]; then
@@ -325,7 +325,7 @@ if [[ $sublime-text = 'True' ]]; then
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt update
-    sudo apt install sublime-text
+    sudo apt install -y sublime-text
 fi
 
 if [[ $pandoc = 'True' ]]; then
@@ -365,7 +365,7 @@ if [[ $node = 'True' ]]; then
 fi
 
 if [[ $google-chrome = 'True' ]]; then
-    sudo apt install libappindicator1
+    sudo apt install -y libappindicator1
     sudo apt -fy install
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo dpkg -i google-chrome-stable_current_amd64.deb
@@ -421,7 +421,7 @@ if [[ $gitkraken = 'True' ]]; then
 fi
 
 if [[ $jekyll = 'True' ]]; then
-    sudo apt install ruby-full
+    sudo apt install -y ruby-full
     sudo gem install jekyll
     sudo gem install bundler
     # Need to run (sudo) bundle install or bundle update in website folder to install other dependent gems.
@@ -504,7 +504,7 @@ fi
 if [[ $dropbox = 'True' ]]; then
     # MANUAL INSTALLS:
     # Install Dropbox
-    sudo apt install python-gpgme
+    sudo apt install -y python-gpgme
     #cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
     #~/.dropbox-dist/dropboxd
     # Needs manual input to link accounts
@@ -536,7 +536,7 @@ fi
 
 if [[ $flux ]]; then
     # # Install f.lux
-    # sudo apt install git python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
+    # sudo apt install -y git python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
     # git clone "https://github.com/xflux-gui/xflux-gui.git"
     # cd xflux-gui
     # python download-xflux.py
@@ -620,7 +620,7 @@ if [[ $openvpn = 'True' ]]; then
     sudo apt install -y openvpn unzip
     cd /etc/openvpn
     sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
-    sudo apt install unzip
+    sudo apt install -y unzip
     sudo unzip openvpn.zip
     sudo rm openvpn.zip
     sudo touch pass.txt ## Add username and pasword in here manually
@@ -635,7 +635,7 @@ if [[ $peek = 'True' ]]; then
     # https://github.com/phw/peek
     sudo add-apt-repository ppa:peek-developers/stable
     sudo apt update
-    sudo apt install peek
+    sudo apt install -y peek
 fi
 
 if [[ $pv = 'True' ]]; then
@@ -706,7 +706,7 @@ fi
 
 if [[ $tmux = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
-        sudo apt install libevent-dev
+        sudo apt install -y libevent-dev
     else
         mkdir -p ~/local/share
         echo 'CPPFLAGS=-I$HOME/local/include' > ~/local/share/config.site
@@ -788,13 +788,13 @@ fi
 if [[ $docker = 'True' ]]; then
     # Install Docker
     sudo apt update
-    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
        $(lsb_release -cs) \
        stable"
     sudo apt update
-    sudo apt install docker-ce
+    sudo apt install -y docker-ce
     sudo docker run hello-world
 fi
 
@@ -820,7 +820,7 @@ fi
 if [[ $darktable = 'True' ]]; then
     sudo add-apt-repository ppa:pmjdebruijn/darktable-release
     sudo apt update
-    sudo apt install darktable
+    sudo apt install -y darktable
 fi
 
 if [[ digikam = 'True' ]]; then
