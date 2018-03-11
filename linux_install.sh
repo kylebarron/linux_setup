@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-cd $HOME
+cd /tmp
 
 if [[ $sudo = 'True' ]]; then
     sudo apt update
@@ -18,14 +18,10 @@ if [[ $git = 'True' ]]; then
 fi
 
 # Download my dotfiles
-cd $HOME
-git clone https://github.com/kylebarron/dotfiles.git
-cd dotfiles
-git submodule update --init --recursive
-cd ../
+git clone https://github.com/kylebarron/dotfiles.git /tmp/dotfiles
 
 if [[ $gitconfig = 'True' ]]; then
-    cp dotfiles/git/gitconfig_desktop ~/.gitconfig
+    cp /tmp/dotfiles/git/gitconfig_desktop ~/.gitconfig
 fi
 
 if [[ $zsh = 'True' ]]; then
@@ -60,15 +56,15 @@ if [[ $zsh-syntax-highlighting = 'True' ]]; then
 fi
 
 if [[ $materialshell = 'True' ]]; then
-    cp ~/dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
+    cp /tmp/dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
 fi
 
 if [[ $zshrc = 'True' ]]; then
-    cp ~/dotfiles/zsh/zshrc_desktop ~/.zshrc
+    cp /tmp/dotfiles/zsh/zshrc_desktop ~/.zshrc
 fi
 
 if [[ $bashrc = 'True' ]]; then
-    cp ~/dotfiles/bash/bashrc_desktop ~/.bashrc
+    cp /tmp/dotfiles/bash/bashrc_desktop ~/.bashrc
     if [[ $sudo = 'False' ]]; then
         cat 'exec $HOME/bin/zsh -l' >> ~/.bashrc
     fi
@@ -135,7 +131,7 @@ fi
 if [[ $yapf = 'True' ]]; then
     pip install yapf
     mkdir -p ~/.config/yapf/
-    cp ~/dotfiles/yapf/yapf.py ~/.config/yapf/style
+    cp /tmp/dotfiles/yapf/yapf.py ~/.config/yapf/style
 fi
 
 if [[ $r = 'True' ]]; then
@@ -164,7 +160,7 @@ if [[ $r-gis = 'True' ]]; then
     # sudo add-apt-repository -y ppa:ubuntugis/ppa
     # sudo apt update
     # sudo apt upgrade -y gdal-bin libgdal-dev
-    # Rscript ~/dotfiles/install_packages.R
+    # Rscript /tmp/dotfiles/install_packages.R
 fi
 
 if [[ $r-all = 'True' ]]; then
@@ -173,7 +169,7 @@ if [[ $r-all = 'True' ]]; then
     sudo add-apt-repository -y ppa:ubuntugis/ppa
     sudo apt update
     sudo apt upgrade -y gdal-bin libgdal-dev
-    Rscript ~/dotfiles/install_packages.R
+    Rscript /tmp/dotfiles/install_packages.R
 fi
 
 if [[ $rstudio-desktop = 'True' ]]; then
@@ -189,7 +185,7 @@ if [[ $rstudio-desktop = 'True' ]]; then
     rm rstudio-1*-amd64.deb
     # Replace RStudio settings
     mkdir -p ~/.rstudio-desktop/monitored/user-settings/
-    cp dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
+    cp /tmp/dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
 fi
 
 if [[ $rstudio-server = 'True' ]]; then
@@ -301,14 +297,14 @@ if [[ $atom = 'True' ]]; then
     rm atom-amd64.deb
 
     mkdir -p ~/.atom
-    cp dotfiles/atom/* ~/.atom/
+    cp /tmp/dotfiles/atom/* ~/.atom/
     # Change Atom Icon to atom-material-ui Icon
-    sudo cp dotfiles/atom/atom_icon.png /usr/share/pixmaps/atom_material_ui.png
+    sudo cp /tmp/dotfiles/atom/atom_icon.png /usr/share/pixmaps/atom_material_ui.png
     sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
 fi
 
 if [[ $atom-packages = 'True' ]]; then
-    apm install --packages-file "dotfiles/atom/desktop_package_list.txt"
+    apm install --packages-file "/tmp/dotfiles/atom/desktop_package_list.txt"
     apm update
 fi
 
@@ -353,10 +349,10 @@ if [[ $autokey-gtk = 'True' ]]; then
     sudo apt update
     sudo apt install -y autokey-gtk
     # mkdir -p ~/.config/autokey/data/Sample\ Scripts/
-    # cp dotfiles/autokey/code/run_stata.py          ~/.config/autokey/data/My\ Phrases/run_stata.py
-    # cp dotfiles/autokey/code/.run_stata.json       ~/.config/autokey/data/My\ Phrases/.run_stata.json
-    # cp dotfiles/autokey/code/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrases/run_stata_chunk.py
-    # cp dotfiles/autokey/code/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
+    # cp /tmp/dotfiles/autokey/code/run_stata.py          ~/.config/autokey/data/My\ Phrases/run_stata.py
+    # cp /tmp/dotfiles/autokey/code/.run_stata.json       ~/.config/autokey/data/My\ Phrases/.run_stata.json
+    # cp /tmp/dotfiles/autokey/code/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrases/run_stata_chunk.py
+    # cp /tmp/dotfiles/autokey/code/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
 fi
 
 if [[ $node = 'True' ]]; then
@@ -391,7 +387,7 @@ if [[ $texlive = 'True' ]]; then
         wget https://mirrors.sorengard.com/ctan/systems/texlive/tlnet/install-tl-unx.tar.gz
         tar -xvzf install-tl-unx.tar.gz
         cd install-tl-*/
-        ./install-tl --profile=$HOME/dotfiles/tex/texlive.profile
+        ./install-tl --profile=/tmp/dotfiles/tex/texlive.profile
         cd ..
         rm -rf install-tl-*
     fi
@@ -619,7 +615,7 @@ if [[ $micro = 'True' ]]; then
     mv micro-*/micro ~/local/bin/
     rm -rf micro-*/  micro-*-linux64.tar.gz
     mkdir -p ~/.config/micro
-    cp ~/dotfiles/micro/* ~/.config/micro/
+    cp /tmp/dotfiles/micro/* ~/.config/micro/
 fi
 
 if [[ $nitrogen = 'True' ]]; then
