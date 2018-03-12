@@ -97,7 +97,7 @@ if [[ $anaconda3 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
-    conda update --all
+    ~/local/anaconda3/bin/conda update --all
     rm ~/local/anaconda3/bin/curl
 fi
 
@@ -108,13 +108,13 @@ if [[ $anaconda2 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
-    conda update --all
+    ~/local/anaconda2/bin/conda update --all
 fi
 
 if [[ $miniconda3 = 'True' ]]; then
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda3.sh
     bash /tmp/miniconda3.sh -b -p ~/local/miniconda3
-    conda update --all
+    ~/local/miniconda3/bin/conda update --all
 fi
 
 if [[ $jupyter-notebook-remote = 'True' ]]; then
