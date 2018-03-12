@@ -1032,7 +1032,7 @@ if [[ $xsv = 'True' ]]; then
 fi
 
 
-if [[ $cuda ]]; then
+if [[ $cuda = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         # Install CUDA
         wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
@@ -1065,7 +1065,7 @@ if [[ $darktable = 'True' ]]; then
     fi
 fi
 
-# if [[ digikam = 'True' ]]; then
+# if [[ $digikam = 'True' ]]; then
 #     wget https://download.kde.org/stable/digikam/digikam-5.7.0-01-x86-64.appimage -O digikam.appimage
 # fi
 
