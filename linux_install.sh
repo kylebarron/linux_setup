@@ -7,7 +7,7 @@ sudo_not_installed=$'The following programs were not able to be installed withou
 if [[ $sudo = 'True' ]]; then
     sudo apt update
     sudo apt upgrade
-    sudo apt install -y build-essential
+    sudo apt install -y build-essential autoconf
 fi
 
 if [[ $sudo = 'True' ]]; then
