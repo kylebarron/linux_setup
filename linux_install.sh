@@ -613,7 +613,11 @@ if [[ $docker = 'True' ]]; then
        stable"
     sudo apt update
     sudo apt install -y docker-ce
-    sudo docker run hello-world
+
+    # Manage docker as a non-root user
+    # https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
 fi
 
 if [[ $dropbox = 'True' ]]; then
