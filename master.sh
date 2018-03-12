@@ -1,135 +1,126 @@
 #! /usr/bin/env bash
 
+# Set as 'False' if you don't have sudo privileges
 sudo='True'
 
-### Essentals:
-curl
-git
-gitconfig
-zsh
-oh-my-zsh
-materialshell
-zsh-autosuggestions
-zsh-syntax-highlighting
-ssh-server
+# Terminal Essentals:
+zsh='True'
+oh-my-zsh='True'
+materialshell='True'
+zsh-autosuggestions='True'
+zsh-syntax-highlighting='True'
 
-zshrc
-bashrc
+# My configuration files
+gitconfig='True'
+zshrc='True'
+bashrc='True'
+privateinternetaccess_config='False'
 
-### Data Stuff
+# Data Science
 # Python
-anaconda3
-anaconda2
-miniconda3
-jupyter-notebook-remote
-
-mkdocs
-yapf
+anaconda3='True'
+anaconda2='False'
+miniconda3='False'
+cuda='False'
 
 # R
-r
-r-tidyverse
-r-gis
-r-all
-irkernel
-
-rstudio-desktop
-rstudio-server
+r='True'
+r-tidyverse='False'
+r-gis='False'
+r-all='True'
+rstudio-desktop='True'
+rstudio-server='False'
 
 # Julia
-julia
-ijulia
+julia='True'
 
-# Other
-mysql='False'
-postgres
-postgis
-qgis
-
-readstat
-
-atom
-atom-packages
-fira-code
-sublime-text
-
-pandoc
-
-autokey-gtk
-
-cuda
+# Stata
+readstat='True'
 
 # NodeJS
-node='False'
+nodejs8='False'
+nodejs9='True'
 
-# Chrome
-google-chrome
-google-chromedriver
-google-earth
-markdown-here
+# Jupyter
+jupyter-notebook-remote='True'
+irkernel='True'
+ijulia='True'
+bash-kernel='True'
+ijavascript='True'
 
+# Databases
+mysql='False'
+postgres='False'
+postgis='False'
+
+# GIS
+qgis='False'
+
+# Text Editors
+atom='True'
+atom-packages='True'
+fira-code='True'
+micro='True'
+sublime-text='False'
+
+# Document processing
 # TeX
-texlive
-texmaker
+texlive='True'
+texmaker='False'
 lyx='False'
 
-# Spotify
-spotify
-
-# GitKraken
-gitkraken
-
-# Jekyll
-jekyll
-
-# VirtualBox
-virtualbox
+# Desktop programs
+gitkraken='False'
+google-chrome='True'
+google-earth='True'
+spotify='True'
+virtualbox='True'
 
 # Helpful Utilities
-ag
-bash-kernel
-caprine
-chromedriver
-compizconfig
-dropbox
-fd
-filezilla
-flat-plat
-flux
-fuzzy-file-finder
-gtop
-hub
-jq
-keybase
-lastpass-cli
-libmagick
-micro
-nitrogen
-openvpn
-peek
-pv # measure pipe throughput
-rclone
-redshift
-ripgrep
-shellcheck
-smem
-speed-test
-thefuck
-tmux
-tree
-vlc
-xclip
-xsel
-xsv
-
-docker
+ag='True'
+autokey-gtk='True'
+caprine='True'
+chromedriver='True'
+compizconfig='True'
+docker='True'
+dropbox='True'
+fd='True'
+filezilla='True'
+flat-plat='True'
+fuzzy-file-finder='True'
+gtop='True'
+hub='True'
+jekyll='True'
+jq='True'
+keybase='True'
+lastpass-cli='False'
+libmagick='True'
+mkdocs='True'
+nitrogen='True'
+openvpn='False'
+pandoc='True'
+peek='True'
+pv='True' # measure pipe throughput
+rclone='True'
+redshift='True'
+ripgrep='True'
+shellcheck='True'
+smem='True'
+speed-test='True'
+ssh-server='False'
+thefuck='True'
+tmux='True'
+tree='True'
+vlc='True'
+xclip='True'
+xsel='True'
+xsv='True'
+yapf='True'
 
 ### Photography software
 
-darktable
-digikam
+darktable='True'
+digikam='False'
 
 source linux_install.sh
 
-# STR=$'Hello\nWorld'
-# echo "$STR"
