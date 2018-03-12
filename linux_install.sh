@@ -405,6 +405,11 @@ if [[ $nodejs8 = 'True' ]]; then
 
         npm config set prefix ~/local
     fi
+
+    if [[ $ijavascript = 'True' ]]; then
+        npm install -g ijavascript
+        ijsinstall
+    fi
 elif [[ $nodejs9 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
@@ -432,6 +437,11 @@ elif [[ $nodejs9 = 'True' ]]; then
         mv /tmp/node/share/man/man1/* ~/local/share/man/man1/
 
         npm config set prefix ~/local
+    fi
+
+    if [[ $ijavascript = 'True' ]]; then
+        npm install -g ijavascript
+        ijsinstall
     fi
 fi
 
