@@ -402,6 +402,8 @@ if [[ $nodejs8 = 'True' ]]; then
 
         mkdir -p ~/local/share/man/man1/
         mv /tmp/node/share/man/man1/* ~/local/share/man/man1/
+
+        npm config set prefix ~/local
     fi
 elif [[ $nodejs9 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
@@ -428,6 +430,8 @@ elif [[ $nodejs9 = 'True' ]]; then
 
         mkdir -p ~/local/share/man/man1/
         mv /tmp/node/share/man/man1/* ~/local/share/man/man1/
+
+        npm config set prefix ~/local
     fi
 fi
 
@@ -661,6 +665,8 @@ fi
 if [[ $gtop = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo npm install -g gtop
+    else
+        npm install -g gtop
     fi
 fi
 
@@ -836,6 +842,8 @@ fi
 if [[ $speed-test = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo npm install -g speed-test
+    else
+        npm install -g speed-test
     fi
 fi
 
