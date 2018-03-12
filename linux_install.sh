@@ -65,27 +65,29 @@ fi
 
 if [[ $bashrc = 'True' ]]; then
     cp /tmp/dotfiles/bash/bashrc_desktop ~/.bashrc
-    if [[ $sudo = 'False' ]]; then
+    if [[ $sudo != 'True' ]]; then
         cat 'exec $HOME/bin/zsh -l' >> ~/.bashrc
     fi
 fi
 
 if [[ $ssh-server = 'True' ]]; then
-    # Install SSH Server
-    sudo apt install -y openssh-server
+    if [[ $sudo = 'True' ]]; then
+        # Install SSH Server
+        sudo apt install -y openssh-server
 
-    # SSH Server for encrypted home folder
-    sudo mkdir -p /etc/ssh/$(whoami)
-    sudo chmod 755 /etc/ssh/$(whoami)
-    #sudo mv ~/.ssh/authorized_keys /etc/ssh/$(whoami)/authorized_keys
-    sudo touch /etc/ssh/$(whoami)/authorized_keys
-    sudo chmod 644 /etc/ssh/$(whoami)/authorized_keys
-    echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDqIiTcGgYb0DHwLG+WQXgt7t+pBFYdyO494VFFsv5KFa1g+pqdcvZyPoyVqV2ZT2h5w055gKau+GLbtavyK74GRDJFYBNomuEIXp9RBWTt6/qzpnMKTvmMAKgLTujIrUjtYbVhncUB7mV438FecbnNBQW61jqCkEQQSwUlli94RD3C+qOjnLIe9vrIlvcYbZMZUfCmL7VUQByJlkvfhpiteRzXfpXamuCgQAn8GiE9c9S1EFkqcT/7ECLkJNL8ToNVDU7DieQP1ZIIPy6ktG3EOYAcmJwVQ3kSYJcQqL8cy4PVHrZuLyKefKrqeRaSFs1uA83DpjOCxfSBmmqBMR9kLAdG+rkA+a8/Fjn6BPyab6Kr0Uxy0LJfHGgUGA5hKwZExfLzioSIXH9veHUETOcUhG4fmhCWuRGD2ZW2231R/s9ZVjZrdkzCoIrrcnhN4LrnQb29aP15V3RH6hJhWPG8e+paOfIvW8zQaQoqPf9exGhV+CaPPh3OqLKPU1qSZDjyShb4GxKqCJz3ScKIf+bAi+8T/rvQVsw3gLzc+kD9yLdbX30HIUI5sQdyYZAKVNfpuWgIe9e7Q1DVZP3IeBot5GZyTUave7FpTum4TPxc3vUn5ktz7HRMt03Ff64hV3b5RMJbV8s2zaoMUyid79wNUGU2AZAxOWjnVZuaIzPtXw== kyle@mac.local" | sudo tee --append /etc/ssh/$(whoami)/authorized_keys
-    sudo sed -i 's@#AuthorizedKeysFile@AuthorizedKeysFile@g' /etc/ssh/sshd_config
-    sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/sshd_config
-    sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
-    sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
-    sudo service ssh restart
+        # SSH Server for encrypted home folder
+        sudo mkdir -p /etc/ssh/$(whoami)
+        sudo chmod 755 /etc/ssh/$(whoami)
+        #sudo mv ~/.ssh/authorized_keys /etc/ssh/$(whoami)/authorized_keys
+        sudo touch /etc/ssh/$(whoami)/authorized_keys
+        sudo chmod 644 /etc/ssh/$(whoami)/authorized_keys
+        echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDqIiTcGgYb0DHwLG+WQXgt7t+pBFYdyO494VFFsv5KFa1g+pqdcvZyPoyVqV2ZT2h5w055gKau+GLbtavyK74GRDJFYBNomuEIXp9RBWTt6/qzpnMKTvmMAKgLTujIrUjtYbVhncUB7mV438FecbnNBQW61jqCkEQQSwUlli94RD3C+qOjnLIe9vrIlvcYbZMZUfCmL7VUQByJlkvfhpiteRzXfpXamuCgQAn8GiE9c9S1EFkqcT/7ECLkJNL8ToNVDU7DieQP1ZIIPy6ktG3EOYAcmJwVQ3kSYJcQqL8cy4PVHrZuLyKefKrqeRaSFs1uA83DpjOCxfSBmmqBMR9kLAdG+rkA+a8/Fjn6BPyab6Kr0Uxy0LJfHGgUGA5hKwZExfLzioSIXH9veHUETOcUhG4fmhCWuRGD2ZW2231R/s9ZVjZrdkzCoIrrcnhN4LrnQb29aP15V3RH6hJhWPG8e+paOfIvW8zQaQoqPf9exGhV+CaPPh3OqLKPU1qSZDjyShb4GxKqCJz3ScKIf+bAi+8T/rvQVsw3gLzc+kD9yLdbX30HIUI5sQdyYZAKVNfpuWgIe9e7Q1DVZP3IeBot5GZyTUave7FpTum4TPxc3vUn5ktz7HRMt03Ff64hV3b5RMJbV8s2zaoMUyid79wNUGU2AZAxOWjnVZuaIzPtXw== kyle@mac.local" | sudo tee --append /etc/ssh/$(whoami)/authorized_keys
+        sudo sed -i 's@#AuthorizedKeysFile@AuthorizedKeysFile@g' /etc/ssh/sshd_config
+        sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/sshd_config
+        sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
+        sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
+        sudo service ssh restart
+    fi
 fi
 
 if [[ $anaconda3 = 'True' ]]; then
@@ -132,12 +134,14 @@ if [[ $yapf = 'True' ]]; then
 fi
 
 if [[ $r = 'True' ]]; then
-    sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-    sudo apt update
-    sudo apt install -y r-base r-base-dev
-    sudo chown -R $USER:$USER /usr/local/lib/R/site-library
-    # https://stackoverflow.com/questions/29969838/setting-r-libs-avoiding-would-you-like-to-use-a-personal-library-instead
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/"
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+        sudo apt update
+        sudo apt install -y r-base r-base-dev
+        sudo chown -R $USER:$USER /usr/local/lib/R/site-library
+        # https://stackoverflow.com/questions/29969838/setting-r-libs-avoiding-would-you-like-to-use-a-personal-library-instead
+    fi
 fi
 
 if [[ $r-tidyverse = 'True' ]]; then
@@ -152,21 +156,25 @@ if [[ $r-tidyverse = 'True' ]]; then
 fi
 
 if [[ $r-gis = 'True' ]]; then
-    # sudo apt -fy install
-    # sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
-    # sudo add-apt-repository -y ppa:ubuntugis/ppa
-    # sudo apt update
-    # sudo apt upgrade -y gdal-bin libgdal-dev
-    # Rscript /tmp/dotfiles/install_packages.R
+    if [[ $sudo = 'True' ]]; then
+        # sudo apt -fy install
+        # sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
+        # sudo add-apt-repository -y ppa:ubuntugis/ppa
+        # sudo apt update
+        # sudo apt upgrade -y gdal-bin libgdal-dev
+        # Rscript /tmp/dotfiles/install_packages.R
+    fi
 fi
 
 if [[ $r-all = 'True' ]]; then
-    sudo apt -fy install
-    sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
-    sudo add-apt-repository -y ppa:ubuntugis/ppa
-    sudo apt update
-    sudo apt upgrade -y gdal-bin libgdal-dev
-    Rscript /tmp/dotfiles/install_packages.R
+    if [[ $sudo = 'True' ]]; then
+        sudo apt -fy install
+        sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
+        sudo add-apt-repository -y ppa:ubuntugis/ppa
+        sudo apt update
+        sudo apt upgrade -y gdal-bin libgdal-dev
+        Rscript /tmp/dotfiles/install_packages.R
+    fi
 fi
 
 if [[ $rstudio-desktop = 'True' ]]; then
@@ -250,29 +258,35 @@ if [[ $mysql = 'True' ]]; then
 fi
 
 if [[ $postgres = 'True' ]]; then
-    sudo touch /etc/apt/sources.list.d/pgdg.list
-    echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' | sudo tee --append /etc/apt/sources.list.d/pgdg.list
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-    sudo apt update
-    sudo apt install -y postgresql-10
-    sudo apt install -y pgloader
+    if [[ $sudo = 'True' ]]; then
+        sudo touch /etc/apt/sources.list.d/pgdg.list
+        echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' | sudo tee --append /etc/apt/sources.list.d/pgdg.list
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        sudo apt update
+        sudo apt install -y postgresql-10
+        sudo apt install -y pgloader
+    fi
 fi
 
 if [[ $postgis = 'True' ]]; then
-    sudo add-apt-repository -y ppa:ubuntugis/ppa
-    sudo apt update
-    sudo apt install -y postgis
-    sudo apt install -y postgresql-10-postgis-2.4
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository -y ppa:ubuntugis/ppa
+        sudo apt update
+        sudo apt install -y postgis
+        sudo apt install -y postgresql-10-postgis-2.4
+    fi
 fi
 
 if [[ $qgis = 'True' ]]; then
-    sudo add-apt-repository "deb http://qgis.org/ubuntugis xenial main"
-    sudo add-apt-repository "deb-src http://qgis.org/ubuntugis xenial main"
-    sudo add-apt-repository "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main"
-    sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
-    sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
-    sudo apt update
-    sudo apt install -y qgis python-qgis qgis-plugin-grass
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository "deb http://qgis.org/ubuntugis xenial main"
+        sudo add-apt-repository "deb-src http://qgis.org/ubuntugis xenial main"
+        sudo add-apt-repository "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main"
+        sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 073D307A618E5811
+        sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
+        sudo apt update
+        sudo apt install -y qgis python-qgis qgis-plugin-grass
+    fi
 fi
 
 if [[ $readstat = 'True' ]]; then
@@ -356,14 +370,11 @@ if [[ $pandoc = 'True' ]]; then
 fi
 
 if [[ $autokey-gtk = 'True' ]]; then
-    sudo add-apt-repository ppa:troxor/autokey
-    sudo apt update
-    sudo apt install -y autokey-gtk
-    # mkdir -p ~/.config/autokey/data/Sample\ Scripts/
-    # cp /tmp/dotfiles/autokey/code/run_stata.py          ~/.config/autokey/data/My\ Phrases/run_stata.py
-    # cp /tmp/dotfiles/autokey/code/.run_stata.json       ~/.config/autokey/data/My\ Phrases/.run_stata.json
-    # cp /tmp/dotfiles/autokey/code/run_stata_chunk.py    ~/.config/autokey/data/My\ Phrases/run_stata_chunk.py
-    # cp /tmp/dotfiles/autokey/code/.run_stata_chunk.json ~/.config/autokey/data/My\ Phrases/.run_stata_chunk.json
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository ppa:troxor/autokey
+        sudo apt update
+        sudo apt install -y autokey-gtk
+    fi
 fi
 
 if [[ $node = 'True' ]]; then
@@ -404,20 +415,26 @@ if [[ $texlive = 'True' ]]; then
 fi
 
 if [[ $texmaker = 'True' ]]; then
-    sudo apt install -y texmaker
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y texmaker
+    fi
 fi
 
 if [[ $lyx = 'True' ]]; then
-    sudo add-apt-repository -y ppa:lyx-devel/release
-    sudo apt update
-    sudo apt install -y lyx
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository -y ppa:lyx-devel/release
+        sudo apt update
+        sudo apt install -y lyx
+    fi
 fi
 
 if [[ $spotify = 'True' ]]; then
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
-    echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-    sudo apt update -y
-    sudo apt install -y spotify-client
+    if [[ $sudo = 'True' ]]; then
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+        echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+        sudo apt update -y
+        sudo apt install -y spotify-client
+    fi
 fi
 
 if [[ $gitkraken = 'True' ]]; then
@@ -428,10 +445,12 @@ if [[ $gitkraken = 'True' ]]; then
 fi
 
 if [[ $jekyll = 'True' ]]; then
-    sudo apt install -y ruby-full
-    sudo gem install jekyll
-    sudo gem install bundler
-    # Need to run (sudo) bundle install or bundle update in website folder to install other dependent gems.
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y ruby-full
+        sudo gem install jekyll
+        sudo gem install bundler
+        # Need to run (sudo) bundle install or bundle update in website folder to install other dependent gems.
+    fi
 fi
 
 if [[ $virtualbox = 'True' ]]; then
@@ -477,10 +496,12 @@ if [[ $ag = 'True' ]]; then
 fi
 
 if [[ $bash-kernel = 'True' ]]; then
-    pip install bash_kernel
-    sudo mkdir /usr/local/share/jupyter
-    sudo chown $USER:$USER /usr/local/share/jupyter
-    python -m bash_kernel.install
+    if [[ $sudo = 'True' ]]; then
+        pip install bash_kernel
+        sudo mkdir /usr/local/share/jupyter
+        sudo chown $USER:$USER /usr/local/share/jupyter
+        python -m bash_kernel.install
+    fi
 fi
 
 if [[ $caprine = 'True' ]]; then
@@ -503,29 +524,35 @@ fi
 
 
 if [[ $compizconfig = 'True' ]]; then
-    # Remove Unity App Animations (cause I like hiding the launcher)
-    # 1) Install Compiz Settings Manager
-    sudo apt install -y compizconfig-settings-manager compiz-plugins-extra
-    ccsm
-    # 2) Compiz Setting Manager -> Desktop -> Ubuntu Unity Plugin -> Launcher
-    # 3) Launch Animation: None
-    #    Urgent Animation: None
-    #    Hide Animation: Fade Only Dash Blur: No Blur
-    # 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
-    # https://askubuntu.com/a/320734/654313
-    #
-    # Keyboard shortcut to move window between monitors
-    # currently mapped to ctrl + super + alt + left and ctrl + super + alt + right
-    # http://www.arj.no/2017/01/03/move-windows-ubuntu/
+    if [[ $sudo = 'True' ]]; then
+        # Remove Unity App Animations (cause I like hiding the launcher)
+        # 1) Install Compiz Settings Manager
+        sudo apt install -y compizconfig-settings-manager compiz-plugins-extra
+        ccsm
+        # 2) Compiz Setting Manager -> Desktop -> Ubuntu Unity Plugin -> Launcher
+        # 3) Launch Animation: None
+        #    Urgent Animation: None
+        #    Hide Animation: Fade Only Dash Blur: No Blur
+        # 4) CSM -> Effects 5) Disabled everything except Windows Decoration 6) Installed few unity tweakers and made sure that settings there match ones in CSM. In my case MyUnity still was showing Hide Animation set to Fade and Slide, so I changed it to Fade Only there as well.
+        # https://askubuntu.com/a/320734/654313
+        #
+        # Keyboard shortcut to move window between monitors
+        # currently mapped to ctrl + super + alt + left and ctrl + super + alt + right
+        # http://www.arj.no/2017/01/03/move-windows-ubuntu/
+    fi
+fi
+
 fi
 
 if [[ $dropbox = 'True' ]]; then
-    # MANUAL INSTALLS:
-    # Install Dropbox
-    sudo apt install -y python-gpgme
-    #cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-    #~/.dropbox-dist/dropboxd
-    # Needs manual input to link accounts
+    if [[ $sudo = 'True' ]]; then
+        # MANUAL INSTALLS:
+        # Install Dropbox
+        sudo apt install -y python-gpgme
+        #cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+        #~/.dropbox-dist/dropboxd
+        # Needs manual input to link accounts
+    fi
 fi
 
 if [[ $fd = 'True' ]]; then
@@ -542,15 +569,19 @@ if [[ $fd = 'True' ]]; then
 fi
 
 if [[ $filezilla = 'True' ]]; then
-    sudo apt install -y filezilla
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y filezilla
+    fi
 fi
 
 if [[ $flat-plat = 'True' ]]; then
-    # Flat plat design
-    sudo apt install -y gnome-themes-standard gnome-tweak-tool pixmap
-    curl -sL https://github.com/nana-4/Flat-Plat/archive/v20170605.tar.gz | tar xz
-    cd Flat-Plat-20170605 && sudo ./install.sh
-    # go to gnome-tweak-tool and turn on flat-plat-dark
+    if [[ $sudo = 'True' ]]; then
+        # Flat plat design
+        sudo apt install -y gnome-themes-standard gnome-tweak-tool pixmap
+        curl -sL https://github.com/nana-4/Flat-Plat/archive/v20170605.tar.gz | tar xz
+        cd Flat-Plat-20170605 && sudo ./install.sh
+        # go to gnome-tweak-tool and turn on flat-plat-dark
+    fi
 fi
 
 if [[ $flux ]]; then
@@ -570,7 +601,9 @@ if [[ $fuzzy-file-finder = 'True' ]]; then
 fi
 
 if [[ $gtop = 'True' ]]; then
-    sudo npm install -g gtop
+    if [[ $sudo = 'True' ]]; then
+        sudo npm install -g gtop
+    fi
 fi
 
 if [[ $hub = 'True' ]]; then
@@ -584,38 +617,42 @@ if [[ $hub = 'True' ]]; then
 fi
 
 if [[ $jq = 'True' ]]; then
-    sudo apt install -y jq
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y jq
+    fi
 fi
 
 if [[ $keybase = 'True' ]]; then
-    # Download and install Keybase but not run
-    curl -O https://prerelease.keybase.io/keybase_amd64.deb
-    sudo dpkg -i keybase_amd64.deb
-    sudo apt-get install -fy
-    rm keybase_amd64.deb
-    # run_keybase
+    if [[ $sudo = 'True' ]]; then
+        # Download and install Keybase but not run
+        wget https://prerelease.keybase.io/keybase_amd64.deb -O /tmp/keybase.deb
+        sudo dpkg -i /tmp/keybase.deb
+        sudo apt-get install -fy
+        # run_keybase
+    fi
 fi
 
 if [[ $lastpass-cli = 'True' ]]; then
-    ## Lastpass CLI
-    sudo apt install -y openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
-    git clone git@github.com:lastpass/lastpass-cli.git
-    cd lastpass-cli
-    # Note: Make sure your PATH is ok. I encountered an error by having anaconda too high in my PATH
-    make
-    sudo make install
-    cd ..
-    rm -rf lastpass-cli
+    if [[ $sudo = 'True' ]]; then
+        ## Lastpass CLI
+        sudo apt install -y openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
+        git clone git@github.com:lastpass/lastpass-cli.git /tmp/lastpass-cli
+        cd /tmp/lastpass-cli
+        # Note: Make sure your PATH is ok. I encountered an error by having anaconda too high in my PATH
+        make && sudo make install
 
-    # link=$(curl -s https://api.github.com/repos/lastpass/lastpass-cli/releases/latest | grep tarball_url | cut -d '"' -f 4)
-    # wget $link -O lastpass-cli.tar.gz
-    # tar -xvzf lastpass-cli.tar.gz
-    # cd lastpass-lastpass-cli-96977ad
-    # make
+        # link=$(curl -s https://api.github.com/repos/lastpass/lastpass-cli/releases/latest | grep tarball_url | cut -d '"' -f 4)
+        # wget $link -O lastpass-cli.tar.gz
+        # tar -xvzf lastpass-cli.tar.gz
+        # cd lastpass-lastpass-cli-96977ad
+        # make
+    fi
 fi
 
 if [[ $libmagick = 'True' ]]; then
-    sudo apt install -y libmagick++-dev
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y libmagick++-dev
+    fi
 fi
 
 if [[ $micro = 'True' ]]; then
@@ -632,32 +669,41 @@ if [[ $micro = 'True' ]]; then
 fi
 
 if [[ $nitrogen = 'True' ]]; then
-    # For having different wallpapers on each monitor
-    # https://askubuntu.com/questions/390367/using-different-wallpapers-on-multiple-monitors-gnome-2-compiz
-    sudo apt install -y nitrogen
+    if [[ $sudo = 'True' ]]; then
+        # For having different wallpapers on each monitor
+        # https://askubuntu.com/questions/390367/using-different-wallpapers-on-multiple-monitors-gnome-2-compiz
+        sudo apt install -y nitrogen
+    fi
 fi
 
 if [[ $openvpn = 'True' ]]; then
-    # Install OpenVPN to use PIA
-    sudo apt install -y openvpn unzip
-    cd /etc/openvpn
-    sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
-    sudo apt install -y unzip
-    sudo unzip openvpn.zip
-    sudo rm openvpn.zip
-    sudo touch pass.txt ## Add username and pasword in here manually
-    sudo chmod 600 pass.txt
-    for filename in *.ovpn
-    do
-      sudo sed -i 's@auth-user-pass@auth-user-pass pass.txt@g' $filename
-    done
+    if [[ $sudo = 'True' ]]; then
+        # Install OpenVPN to use PIA
+        sudo apt install -y openvpn unzip
+
+        if [[ $privateinternetaccess_config = 'True' ]]; then
+            cd /etc/openvpn
+            sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
+            sudo apt install -y unzip
+            sudo unzip openvpn.zip
+            sudo rm openvpn.zip
+            sudo touch pass.txt ## Add username and pasword in here manually
+            sudo chmod 600 pass.txt
+            for filename in *.ovpn
+            do
+              sudo sed -i 's@auth-user-pass@auth-user-pass pass.txt@g' $filename
+            done
+        fi
+    fi
 fi
 
 if [[ $peek = 'True' ]]; then
-    # https://github.com/phw/peek
-    sudo add-apt-repository ppa:peek-developers/stable
-    sudo apt update
-    sudo apt install -y peek
+    if [[ $sudo = 'True' ]]; then
+        # https://github.com/phw/peek
+        sudo add-apt-repository ppa:peek-developers/stable
+        sudo apt update
+        sudo apt install -y peek
+    fi
 fi
 
 if [[ $pv = 'True' ]]; then
@@ -692,7 +738,9 @@ if [[ $rclone = 'True' ]]; then
 fi
 
 if [[ $redshift = 'True' ]]; then
-    sudo apt install -y redshift
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y redshift
+    fi
 fi
 
 if [[ $ripgrep = 'True' ]]; then
@@ -710,7 +758,9 @@ if [[ $ripgrep = 'True' ]]; then
 fi
 
 if [[ $shellcheck = 'True' ]]; then
-    sudo apt install -y shellcheck
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y shellcheck
+    fi
 fi
 
 if [[ $smem = 'True' ]]; then
@@ -726,7 +776,9 @@ if [[ $smem = 'True' ]]; then
 fi
 
 if [[ $speed-test = 'True' ]]; then
-    sudo npm install -g speed-test
+    if [[ $sudo = 'True' ]]; then
+        sudo npm install -g speed-test
+    fi
 fi
 
 if [[ $thefuck = 'True' ]]; then
@@ -773,7 +825,9 @@ if [[ $tree = 'True' ]]; then
 fi
 
 if [[ $vlc = 'True' ]]; then
-    sudo apt install -y vlc
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y vlc
+    fi
 fi
 
 if [[ $xclip = 'True' ]]; then
@@ -821,30 +875,34 @@ if [[ $docker = 'True' ]]; then
 fi
 
 if [[ $cuda ]]; then
-    # Install CUDA
-    wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
-    mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
-    sudo dpkg -i cuda.deb
-    sudo apt update
-    sudo apt install -y cuda
-    echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.zshrc
-    echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.zshrc
-    rm cuda.deb
-    nvcc -V
-    # compile examples:
-    # cd /usr/local/cuda-8.0/samples
-    # sudo make
-    # cd bin
+    if [[ $sudo = 'True' ]]; then
+        # Install CUDA
+        wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
+        mv cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb cuda.deb
+        sudo dpkg -i cuda.deb
+        sudo apt update
+        sudo apt install -y cuda
+        echo 'export PATH="/usr/local/cuda-8.0/bin:$PATH"' >> ~/.zshrc
+        echo 'export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:LD_LIBRARY_PATH"' >> ~/.zshrc
+        rm cuda.deb
+        nvcc -V
+        # compile examples:
+        # cd /usr/local/cuda-8.0/samples
+        # sudo make
+        # cd bin
+    fi
 fi
 
 ### Photography software
 
 if [[ $darktable = 'True' ]]; then
-    sudo add-apt-repository ppa:pmjdebruijn/darktable-release
-    sudo apt update
-    sudo apt install -y darktable
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository ppa:pmjdebruijn/darktable-release
+        sudo apt update
+        sudo apt install -y darktable
+    fi
 fi
 
-if [[ digikam = 'True' ]]; then
-    wget https://download.kde.org/stable/digikam/digikam-5.7.0-01-x86-64.appimage -O digikam.appimage
-fi
+# if [[ digikam = 'True' ]]; then
+#     wget https://download.kde.org/stable/digikam/digikam-5.7.0-01-x86-64.appimage -O digikam.appimage
+# fi
