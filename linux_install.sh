@@ -589,6 +589,17 @@ if [[ $compizconfig = 'True' ]]; then
     fi
 fi
 
+if [[ $docker = 'True' ]]; then
+    # Install Docker
+    sudo apt update
+    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+       $(lsb_release -cs) \
+       stable"
+    sudo apt update
+    sudo apt install -y docker-ce
+    sudo docker run hello-world
 fi
 
 if [[ $dropbox = 'True' ]]; then
@@ -908,18 +919,6 @@ if [[ $xsv = 'True' ]]; then
     mv /tmp/xsv/xsv ~/local/bin/
 fi
 
-if [[ $docker = 'True' ]]; then
-    # Install Docker
-    sudo apt update
-    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-       $(lsb_release -cs) \
-       stable"
-    sudo apt update
-    sudo apt install -y docker-ce
-    sudo docker run hello-world
-fi
 
 if [[ $cuda ]]; then
     if [[ $sudo = 'True' ]]; then
