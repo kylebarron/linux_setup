@@ -1069,4 +1069,6 @@ fi
 #     wget https://download.kde.org/stable/digikam/digikam-5.7.0-01-x86-64.appimage -O digikam.appimage
 # fi
 
+rm -rf /tmp/*
+
 echo "$sudo_not_installed"
