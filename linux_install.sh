@@ -7,7 +7,7 @@ sudo_not_installed=$'The following programs were not able to be installed withou
 if [[ $sudo = 'True' ]]; then
     sudo apt update
     sudo apt upgrade
-    sudo apt install -y build-essential autoconf
+    sudo apt install -y build-essential autoconf unzip
 fi
 
 if [[ $sudo = 'True' ]]; then
@@ -630,10 +630,6 @@ if [[ $caprine = 'True' ]]; then
 fi
 
 if [[ $chromedriver = 'True' ]]; then
-    if [[ $sudo = 'True' ]]; then
-        sudo apt install -y unzip
-    fi
-
     latest="$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)"
     wget https://chromedriver.storage.googleapis.com/${latest}/chromedriver_linux64.zip -O /tmp/chromedriver.zip
     unzip /tmp/chromedriver.zip
@@ -837,7 +833,7 @@ fi
 if [[ $openvpn = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         # Install OpenVPN to use PIA
-        sudo apt install -y openvpn unzip
+        sudo apt install -y openvpn
 
         if [[ $privateinternetaccess_config = 'True' ]]; then
             cd /etc/openvpn
@@ -878,10 +874,6 @@ if [[ $pv = 'True' ]]; then
 fi
 
 if [[ $rclone = 'True' ]]; then
-    if [[ $sudo = 'True' ]]; then
-        sudo apt install -y unzip
-    fi
-
     # Fetch and unpack
     wget https://downloads.rclone.org/rclone-current-linux-amd64.zip -O /tmp/rclone.zip
     cd /tmp
