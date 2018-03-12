@@ -149,8 +149,8 @@ if [[ $r-tidyverse = 'True' ]]; then
         sudo chown -R $USER:$USER /usr/local/lib/R/site-library
         sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev
     else
-        mkdir -p ~/R/site-library/
-        export R_LIBS_USER='~/R/site-library/'
+        mkdir -p ~/local/R/site-library/
+        export R_LIBS_USER='~/local/R/site-library/'
     fi
     Rscript -e "install.packages('tidyverse', repos='https://cran.us.r-project.org')"
 fi
