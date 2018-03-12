@@ -2,6 +2,7 @@
 
 cd /tmp
 export PATH=$HOME/local/bin:$PATH
+sudo_not_installed=$'The following programs were not able to be installed without sudo:\n'
 
 if [[ $sudo = 'True' ]]; then
     sudo apt update
@@ -10,13 +11,21 @@ if [[ $sudo = 'True' ]]; then
 fi
 
 if [[ $curl = 'True' ]]; then
-    sudo apt install -y curl
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y curl
+    else
+        sudo_not_installed+=$'- curl\n'
+    fi
 fi
 
 if [[ $git = 'True' ]]; then
-    sudo add-apt-repository ppa:git-core/ppa -y
-    sudo apt-get update
-    sudo apt-get install git -y
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository ppa:git-core/ppa -y
+        sudo apt-get update
+        sudo apt-get install git -y
+    else
+        sudo_not_installed+=$'- git\n'
+    fi
 fi
 
 # Download my dotfiles
@@ -89,6 +98,8 @@ if [[ $ssh-server = 'True' ]]; then
         sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
         sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
         sudo service ssh restart
+    else
+        sudo_not_installed+=$'- openssh-server\n'
     fi
 fi
 
@@ -146,6 +157,8 @@ if [[ $r = 'True' ]]; then
         sudo apt install -y r-base r-base-dev
         sudo chown -R $USER:$USER /usr/local/lib/R/site-library
         # https://stackoverflow.com/questions/29969838/setting-r-libs-avoiding-would-you-like-to-use-a-personal-library-instead
+    else
+        sudo_not_installed+=$'- R\n'
     fi
 fi
 
@@ -197,6 +210,8 @@ if [[ $rstudio-desktop = 'True' ]]; then
         # Replace RStudio settings
         mkdir -p ~/.rstudio-desktop/monitored/user-settings/
         cp /tmp/dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
+    else
+        sudo_not_installed+=$'- RStudio desktop\n'
     fi
 fi
 
@@ -212,6 +227,8 @@ if [[ $rstudio-server = 'True' ]]; then
         sudo gdebi --n /tmp/rstudio-server.deb
         echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
         sudo rstudio-server start
+    else
+        sudo_not_installed+=$'- RStudio server\n'
     fi
 fi
 
@@ -259,6 +276,8 @@ if [[ $mysql = 'True' ]]; then
         # Select options
         sudo apt update
         sudo apt install -y mysql-server
+    else
+        sudo_not_installed+=$'- MySQL\n'
     fi
 fi
 
@@ -270,6 +289,8 @@ if [[ $postgres = 'True' ]]; then
         sudo apt update
         sudo apt install -y postgresql-10
         sudo apt install -y pgloader
+    else
+        sudo_not_installed+=$'- PostgreSQL\n'
     fi
 fi
 
@@ -279,6 +300,8 @@ if [[ $postgis = 'True' ]]; then
         sudo apt update
         sudo apt install -y postgis
         sudo apt install -y postgresql-10-postgis-2.4
+    else
+        sudo_not_installed+=$'- PostGIS\n'
     fi
 fi
 
@@ -291,6 +314,8 @@ if [[ $qgis = 'True' ]]; then
         sudo apt-key adv        --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160
         sudo apt update
         sudo apt install -y qgis python-qgis qgis-plugin-grass
+    else
+        sudo_not_installed+=$'- QGIS\n'
     fi
 fi
 
@@ -332,12 +357,14 @@ if [[ $atom = 'True' ]]; then
         # Change Atom Icon to atom-material-ui Icon
         sudo cp /tmp/dotfiles/atom/atom_icon.png /usr/share/pixmaps/atom_material_ui.png
         sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
+    else
+        sudo_not_installed+=$'- Atom\n'
     fi
-fi
 
-if [[ $atom-packages = 'True' ]]; then
-    apm install --packages-file "/tmp/dotfiles/atom/desktop_package_list.txt"
-    apm update
+    if [[ $atom-packages = 'True' ]]; then
+        apm install --packages-file "/tmp/dotfiles/atom/desktop_package_list.txt"
+        apm update
+    fi
 fi
 
 if [[ $fira-code = 'True' ]]; then
@@ -350,10 +377,14 @@ if [[ $fira-code = 'True' ]]; then
 fi
 
 if [[ $sublime-text = 'True' ]]; then
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-    sudo apt update
-    sudo apt install -y sublime-text
+    if [[ $sudo = 'True' ]]; then
+        wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+        echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+        sudo apt update
+        sudo apt install -y sublime-text
+    else
+        sudo_not_installed+=$'- Sublime Text\n'
+    fi
 fi
 
 if [[ $pandoc = 'True' ]]; then
@@ -379,6 +410,8 @@ if [[ $autokey-gtk = 'True' ]]; then
         sudo add-apt-repository ppa:troxor/autokey
         sudo apt update
         sudo apt install -y autokey-gtk
+    else
+        sudo_not_installed+=$'- Autokey\n'
     fi
 fi
 
@@ -456,6 +489,8 @@ if [[ $google-chrome = 'True' ]]; then
         sudo apt -fy install
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
         sudo dpkg -i /tmp/chrome.deb
+    else
+        sudo_not_installed+=$'- Google Chrome\n'
     fi
 fi
 
@@ -465,6 +500,8 @@ if [[ $google-earth = 'True' ]]; then
         sudo apt -fy install
         wget https://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb -O /tmp/google-earth.deb
         sudo dpkg -i /tmp/google-earth.deb
+    else
+        sudo_not_installed+=$'- Google Earth\n'
     fi
 fi
 
@@ -483,6 +520,8 @@ fi
 if [[ $texmaker = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y texmaker
+    else
+        sudo_not_installed+=$'- TexMaker\n'
     fi
 fi
 
@@ -491,6 +530,8 @@ if [[ $lyx = 'True' ]]; then
         sudo add-apt-repository -y ppa:lyx-devel/release
         sudo apt update
         sudo apt install -y lyx
+    else
+        sudo_not_installed+=$'- Lyx\n'
     fi
 fi
 
@@ -500,6 +541,8 @@ if [[ $spotify = 'True' ]]; then
         echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
         sudo apt update -y
         sudo apt install -y spotify-client
+    else
+        sudo_not_installed+=$'- Spotify\n'
     fi
 fi
 
@@ -507,6 +550,8 @@ if [[ $gitkraken = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         wget https://release.gitkraken.com/linux/gitkraken-amd64.deb -O /tmp/gitkraken.deb
         sudo dpkg -i /tmp/gitkraken.deb
+    else
+        sudo_not_installed+=$'- GitKraken\n'
     fi
 fi
 
@@ -516,6 +561,8 @@ if [[ $jekyll = 'True' ]]; then
         sudo gem install jekyll
         sudo gem install bundler
         # Need to run (sudo) bundle install or bundle update in website folder to install other dependent gems.
+    else
+        sudo_not_installed+=$'- Jekyll\n'
     fi
 fi
 
@@ -529,6 +576,8 @@ if [[ $virtualbox = 'True' ]]; then
         link="http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack"
         wget $link -O ~/VirtualBox_Extension_Pack.vbox-extpack
         sudo adduser `whoami` vboxusers
+    else
+        sudo_not_installed+=$'- VirtualBox\n'
     fi
 fi
 
@@ -567,6 +616,8 @@ if [[ $bash-kernel = 'True' ]]; then
         sudo mkdir /usr/local/share/jupyter
         sudo chown $USER:$USER /usr/local/share/jupyter
         python -m bash_kernel.install
+    else
+        sudo_not_installed+=$'- Bash Jupyter Kernel\n'
     fi
 fi
 
@@ -574,6 +625,8 @@ if [[ $caprine = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         wget `curl -s https://api.github.com/repos/sindresorhus/caprine/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4` -O /tmp/caprine.deb
         sudo dpkg -i /tmp/caprine.deb
+    else
+        sudo_not_installed+=$'- Caprine\n'
     fi
 fi
 
@@ -605,24 +658,29 @@ if [[ $compizconfig = 'True' ]]; then
         # Keyboard shortcut to move window between monitors
         # currently mapped to ctrl + super + alt + left and ctrl + super + alt + right
         # http://www.arj.no/2017/01/03/move-windows-ubuntu/
+    else
+        sudo_not_installed+=$'- Compiz Config\n'
     fi
 fi
 
 if [[ $docker = 'True' ]]; then
-    # Install Docker
-    sudo apt update
-    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-       $(lsb_release -cs) \
-       stable"
-    sudo apt update
-    sudo apt install -y docker-ce
+    if [[ $sudo = 'True' ]]; then
+        sudo apt update
+        sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+           $(lsb_release -cs) \
+           stable"
+        sudo apt update
+        sudo apt install -y docker-ce
 
-    # Manage docker as a non-root user
-    # https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
+        # Manage docker as a non-root user
+        # https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+        sudo groupadd docker
+        sudo usermod -aG docker $USER
+    else
+        sudo_not_installed+=$'- Docker\n'
+    fi
 fi
 
 if [[ $dropbox = 'True' ]]; then
@@ -633,6 +691,8 @@ if [[ $dropbox = 'True' ]]; then
         #cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
         #~/.dropbox-dist/dropboxd
         # Needs manual input to link accounts
+    else
+        sudo_not_installed+=$'- Dropbox\n'
     fi
 fi
 
@@ -652,6 +712,8 @@ fi
 if [[ $filezilla = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y filezilla
+    else
+        sudo_not_installed+=$'- FileZilla\n'
     fi
 fi
 
@@ -662,6 +724,8 @@ if [[ $flat-plat = 'True' ]]; then
         curl -sL https://github.com/nana-4/Flat-Plat/archive/v20170605.tar.gz | tar xz
         cd Flat-Plat-20170605 && sudo ./install.sh
         # go to gnome-tweak-tool and turn on flat-plat-dark
+    else
+        sudo_not_installed+=$'- Flat-plat theme\n'
     fi
 fi
 
@@ -696,12 +760,16 @@ if [[ $hub = 'True' ]]; then
         mkdir /tmp/hub
         tar -xzvf /tmp/hub.tar.gz -C /tmp/hub --strip-components 1
         sudo /tmp/hub/install
+    else
+        sudo_not_installed+=$'- Hub\n'
     fi
 fi
 
 if [[ $jq = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y jq
+    else
+        sudo_not_installed+=$'- jq\n'
     fi
 fi
 
@@ -712,6 +780,8 @@ if [[ $keybase = 'True' ]]; then
         sudo dpkg -i /tmp/keybase.deb
         sudo apt-get install -fy
         # run_keybase
+    else
+        sudo_not_installed+=$'- Keybase\n'
     fi
 fi
 
@@ -729,12 +799,16 @@ if [[ $lastpass-cli = 'True' ]]; then
         # tar -xvzf lastpass-cli.tar.gz
         # cd lastpass-lastpass-cli-96977ad
         # make
+    else
+        sudo_not_installed+=$'- Lastpass CLI\n'
     fi
 fi
 
 if [[ $libmagick = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y libmagick++-dev
+    else
+        sudo_not_installed+=$'- libmagick\n'
     fi
 fi
 
@@ -756,6 +830,8 @@ if [[ $nitrogen = 'True' ]]; then
         # For having different wallpapers on each monitor
         # https://askubuntu.com/questions/390367/using-different-wallpapers-on-multiple-monitors-gnome-2-compiz
         sudo apt install -y nitrogen
+    else
+        sudo_not_installed+=$'- Nitrogen\n'
     fi
 fi
 
@@ -777,6 +853,8 @@ if [[ $openvpn = 'True' ]]; then
               sudo sed -i 's@auth-user-pass@auth-user-pass pass.txt@g' $filename
             done
         fi
+    else
+        sudo_not_installed+=$'- OpenVPN\n'
     fi
 fi
 
@@ -786,6 +864,8 @@ if [[ $peek = 'True' ]]; then
         sudo add-apt-repository ppa:peek-developers/stable
         sudo apt update
         sudo apt install -y peek
+    else
+        sudo_not_installed+=$'- Peek\n'
     fi
 fi
 
@@ -823,6 +903,8 @@ fi
 if [[ $redshift = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y redshift
+    else
+        sudo_not_installed+=$'- Redshift\n'
     fi
 fi
 
@@ -843,6 +925,8 @@ fi
 if [[ $shellcheck = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y shellcheck
+    else
+        sudo_not_installed+=$'- shellcheck\n'
     fi
 fi
 
@@ -912,6 +996,8 @@ fi
 if [[ $vlc = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y vlc
+    else
+        sudo_not_installed+=$'- VLC\n'
     fi
 fi
 
@@ -963,6 +1049,8 @@ if [[ $cuda ]]; then
         # cd /usr/local/cuda-8.0/samples
         # sudo make
         # cd bin
+    else
+        sudo_not_installed+=$'- CUDA\n'
     fi
 fi
 
@@ -973,9 +1061,13 @@ if [[ $darktable = 'True' ]]; then
         sudo add-apt-repository ppa:pmjdebruijn/darktable-release
         sudo apt update
         sudo apt install -y darktable
+    else
+        sudo_not_installed+=$'- Darktable\n'
     fi
 fi
 
 # if [[ digikam = 'True' ]]; then
 #     wget https://download.kde.org/stable/digikam/digikam-5.7.0-01-x86-64.appimage -O digikam.appimage
 # fi
+
+echo "$sudo_not_installed"
