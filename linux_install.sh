@@ -377,11 +377,58 @@ if [[ $autokey-gtk = 'True' ]]; then
     fi
 fi
 
-if [[ $node = 'True' ]]; then
-    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-    sudo apt-get install -y nodejs build-essential
-fi
+if [[ $nodejs8 = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+        sudo apt-get install -y nodejs build-essential
+    else
+        latest="$(curl https://nodejs.org/dist/latest-v8.x/ | grep -P 'linux-x64\.tar\.gz' | sed -n 1p | cut -d '"' -f 2)"
+        wget https://nodejs.org/dist/latest-v8.x/${latest} -O /tmp/node-v8.tar.gz
 
+        mkdir /tmp/node
+        tar -xzvf /tmp/node-v8.tar.gz -C /tmp/node/ --strip-components 1
+
+        mkdir -p ~/local/bin/
+        mv /tmp/node/bin/* ~/local/bin/
+
+        mkdir -p ~/local/include/
+        mv /tmp/node/include/* ~/local/include/
+
+        mkdir -p ~/local/lib/
+        mv /tmp/node/lib/* ~/local/lib/
+
+        mkdir -p ~/local/share/doc/
+        mv /tmp/node/share/doc/* ~/local/share/doc/
+
+        mkdir -p ~/local/share/man/man1/
+        mv /tmp/node/share/man/man1/* ~/local/share/man/man1/
+    fi
+elif [[ $nodejs9 = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+        sudo apt-get install -y nodejs build-essential
+    else
+        latest="$(curl https://nodejs.org/dist/latest-v9.x/ | grep -P 'linux-x64\.tar\.gz' | sed -n 1p | cut -d '"' -f 2)"
+        wget https://nodejs.org/dist/latest-v9.x/${latest} -O /tmp/node-v9.tar.gz
+
+        mkdir /tmp/node
+        tar -xzvf /tmp/node-v9.tar.gz -C /tmp/node/ --strip-components 1
+
+        mkdir -p ~/local/bin/
+        mv /tmp/node/bin/* ~/local/bin/
+
+        mkdir -p ~/local/include/
+        mv /tmp/node/include/* ~/local/include/
+
+        mkdir -p ~/local/lib/
+        mv /tmp/node/lib/* ~/local/lib/
+
+        mkdir -p ~/local/share/doc/
+        mv /tmp/node/share/doc/* ~/local/share/doc/
+
+        mkdir -p ~/local/share/man/man1/
+        mv /tmp/node/share/man/man1/* ~/local/share/man/man1/
+    fi
 fi
 
 if [[ $google-chrome = 'True' ]]; then
