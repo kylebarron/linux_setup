@@ -41,11 +41,12 @@ if [[ $zsh = 'True' ]]; then
 fi
 
 if [[ $oh-my-zsh = 'True' ]]; then
-    if [[ $sudo = 'True' ]]; then
-        sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-    else
-        git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-    fi
+    git clone --depth=1 git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
+    # Breaks the flow:
+    # if [[ $sudo = 'True' ]]; then
+    #     sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    # fi
 fi
 
 if [[ $zsh-autosuggestions = 'True' ]]; then
