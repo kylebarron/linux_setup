@@ -10,22 +10,23 @@ if [[ $sudo = 'True' ]]; then
     sudo apt install -y build-essential
 fi
 
-if [[ $curl = 'True' ]]; then
-    if [[ $sudo = 'True' ]]; then
-        sudo apt install -y curl
-    else
-        sudo_not_installed+=$'- curl\n'
-    fi
+if [[ $sudo = 'True' ]]; then
+    sudo apt install -y curl
 fi
 
-if [[ $git = 'True' ]]; then
-    if [[ $sudo = 'True' ]]; then
-        sudo add-apt-repository ppa:git-core/ppa -y
-        sudo apt-get update
-        sudo apt-get install git -y
-    else
-        sudo_not_installed+=$'- git\n'
-    fi
+if [[ $sudo = 'True' ]]; then
+    sudo add-apt-repository ppa:git-core/ppa -y
+    sudo apt-get update
+    sudo apt-get install git -y
+else
+    link="https://www.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz"
+    wget $link -O /tmp/git.tar.gz
+    mkdir /tmp/git
+    tar -xzvf /tmp/git.tar.gz -C /tmp/git --strip-components 1
+
+    cd /tmp/git
+    ./configure --prefix=$HOME/local/
+    make && make install
 fi
 
 # Download my dotfiles
@@ -129,8 +130,6 @@ if [[ $anaconda2 = 'True' ]]; then
     fi
     ~/local/anaconda2/bin/conda update --all
     export PATH=$HOME/local/anaconda2/bin:$PATH
-fi
-
 fi
 
 if [[ $jupyter-notebook-remote = 'True' ]]; then
