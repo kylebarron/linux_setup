@@ -5,6 +5,7 @@ cd /tmp
 if [[ $sudo = 'True' ]]; then
     sudo apt update
     sudo apt upgrade
+    sudo apt install -y build-essential
 fi
 
 if [[ $curl = 'True' ]]; then
@@ -28,14 +29,13 @@ if [[ $zsh = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y zsh
     else
-        wget -O zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
+        wget -O /tmp/zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
+        cd /tmp
         mkdir zsh && tar -xvzf zsh.tar.gz -C zsh --strip-components 1
-        cd zsh
+        cd /tmp/zsh
 
         ./configure --prefix=$HOME/local/
         make && make install
-        cd ..
-        rm -rf zsh.tar.gz zsh
     fi
 fi
 
@@ -90,9 +90,8 @@ fi
 
 if [[ $anaconda3 = 'True' ]]; then
     latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda3-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
-    wget 'https://repo.continuum.io/archive/'$latest
-    bash Anaconda3-*-Linux-x86_64.sh -b -p ~/local/anaconda3
-    rm Anaconda3-*-Linux-x86_64.sh
+    wget 'https://repo.continuum.io/archive/'$latest -O /tmp/anaconda3.sh
+    bash /tmp/anaconda3.sh -b -p ~/local/anaconda3
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
@@ -102,9 +101,8 @@ fi
 
 if [[ $anaconda2 = 'True' ]]; then
     latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda2-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
-    wget 'https://repo.continuum.io/archive/'$latest
-    bash Anaconda2-*-Linux-x86_64.sh -b -p ~/local/anaconda2
-    rm Anaconda2-*-Linux-x86_64.sh
+    wget 'https://repo.continuum.io/archive/'$latest -O /tmp/anaconda2.sh
+    bash /tmp/anaconda2.sh -b -p ~/local/anaconda2
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
@@ -112,9 +110,8 @@ if [[ $anaconda2 = 'True' ]]; then
 fi
 
 if [[ $miniconda3 = 'True' ]]; then
-    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/local/miniconda3
-    rm Miniconda3-latest-Linux-x86_64.sh
+    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda3.sh
+    bash /tmp/miniconda3.sh -b -p ~/local/miniconda3
     conda update --all
 fi
 
@@ -173,79 +170,83 @@ if [[ $r-all = 'True' ]]; then
 fi
 
 if [[ $rstudio-desktop = 'True' ]]; then
-    latest="$(curl https://www.rstudio.com/products/rstudio/download/ | grep 'href' | grep -i -E 'rstudio-xenial-1\.[[:digit:]]+\.[[:digit:]]+-amd64\.deb' | cut -d '"' -f 2)"
-    if [[ -n "$latest" ]]; then
-        wget $latest
-    else
-        wget https://download1.rstudio.org/rstudio-xenial-1.1.383-amd64.deb
+    if [[ $sudo = 'True' ]]; then
+        latest="$(curl https://www.rstudio.com/products/rstudio/download/ | grep 'href' | grep -i -E 'rstudio-xenial-1\.[[:digit:]]+\.[[:digit:]]+-amd64\.deb' | cut -d '"' -f 2)"
+        if [[ -n "$latest" ]]; then
+            wget $latest -O /tmp/rstudio-desktop.deb
+        else
+            wget https://download1.rstudio.org/rstudio-xenial-1.1.423-amd64.deb -O /tmp/rstudio-desktop.deb
+        fi
+        sudo apt install -y libjpeg62 libgstreamer0.10-0 libgstreamer-plugins-base0.10-0
+        sudo apt -fy install
+        sudo dpkg -i -O /tmp/rstudio-desktop.deb
+
+        # Replace RStudio settings
+        mkdir -p ~/.rstudio-desktop/monitored/user-settings/
+        cp /tmp/dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
     fi
-    sudo apt install -y libjpeg62 libgstreamer0.10-0 libgstreamer-plugins-base0.10-0
-    sudo apt -fy install
-    sudo dpkg -i rstudio-1*-amd64.deb
-    rm rstudio-1*-amd64.deb
-    # Replace RStudio settings
-    mkdir -p ~/.rstudio-desktop/monitored/user-settings/
-    cp /tmp/dotfiles/rstudio/user-settings ~/.rstudio-desktop/monitored/user-settings/user-settings
 fi
 
 if [[ $rstudio-server = 'True' ]]; then
-    latest="$(curl https://www.rstudio.com/products/rstudio/download-server/ | grep '$ wget' | grep 'amd64' | grep -o -P 'http.+?(?=</code)')"
-    if [[ -n "$latest" ]]; then
-        wget $latest
-    else
-        wget https://download2.rstudio.org/rstudio-server-1.1.383-amd64.deb
+    if [[ $sudo = 'True' ]]; then
+        latest="$(curl https://www.rstudio.com/products/rstudio/download-server/ | grep '$ wget' | grep 'amd64' | grep -o -P 'http.+?(?=</code)')"
+        if [[ -n "$latest" ]]; then
+            wget $latest -O /tmp/rstudio-server.deb
+        else
+            wget https://download2.rstudio.org/rstudio-server-1.1.383-amd64.deb -O /tmp/rstudio-server.deb
+        fi
+        sudo apt install -y gdebi-core
+        sudo gdebi --n /tmp/rstudio-server.deb
+        echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
+        sudo rstudio-server start
     fi
-    sudo apt install -y gdebi-core
-    sudo gdebi --n rstudio-server-1*amd64.deb
-    echo "www-address=127.0.0.1" | sudo tee --append /etc/rstudio/rserver.conf
-    sudo rstudio-server start
-    rm rstudio-server-1*amd64.deb
 fi
 
 if [[ $julia = 'True' ]]; then
-    latest="$(curl https://julialang.org/downloads/ | grep 'href' | grep -io -P 'http.+?julia-[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+-linux-x86_64.tar.gz(?!\.asc)')"
+    latest="$(curl https://julialang.org/downloads/ | grep 'href' | grep -io -P 'http.+?julia-[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+-linux-x86_64.tar.gz' | head -n 1)"
     if [[ -n "$latest" ]]; then
-        wget $latest
+        wget $latest -O /tmp/julia.tar.gz
     else
-        wget https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.1-linux-x86_64.tar.gz
+        wget https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.1-linux-x86_64.tar.gz -O /tmp/julia.tar.gz
     fi
-    tar -xzvf julia-*-linux-x86_64.tar.gz
-    mv julia-*/ julia
+    mkdir /tmp/julia/
+    tar -xzvf /tmp/julia.tar.gz -C /tmp/julia/ --strip-components 1
 
     mkdir -p ~/local/bin/
-    mv julia/bin/* ~/local/bin/
+    mv /tmp/julia/bin/* ~/local/bin/
 
     mkdir -p ~/local/include/
-    mv julia/include/* ~/local/include/
+    mv /tmp/julia/include/* ~/local/include/
 
     mkdir -p ~/local/lib/
-    mv julia/lib/* ~/local/lib/
+    mv /tmp/julia/lib/* ~/local/lib/
 
     mkdir -p ~/local/share/applications/
-    mv julia/share/applications/* ~/local/share/applications/
+    mv /tmp/julia/share/applications/* ~/local/share/applications/
 
     mkdir -p ~/local/share/doc/
-    mv julia/share/doc/* ~/local/share/doc/
+    mv /tmp/julia/share/doc/* ~/local/share/doc/
 
     mkdir -p ~/local/share/man/man1/
-    mv julia/share/man/man1/* ~/local/share/man/man1/
+    mv /tmp/julia/share/man/man1/* ~/local/share/man/man1/
 
-    mv julia/share/julia ~/local/share/
+    mv /tmp/julia/share/julia ~/local/share/
 
-    rm -r julia julia-*-linux-x86_64.tar.gz
-    cd $HOME
+    if [[ $ijulia = 'True' ]]; then
+        ~/local/bin/julia -e 'Pkg.add("IJulia")'
+    fi
 fi
 
-if [[ $ijulia = 'True' ]]; then
-    ~/local/bin/julia -e 'Pkg.add("IJulia")'
-fi
 
 if [[ $mysql = 'True' ]]; then
-    wget https://dev.mysql.com/get/mysql-apt-config_0.8.7-1_all.deb
-    sudo dpkg -i mysql-apt-config_0.8.7-1_all.deb
-    # Select options
-    sudo apt update
-    sudo apt install -y mysql-server
+    if [[ $sudo = 'True' ]]; then
+        wget https://dev.mysql.com/get/mysql-apt-config_0.8.7-1_all.deb -O /tmp/mysql-apt-config.deb
+        sudo dpkg -i /tmp/mysql-apt-config.deb
+
+        # Select options
+        sudo apt update
+        sudo apt install -y mysql-server
+    fi
 fi
 
 if [[ $postgres = 'True' ]]; then
@@ -277,30 +278,42 @@ fi
 if [[ $readstat = 'True' ]]; then
     # NOTE: this assumes you installed Anaconda in the same location I did
     # NOTE: This depends on you having correct values of LD_LIBRARY_PATH
-    git clone https://github.com/WizardMac/ReadStat.git
-    cd ReadStat
+    git clone https://github.com/WizardMac/ReadStat.git /tmp/ReadStat
+    cd /tmp/ReadStat
     ./autogen.sh
-    cat ~/local/anaconda3/share/aclocal/libtool.m4 >> aclocal.m4
-    cat ~/local/anaconda3/share/aclocal/ltoptions.m4 >> aclocal.m4
-    cat ~/local/anaconda3/share/aclocal/ltversion.m4 >> aclocal.m4
-    cat ~/local/anaconda3/share/aclocal/lt\~obsolete.m4 >> aclocal.m4
+    if [[ $anaconda3 = 'True' ]]; then
+        cat ~/local/anaconda3/share/aclocal/libtool.m4 >> aclocal.m4
+        cat ~/local/anaconda3/share/aclocal/ltoptions.m4 >> aclocal.m4
+        cat ~/local/anaconda3/share/aclocal/ltversion.m4 >> aclocal.m4
+        cat ~/local/anaconda3/share/aclocal/lt\~obsolete.m4 >> aclocal.m4
+    elif [[ $anaconda2 = 'True' ]]; then
+        cat ~/local/anaconda2/share/aclocal/libtool.m4 >> aclocal.m4
+        cat ~/local/anaconda2/share/aclocal/ltoptions.m4 >> aclocal.m4
+        cat ~/local/anaconda2/share/aclocal/ltversion.m4 >> aclocal.m4
+        cat ~/local/anaconda2/share/aclocal/lt\~obsolete.m4 >> aclocal.m4
+    elif [[ $miniconda3 = 'True' ]]; then
+        cat ~/local/miniconda3/share/aclocal/libtool.m4 >> aclocal.m4
+        cat ~/local/miniconda3/share/aclocal/ltoptions.m4 >> aclocal.m4
+        cat ~/local/miniconda3/share/aclocal/ltversion.m4 >> aclocal.m4
+        cat ~/local/miniconda3/share/aclocal/lt\~obsolete.m4 >> aclocal.m4
+    fi
     ./configure --prefix=$HOME/local
-    make
-    make install
-    cd ..
-    rm -rf ReadStat
+    make && make install
 fi
 
 if [[ $atom = 'True' ]]; then
-    wget `curl -s https://api.github.com/repos/atom/atom/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4`
-    sudo dpkg -i atom-amd64.deb
-    rm atom-amd64.deb
+    if [[ $sudo = 'True' ]]; then
+        link="$(curl -s https://api.github.com/repos/atom/atom/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4)"
+        wget $link -O /tmp/atom.deb
+        sudo dpkg -i /tmp/atom.deb
 
-    mkdir -p ~/.atom
-    cp /tmp/dotfiles/atom/* ~/.atom/
-    # Change Atom Icon to atom-material-ui Icon
-    sudo cp /tmp/dotfiles/atom/atom_icon.png /usr/share/pixmaps/atom_material_ui.png
-    sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
+        mkdir -p ~/.atom
+        cp /tmp/dotfiles/atom/* ~/.atom/
+
+        # Change Atom Icon to atom-material-ui Icon
+        sudo cp /tmp/dotfiles/atom/atom_icon.png /usr/share/pixmaps/atom_material_ui.png
+        sudo sed -i 's/Icon=atom/Icon=atom_material_ui/' /usr/share/applications/atom.desktop
+    fi
 fi
 
 if [[ $atom-packages = 'True' ]]; then
@@ -326,21 +339,19 @@ fi
 
 if [[ $pandoc = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
-        wget `curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4`
-        sudo dpkg -i pandoc-2.*-amd64.deb
+        wget `curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4` -O /tmp/pandoc.deb
+        sudo dpkg -i /tmp/pandoc.deb
     else
-        wget `curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep 'browser_download_url' | grep '.tar.gz' | cut -d '"' -f 4`
-        mkdir pandoc
-        tar xvzf pandoc-2.*-linux.tar.gz --strip-components 1 -C pandoc
+        wget `curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep 'browser_download_url' | grep '.tar.gz' | cut -d '"' -f 4` -O /tmp/pandoc.tar.gz
+        mkdir /tmp/pandoc
+        tar xvzf /tmp/pandoc.tar.gz --strip-components 1 -C /tmp/pandoc
 
         mkdir -p ~/local/bin
-        mv pandoc/bin/* ~/local/bin/
+        mv /tmp/pandoc/bin/* ~/local/bin/
 
         mkdir -p ~/local/share/man/man1
-        gunzip pandoc/share/man/man1/*
+        gunzip /tmp/pandoc/share/man/man1/*
         mv pandoc/share/man/man1/* ~/local/share/man/man1/
-
-        rm -r pandoc pandoc-2.*-linux.tar.gz
     fi
 fi
 
@@ -360,36 +371,35 @@ if [[ $node = 'True' ]]; then
     sudo apt-get install -y nodejs build-essential
 fi
 
-if [[ $google-chrome = 'True' ]]; then
-    sudo apt install -y libappindicator1
-    sudo apt -fy install
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo dpkg -i google-chrome-stable_current_amd64.deb
-    rm google-chrome-stable_current_amd64.deb
 fi
 
-if [[ $google-chromedriver = 'True' ]]; then
-    #statements
+if [[ $google-chrome = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y libappindicator1
+        sudo apt -fy install
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
+        sudo dpkg -i /tmp/chrome.deb
+    fi
 fi
 
 if [[ $google-earth = 'True' ]]; then
-    sudo apt install -y lsb-core
-    sudo apt -fy install
-    wget https://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb
-    sudo dpkg -i google-earth-stable_current_amd64.deb
-    rm google-earth-stable_current_amd64.deb
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y lsb-core
+        sudo apt -fy install
+        wget https://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb -O /tmp/google-earth.deb
+        sudo dpkg -i /tmp/google-earth.deb
+    fi
 fi
 
 if [[ $texlive = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y texlive-full
     else
-        wget https://mirrors.sorengard.com/ctan/systems/texlive/tlnet/install-tl-unx.tar.gz
-        tar -xvzf install-tl-unx.tar.gz
-        cd install-tl-*/
+        wget https://mirrors.sorengard.com/ctan/systems/texlive/tlnet/install-tl-unx.tar.gz -O /tmp/install-tl-unx.tar.gz
+        mkdir /tmp/texlive
+        tar -xvzf /tmp/install-tl-unx.tar.gz -C /tmp/texlive/ --strip-components 1
+        cd /tmp/texlive
         ./install-tl --profile=/tmp/dotfiles/tex/texlive.profile
-        cd ..
-        rm -rf install-tl-*
     fi
 fi
 
@@ -411,9 +421,10 @@ if [[ $spotify = 'True' ]]; then
 fi
 
 if [[ $gitkraken = 'True' ]]; then
-    wget https://release.gitkraken.com/linux/gitkraken-amd64.deb
-    sudo dpkg -i gitkraken-amd64.deb
-    rm gitkraken-amd64.deb
+    if [[ $sudo = 'True' ]]; then
+        wget https://release.gitkraken.com/linux/gitkraken-amd64.deb -O /tmp/gitkraken.deb
+        sudo dpkg -i /tmp/gitkraken.deb
+    fi
 fi
 
 if [[ $jekyll = 'True' ]]; then
@@ -424,12 +435,16 @@ if [[ $jekyll = 'True' ]]; then
 fi
 
 if [[ $virtualbox = 'True' ]]; then
-    wget http://download.virtualbox.org/virtualbox/5.2.2/virtualbox-5.2_5.2.2-119230~Ubuntu~xenial_amd64.deb
-    sudo dpkg -i virtualbox-5.*-Ubuntu-xenial_amd64.deb
-    rm virtualbox-5.*-Ubuntu-xenial_amd64.deb
-    # Download VirtualBox Extension Pack
-    wget http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
-    sudo adduser `whoami` vboxusers
+    if [[ $sudo = 'True' ]]; then
+        link="http://download.virtualbox.org/virtualbox/5.2.2/virtualbox-5.2_5.2.2-119230~Ubuntu~xenial_amd64.deb"
+        wget $link -O /tmp/virtualbox.deb
+        sudo dpkg -i /tmp/virtualbox.deb
+
+        # Download VirtualBox Extension Pack
+        link="http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack"
+        wget $link -O ~/VirtualBox_Extension_Pack.vbox-extpack
+        sudo adduser `whoami` vboxusers
+    fi
 fi
 
 ### Utilities
@@ -437,34 +452,28 @@ fi
 if [[ $ag = 'True' ]]; then
     # Dependencies:
     # PCRE
-    wget https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz
-    tar -xzvf pcre-8.41.tar.gz
-    cd pcre-8.41/
+    wget https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz -O /tmp/pcre.tar.gz
+    mkdir /tmp/pcre
+    tar -xzvf /tmp/pcre.tar.gz -C /tmp/pcre --strip-components 1
+    cd /tmp/pcre
     ./configure --prefix=$HOME/local
-    make
-    make install
-    cd ..
-    rm -rf pcre-8.41*
+    make && make install
 
     # LZMA
-    wget https://tukaani.org/xz/xz-5.2.3.tar.gz
-    tar -xzvf xz-5.2.3.tar.gz
-    cd xz-5.2.3/
+    wget https://tukaani.org/xz/xz-5.2.3.tar.gz -O /tmp/xz.tar.gz
+    mkdir /tmp/xz
+    tar -xzvf /tmp/xz.tar.gz -C /tmp/xz --strip-components 1
+    cd /tmp/xz
     ./configure --prefix=$HOME/local
-    make
-    make install
-    cd ..
-    rm -rf xz-5.2.3*
+    make && make install
 
-    wget https://github.com/ggreer/the_silver_searcher/archive/2.1.0.tar.gz
-    tar -xzvf 2.1.0.tar.gz
-    cd the_silver_searcher-2.1.0/
+    wget https://github.com/ggreer/the_silver_searcher/archive/2.1.0.tar.gz -O /tmp/the_silver_searcher.tar.gz
+    mkdir /tmp/the_silver_searcher
+    tar -xzvf /tmp/the_silver_searcher.tar.gz -C /tmp/the_silver_searcher --strip-components 1
+    cd /tmp/the_silver_searcher/
     ./autogen.sh
     ./configure --prefix=$HOME/local
-    make
-    make install
-    cd ..
-    rm -rf the_silver_searcher-2.1.0/ 2.1.0.tar.gz
+    make && make install
 fi
 
 if [[ $bash-kernel = 'True' ]]; then
@@ -475,9 +484,10 @@ if [[ $bash-kernel = 'True' ]]; then
 fi
 
 if [[ $caprine = 'True' ]]; then
-    wget `curl -s https://api.github.com/repos/sindresorhus/caprine/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4`
-    sudo dpkg -i caprine_*_amd64.deb
-    rm caprine_*_amd64.deb
+    if [[ $sudo = 'True' ]]; then
+        wget `curl -s https://api.github.com/repos/sindresorhus/caprine/releases/latest | grep 'browser_download_url' | grep 'deb' | cut -d '"' -f 4` -O /tmp/caprine.deb
+        sudo dpkg -i /tmp/caprine.deb
+    fi
 fi
 
 if [[ $chromedriver = 'True' ]]; then
@@ -486,10 +496,9 @@ if [[ $chromedriver = 'True' ]]; then
     fi
 
     latest="$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)"
-    wget https://chromedriver.storage.googleapis.com/${latest}/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
+    wget https://chromedriver.storage.googleapis.com/${latest}/chromedriver_linux64.zip -O /tmp/chromedriver.zip
+    unzip /tmp/chromedriver.zip
     mv chromedriver ~/local/bin/
-    rm chromedriver_linux64.zip
 fi
 
 
@@ -520,15 +529,16 @@ if [[ $dropbox = 'True' ]]; then
 fi
 
 if [[ $fd = 'True' ]]; then
-    wget `curl -s https://api.github.com/repos/sharkdp/fd/releases/latest | grep 'browser_download_url' | grep 'x86_64-unknown-linux-musl.tar.gz' | cut -d '"' -f 4`
-    tar -xzvf fd-v*-x86_64-unknown-linux-musl.tar.gz
-    cd fd-v*-x86_64-unknown-linux-musl/
+    link="$(curl -s https://api.github.com/repos/sharkdp/fd/releases/latest | grep 'browser_download_url' | grep 'x86_64-unknown-linux-musl.tar.gz' | cut -d '"' -f 4)"
+    wget $link -O /tmp/fd.tar.gz
+
+    mkdir /tmp/fd
+    tar -xzvf /tmp/fd.tar.gz -C /tmp/fd --strip-components 1
+
     mkdir -p ~/local/bin/
-    mv fd ~/local/bin/
+    mv /tmp/fd/fd ~/local/bin/
     mkdir -p ~/local/share/man/man1/
-    mv fd.1 ~/local/share/man/man1/
-    cd ..
-    rm -r fd-v*-x86_64-unknown-linux-musl*
+    mv /tmp/fd/fd.1 ~/local/share/man/man1/
 fi
 
 if [[ $filezilla = 'True' ]]; then
@@ -555,7 +565,6 @@ if [[ $flux ]]; then
 fi
 
 if [[ $fuzzy-file-finder = 'True' ]]; then
-    cd $HOME
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
 fi
@@ -565,12 +574,13 @@ if [[ $gtop = 'True' ]]; then
 fi
 
 if [[ $hub = 'True' ]]; then
-    wget `curl -s https://api.github.com/repos/github/hub/releases/latest | grep 'browser_download_url' | grep 'linux-amd64' | cut -d '"' -f 4`
-    tar -xzvf hub-linux-amd64*.tgz
-    cd hub-linux-amd64*
-    sudo ./install
-    cd ..
-    rm -rf hub-linux-amd64*.tgz hub-linux-amd64*
+    if [[ $sudo = 'True' ]]; then
+        link="$(curl -s https://api.github.com/repos/github/hub/releases/latest | grep 'browser_download_url' | grep 'linux-amd64' | cut -d '"' -f 4)"
+        wget $link -O /tmp/hub.tar.gz
+        mkdir /tmp/hub
+        tar -xzvf /tmp/hub.tar.gz -C /tmp/hub --strip-components 1
+        sudo /tmp/hub/install
+    fi
 fi
 
 if [[ $jq = 'True' ]]; then
@@ -609,11 +619,14 @@ if [[ $libmagick = 'True' ]]; then
 fi
 
 if [[ $micro = 'True' ]]; then
-    wget `curl -s https://api.github.com/repos/zyedidia/micro/releases/latest | grep 'browser_download_url' | grep 'linux64' | cut -d '"' -f 4`
-    tar -xzvf micro-*-linux64.tar.gz
+    link="$(curl -s https://api.github.com/repos/zyedidia/micro/releases/latest | grep 'browser_download_url' | grep 'linux64' | cut -d '"' -f 4)"
+    wget $link -O /tmp/micro.tar.gz
+    mkdir /tmp/micro
+    tar -xzvf /tmp/micro.tar.gz -C /tmp/micro --strip-components 1
+
     mkdir -p ~/local/bin
-    mv micro-*/micro ~/local/bin/
-    rm -rf micro-*/  micro-*-linux64.tar.gz
+    mv /tmp/micro/micro ~/local/bin/
+
     mkdir -p ~/.config/micro
     cp /tmp/dotfiles/micro/* ~/.config/micro/
 fi
@@ -648,31 +661,34 @@ if [[ $peek = 'True' ]]; then
 fi
 
 if [[ $pv = 'True' ]]; then
-    wget https://www.ivarch.com/programs/sources/pv-1.6.6.tar.gz
-    tar -xzvf pv-*.tar.gz
-    cd pv-*/
+    wget https://www.ivarch.com/programs/sources/pv-1.6.6.tar.gz -O /tmp/pv.tar.gz
+    mkdir /tmp/pv
+    tar -xzvf /tmp/pv.tar.gz -C /tmp/pv --strip-components 1
+    cd /tmp/pv
     ./configure --prefix=$HOME/local
     make && make install
-    cd ../
-    rm -rf pv-*/ pv-*.tar.gz
 fi
 
 if [[ $rclone = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y unzip
+    fi
+
     # Fetch and unpack
-    curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
-    unzip rclone-current-linux-amd64.zip
-    rm rclone-current-linux-amd64.zip
+    wget https://downloads.rclone.org/rclone-current-linux-amd64.zip -O /tmp/rclone.zip
+    cd /tmp
+    unzip rclone.zip
     cd rclone-*-linux-amd64
+
     # Copy binary file
-    sudo cp rclone /usr/bin/
-    sudo chown root:root /usr/bin/rclone
-    sudo chmod 755 /usr/bin/rclone
+    mkdir -p ~/local/bin/
+    cp rclone ~/local/bin/
+    chown $USER:$USER ~/local/bin/rclone
+    chmod 755 ~/local/bin/rclone
+
     # Install manpage
-    sudo mkdir -p /usr/local/share/man/man1
-    sudo cp rclone.1 /usr/local/share/man/man1/
-    sudo mandb
-    cd $HOME
-    rm -r rclone-*-linux-amd64
+    mkdir -p ~/local/share/man/man1
+    cp rclone.1 /usr/local/share/man/man1/
 fi
 
 if [[ $redshift = 'True' ]]; then
@@ -680,15 +696,17 @@ if [[ $redshift = 'True' ]]; then
 fi
 
 if [[ $ripgrep = 'True' ]]; then
-    wget `curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
-    tar -xvzf ripgrep-*-x86_64-unknown-linux-musl.tar.gz
-    cd ripgrep*/
+    link="$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4)"
+    wget $link -O /tmp/ripgrep.tar.gz
+    mkdir /tmp/ripgrep
+    tar -xvzf /tmp/ripgrep.tar.gz -C /tmp/ripgrep --strip-components 1
+    cd /tmp/ripgrep
+
     mkdir -p ~/local/bin/
     mv rg ~/local/bin/
+
     mkdir -p ~/local/share/man/man1/
     mv doc/rg.1 ~/local/share/man/man1/
-    cd ../
-    rm -r ripgrep-*-x86_64-unknown-linux-musl.tar.gz ripgrep-*-x86_64-unknown-linux-musl
 fi
 
 if [[ $shellcheck = 'True' ]]; then
@@ -696,13 +714,15 @@ if [[ $shellcheck = 'True' ]]; then
 fi
 
 if [[ $smem = 'True' ]]; then
-    wget https://selenic.com/repo/smem/archive/tip.tar.gz
-    tar -xzvf tip.tar.gz
+    wget https://selenic.com/repo/smem/archive/tip.tar.gz -O /tmp/smem.tar.gz
+    mkdir /tmp/smem
+    tar -xzvf /tmp/smem.tar.gz -C /tmp/smem --strip-components 1
+
     mkdir -p ~/local/bin/
-    mv smem*/smem ~/local/bin/
+    mv /tmp/smem/smem ~/local/bin/
+
     mkdir -p ~/local/man/man8/
-    mv smem*/smem.8 ~/local/man/man8/
-    rm -rf smem*/ tip.tar.gz
+    mv /tmp/smem/smem.8 ~/local/man/man8/
 fi
 
 if [[ $speed-test = 'True' ]]; then
@@ -720,24 +740,22 @@ if [[ $tmux = 'True' ]]; then
         mkdir -p ~/local/share
         echo 'CPPFLAGS=-I$HOME/local/include' > ~/local/share/config.site
         echo 'LDFLAGS=-L$HOME/local/lib' >> ~/local/share/config.site
-        wget `curl -s https://api.github.com/repos/libevent/libevent/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4` -O libevent.tar.gz
-        tar -xvzf libevent.tar.gz
-        mv libevent*stable/ libevent/
-        cd libevent
+        link="$(curl -s https://api.github.com/repos/libevent/libevent/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4)"
+        wget $link -O /tmp/libevent.tar.gz
+        mkdir /tmp/libevent
+        tar -xvzf /tmp/libevent.tar.gz -C /tmp/libevent --strip-components 1
+        cd /tmp/libevent
         ./configure --prefix=$HOME/local
         make && make install
-        cd $HOME
-        rm -rf libevent/ libevent.tar.gz
     fi
 
-    wget `curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4` -O tmux.tar.gz
-    tar -xvzf tmux.tar.gz
-    mv tmux*/ tmux/
-    cd tmux
+    link="$(curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4)"
+    wget $link -O /tmp/tmux.tar.gz
+    mkdir /tmp/tmux
+    tar -xvzf /tmp/tmux.tar.gz -C /tmp/tmux --strip-components 1
+    cd /tmp/tmux
     ./configure --prefix=$HOME/local
     make && make install
-    cd $HOME
-    rm -rf tmux/ tmux.tar.gz
 fi
 
 if [[ $tree = 'True' ]]; then
@@ -745,14 +763,12 @@ if [[ $tree = 'True' ]]; then
         sudo apt install -y tree
     else
         mkdir -p ~/local/
-        wget ftp://mama.indstate.edu/linux/tree/tree-1.7.0.tgz
-        tar -xzvf tree-*.tgz
-        mv tree*/ tree
-        cd tree
+        wget ftp://mama.indstate.edu/linux/tree/tree-1.7.0.tgz -O /tmp/tree.tgz
+        mkdir /tmp/tree
+        tar -xzvf /tmp/tree.tgz -C /tmp/tree --strip-components 1
+        cd /tmp/tree
         sed -i "s@prefix = /usr@prefix = $HOME/local@g" Makefile
         make && make install
-        cd $HOME
-        rm -rf tree/ tree*.tgz
     fi
 fi
 
@@ -765,33 +781,30 @@ if [[ $xclip = 'True' ]]; then
         sudo apt install -y xclip
     else
         # yum install -y automake autoconf git libXmu libXmu-devel libtool
-        git clone https://github.com/astrand/xclip.git
-        cd xclip
+        git clone https://github.com/astrand/xclip.git /tmp/xclip
+        cd /tmp/xclip
         autoreconf
         ./configure --prefix=$HOME/local/
         make && make install
         make install.man
-        cd ..
-        rm -rf xclip
     fi
 fi
 
 if [[ $xsel = 'True' ]]; then
-    git clone https://github.com/kfish/xsel
-    cd xsel/
+    git clone https://github.com/kfish/xsel /tmp/xsel
+    cd /tmp/xsel
     ./autogen.sh --prefix=$HOME/local
-    make
-    make install
-    cd ../
-    rm -rf xsel/
+    make && make install
 fi
 
 if [[ $xsv = 'True' ]]; then
-    wget `curl -s https://api.github.com/repos/BurntSushi/xsv/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4`
-    tar -xvzf xsv-*-x86_64-unknown-linux-musl.tar.gz
+    link="$(curl -s https://api.github.com/repos/BurntSushi/xsv/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4)"
+    wget $link -O /tmp/xsv.tar.gz
+    mkdir /tmp/xsv
+    tar -xvzf /tmp/xsv.tar.gz -C /tmp/xsv --strip-components 1
+
     mkdir -p ~/local/bin/
-    mv xsv ~/local/bin/
-    rm xsv-*-x86_64-unknown-linux-musl.tar.gz
+    mv /tmp/xsv/xsv ~/local/bin/
 fi
 
 if [[ $docker = 'True' ]]; then
