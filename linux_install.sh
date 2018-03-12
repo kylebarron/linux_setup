@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 cd /tmp
+export PATH=$HOME/local/bin:$PATH
 
 if [[ $sudo = 'True' ]]; then
     sudo apt update
@@ -98,6 +99,7 @@ if [[ $anaconda3 = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
     ~/local/anaconda3/bin/conda update --all
+    export PATH=$HOME/local/anaconda3/bin:$PATH
     rm ~/local/anaconda3/bin/curl
 fi
 
@@ -109,12 +111,14 @@ if [[ $anaconda2 = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
     ~/local/anaconda2/bin/conda update --all
+    export PATH=$HOME/local/anaconda2/bin:$PATH
 fi
 
 if [[ $miniconda3 = 'True' ]]; then
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda3.sh
     bash /tmp/miniconda3.sh -b -p ~/local/miniconda3
     ~/local/miniconda3/bin/conda update --all
+    export PATH=$HOME/local/miniconda3/bin:$PATH
 fi
 
 if [[ $jupyter-notebook-remote = 'True' ]]; then
