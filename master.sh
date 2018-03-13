@@ -16,7 +16,7 @@ zshrc='True'
 bashrc='True'
 privateinternetaccess_config='False'
 
-# Data Science
+# Programming Languages
 # Python
 anaconda3='True'
 anaconda2='False'
@@ -41,12 +41,16 @@ readstat='True'
 nodejs8='False'
 nodejs9='True'
 
+# Go
+go='True'
+
 # Jupyter
 jupyter-notebook-remote='True'
 irkernel='True'
 ijulia='True'
 bash-kernel='True'
 ijavascript='True'
+gophernotes='True'
 
 # Databases
 mysql='False'

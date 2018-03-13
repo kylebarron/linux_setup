@@ -266,6 +266,21 @@ if [[ $julia = 'True' ]]; then
     fi
 fi
 
+if [[ $go = 'True' ]]; then
+    wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz -O /tmp/go.tar.gz
+    mkdir ~/local/go
+    tar -xzvf /tmp/go.tar.gz -C ~/local/go --strip-components 1
+
+    export GOROOT=$HOME/local/go
+    export GOPATH=$HOME/github/go
+    export PATH=$PATH:$GOROOT/bin
+
+    if [[ $gophernotes = 'True' ]]; then
+        go get -u github.com/gopherdata/gophernotes
+        mkdir -p ~/.local/share/jupyter/kernels/gophernotes
+        cp $GOPATH/src/github.com/gopherdata/gophernotes/kernel/* ~/.local/share/jupyter/kernels/gophernotes
+    fi
+fi
 
 if [[ $mysql = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
