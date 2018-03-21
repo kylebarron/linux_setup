@@ -822,6 +822,20 @@ if [[ $libmagick = 'True' ]]; then
     fi
 fi
 
+if [[ $libpostal = 'True' ]]; then
+    git clone https://github.com/openvenues/libpostal /tmp/libpostal
+    cd /tmp/libpostal
+    ./bootstrap.sh
+
+    cat m4/libtool.m4 >> aclocal.m4
+    cat m4/ltoptions.m4 >> aclocal.m4
+    cat m4/ltversion.m4 >> aclocal.m4
+    cat m4/lt\~obsolete.m4 >> aclocal.m4
+
+    ./configure --prefix=$HOME/local --datadir=$HOME/local/data
+    make -j4 && make install
+fi
+
 if [[ $micro = 'True' ]]; then
     link="$(curl -s https://api.github.com/repos/zyedidia/micro/releases/latest | grep 'browser_download_url' | grep 'linux64' | cut -d '"' -f 4)"
     wget $link -O /tmp/micro.tar.gz
