@@ -917,7 +917,7 @@ if [[ $rclone = 'True' ]]; then
 
     # Install manpage
     mkdir -p ~/local/share/man/man1
-    cp rclone.1 /usr/local/share/man/man1/
+    cp rclone.1 ~/local/share/man/man1/
 fi
 
 if [[ $redshift = 'True' ]]; then
