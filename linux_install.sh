@@ -415,7 +415,7 @@ if [[ $pandoc = 'True' ]]; then
 
         mkdir -p ~/local/share/man/man1
         gunzip /tmp/pandoc/share/man/man1/*
-        mv pandoc/share/man/man1/* ~/local/share/man/man1/
+        mv /tmp/pandoc/share/man/man1/* ~/local/share/man/man1/
     fi
 fi
 
