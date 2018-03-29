@@ -1046,7 +1046,7 @@ if [[ $xsv = 'True' ]]; then
     link="$(curl -s https://api.github.com/repos/BurntSushi/xsv/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4)"
     wget $link -O /tmp/xsv.tar.gz
     mkdir /tmp/xsv
-    tar -xvzf /tmp/xsv.tar.gz -C /tmp/xsv --strip-components 1
+    tar -xvzf /tmp/xsv.tar.gz -C /tmp/xsv
 
     mkdir -p ~/local/bin/
     mv /tmp/xsv/xsv ~/local/bin/
