@@ -60,7 +60,7 @@ if [[ $oh-my-zsh = 'True' ]]; then
 fi
 
 if [[ $zsh-autosuggestions = 'True' ]]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
 if [[ $zsh-syntax-highlighting = 'True' ]]; then
