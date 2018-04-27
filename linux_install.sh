@@ -415,7 +415,7 @@ if [[ $pandoc = 'True' ]]; then
 
         mkdir -p ~/local/share/man/man1
         gunzip /tmp/pandoc/share/man/man1/*
-        mv pandoc/share/man/man1/* ~/local/share/man/man1/
+        mv /tmp/pandoc/share/man/man1/* ~/local/share/man/man1/
     fi
 fi
 
@@ -923,7 +923,7 @@ if [[ $rclone = 'True' ]]; then
 
     # Install manpage
     mkdir -p ~/local/share/man/man1
-    cp rclone.1 /usr/local/share/man/man1/
+    cp rclone.1 ~/local/share/man/man1/
 fi
 
 if [[ $redshift = 'True' ]]; then
@@ -1052,7 +1052,7 @@ if [[ $xsv = 'True' ]]; then
     link="$(curl -s https://api.github.com/repos/BurntSushi/xsv/releases/latest | grep 'browser_download_url' | grep 'x86_64' | grep 'linux' | cut -d '"' -f 4)"
     wget $link -O /tmp/xsv.tar.gz
     mkdir /tmp/xsv
-    tar -xvzf /tmp/xsv.tar.gz -C /tmp/xsv --strip-components 1
+    tar -xvzf /tmp/xsv.tar.gz -C /tmp/xsv
 
     mkdir -p ~/local/bin/
     mv /tmp/xsv/xsv ~/local/bin/
