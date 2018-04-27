@@ -435,7 +435,7 @@ if [[ $nodejs8 = 'True' ]]; then
         sudo apt-get install -y nodejs build-essential
     else
         latest="$(curl https://nodejs.org/dist/latest-v8.x/ | grep -P 'linux-x64\.tar\.gz' | sed -n 1p | cut -d '"' -f 2)"
-        wget https://nodejs.org/dist/latest-v8.x/${latest} -O /tmp/node-v8.tar.gz
+        wget https://nodejs.org/dist/latest-v8.x/$latest -O /tmp/node-v8.tar.gz
 
         mkdir /tmp/node
         tar -xzvf /tmp/node-v8.tar.gz -C /tmp/node/ --strip-components 1
@@ -468,7 +468,7 @@ elif [[ $nodejs9 = 'True' ]]; then
         sudo apt-get install -y nodejs build-essential
     else
         latest="$(curl https://nodejs.org/dist/latest-v9.x/ | grep -P 'linux-x64\.tar\.gz' | sed -n 1p | cut -d '"' -f 2)"
-        wget https://nodejs.org/dist/latest-v9.x/${latest} -O /tmp/node-v9.tar.gz
+        wget https://nodejs.org/dist/latest-v9.x/$latest -O /tmp/node-v9.tar.gz
 
         mkdir /tmp/node
         tar -xzvf /tmp/node-v9.tar.gz -C /tmp/node/ --strip-components 1
