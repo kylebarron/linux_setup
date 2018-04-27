@@ -673,6 +673,12 @@ if [[ $compizconfig = 'True' ]]; then
     fi
 fi
 
+if [[ $direnv = 'True' ]]; then
+    link="$(curl -s https://api.github.com/repos/direnv/direnv/releases/latest | grep 'browser_download_url' | grep 'linux-amd64' | cut -d '"' -f 4)"
+    wget $link -O ~/local/bin/direnv
+    chmod +x ~/local/bin/direnv
+fi
+
 if [[ $docker = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt update
