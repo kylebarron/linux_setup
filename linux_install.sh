@@ -646,7 +646,7 @@ fi
 
 if [[ $chromedriver = 'True' ]]; then
     latest="$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)"
-    wget https://chromedriver.storage.googleapis.com/${latest}/chromedriver_linux64.zip -O /tmp/chromedriver.zip
+    wget https://chromedriver.storage.googleapis.com/$latest/chromedriver_linux64.zip -O /tmp/chromedriver.zip
     unzip /tmp/chromedriver.zip
     mv chromedriver ~/local/bin/
 fi
