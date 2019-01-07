@@ -42,7 +42,7 @@ if [[ $zsh = 'True' ]]; then
     else
         wget -O /tmp/zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
         cd /tmp
-        mkdir zsh && tar -xvzf zsh.tar.gz -C zsh --strip-components 1
+        mkdir zsh && tar -xvJf zsh.tar.gz -C zsh --strip-components 1
         cd /tmp/zsh
 
         ./configure --prefix=$HOME/local/
