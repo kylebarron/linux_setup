@@ -7,26 +7,24 @@ sudo_not_installed=$'The following programs were not able to be installed withou
 if [[ $sudo = 'True' ]]; then
     sudo apt update -y
     sudo apt upgrade -y
-    sudo apt install -y build-essential autoconf unzip
+    sudo apt install -y build-essential autoconf unzip curl
 fi
 
-if [[ $sudo = 'True' ]]; then
-    sudo apt install -y curl
-fi
+if [[ $git = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo add-apt-repository ppa:git-core/ppa -y
+        sudo apt-get update -y
+        sudo apt-get install git -y
+    else
+        link="https://www.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz"
+        wget $link -O /tmp/git.tar.gz
+        mkdir /tmp/git
+        tar -xzvf /tmp/git.tar.gz -C /tmp/git --strip-components 1
 
-if [[ $sudo = 'True' ]]; then
-    sudo add-apt-repository ppa:git-core/ppa -y
-    sudo apt-get update -y
-    sudo apt-get install git -y
-else
-    link="https://www.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz"
-    wget $link -O /tmp/git.tar.gz
-    mkdir /tmp/git
-    tar -xzvf /tmp/git.tar.gz -C /tmp/git --strip-components 1
-
-    cd /tmp/git
-    ./configure --prefix=$HOME/local/
-    make && make install
+        cd /tmp/git
+        ./configure --prefix=$HOME/local/
+        make && make install
+    fi
 fi
 
 # Download my dotfiles
