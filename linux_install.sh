@@ -5,8 +5,8 @@ export PATH=$HOME/local/bin:$PATH
 sudo_not_installed=$'The following programs were not able to be installed without sudo:\n'
 
 if [[ $sudo = 'True' ]]; then
-    sudo apt update
-    sudo apt upgrade
+    sudo apt update -y
+    sudo apt upgrade -y
     sudo apt install -y build-essential autoconf unzip
 fi
 
@@ -16,7 +16,7 @@ fi
 
 if [[ $sudo = 'True' ]]; then
     sudo add-apt-repository ppa:git-core/ppa -y
-    sudo apt-get update
+    sudo apt-get update -y
     sudo apt-get install git -y
 else
     link="https://www.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz"
@@ -170,17 +170,6 @@ if [[ $r-tidyverse = 'True' ]]; then
         export R_LIBS_USER='~/local/R/site-library/'
     fi
     Rscript -e "install.packages('tidyverse', repos='https://cran.us.r-project.org')"
-fi
-
-if [[ $r-gis = 'True' ]]; then
-    if [[ $sudo = 'True' ]]; then
-        # sudo apt -fy install
-        # sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
-        # sudo add-apt-repository -y ppa:ubuntugis/ppa
-        # sudo apt update
-        # sudo apt upgrade -y gdal-bin libgdal-dev
-        # Rscript /tmp/dotfiles/install_packages.R
-    fi
 fi
 
 if [[ $r-all = 'True' ]]; then
