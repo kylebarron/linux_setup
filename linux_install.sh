@@ -5,12 +5,14 @@ export PATH=$HOME/local/bin:$PATH
 sudo_not_installed=$'The following programs were not able to be installed without sudo:\n'
 
 if [[ $sudo = 'True' ]]; then
+    echo "Apt update and bare basics\n\n"
     sudo apt update -y
     sudo apt upgrade -y
     sudo apt install -y build-essential autoconf unzip curl
 fi
 
 if [[ $git = 'True' ]]; then
+    echo "Installing Git\n\n"
     if [[ $sudo = 'True' ]]; then
         sudo add-apt-repository ppa:git-core/ppa -y
         sudo apt-get update -y
@@ -35,6 +37,7 @@ if [[ $gitconfig = 'True' ]]; then
 fi
 
 if [[ $zsh = 'True' ]]; then
+    echo "Installing Zsh\n\n"
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y zsh
     else
@@ -49,31 +52,32 @@ if [[ $zsh = 'True' ]]; then
 fi
 
 if [[ $oh_my_zsh = 'True' ]]; then
+    echo "Installing oh my zsh\n\n"
     git clone --depth=1 git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-
-    # Breaks the flow:
-    # if [[ $sudo = 'True' ]]; then
-    #     sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-    # fi
 fi
 
 if [[ $zsh_autosuggestions = 'True' ]]; then
+    echo "Installing zsh autosuggestions\n\n"
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
 if [[ $zsh_syntax_highlighting = 'True' ]]; then
+    echo "Installing zsh syntax highlighting\n\n"
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
 if [[ $materialshell = 'True' ]]; then
+    echo "Installing zsh materialshell\n\n"
     cp /tmp/dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
 fi
 
 if [[ $zshrc = 'True' ]]; then
+    echo "Installing zshrc\n\n"
     cp /tmp/dotfiles/zsh/zshrc_desktop ~/.zshrc
 fi
 
 if [[ $bashrc = 'True' ]]; then
+    echo "Installing bashrc\n\n"
     cp /tmp/dotfiles/bash/bashrc_desktop ~/.bashrc
     if [[ $sudo != 'True' ]]; then
         cat 'exec $HOME/bin/zsh -l' >> ~/.bashrc
@@ -103,6 +107,7 @@ if [[ $ssh_server = 'True' ]]; then
 fi
 
 if [[ $anaconda3 = 'True' ]]; then
+    echo "Installing anaconda\n\n"
     latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda3-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
     wget 'https://repo.continuum.io/archive/'$latest -O /tmp/anaconda3.sh
     bash /tmp/anaconda3.sh -b -p ~/local/anaconda3
@@ -113,21 +118,11 @@ if [[ $anaconda3 = 'True' ]]; then
     export PATH=$HOME/local/anaconda3/bin:$PATH
     rm ~/local/anaconda3/bin/curl
 elif [[ $miniconda3 = 'True' ]]; then
+    echo "Installing miniconda\n\n"
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda3.sh
     bash /tmp/miniconda3.sh -b -p ~/local/miniconda3
     ~/local/miniconda3/bin/conda update --all
     export PATH=$HOME/local/miniconda3/bin:$PATH
-fi
-
-if [[ $anaconda2 = 'True' ]]; then
-    latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda2-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"
-    wget 'https://repo.continuum.io/archive/'$latest -O /tmp/anaconda2.sh
-    bash /tmp/anaconda2.sh -b -p ~/local/anaconda2
-    if [[ $sudo = 'True' ]]; then
-        sudo apt install -y python3-dev python3-pip
-    fi
-    ~/local/anaconda2/bin/conda update --all
-    export PATH=$HOME/local/anaconda2/bin:$PATH
 fi
 
 if [[ $jupyter_notebook_remote = 'True' ]]; then
@@ -1036,6 +1031,7 @@ if [[ $xclip = 'True' ]]; then
 fi
 
 if [[ $xsel = 'True' ]]; then
+    sudo apt install libtool libx11-dev -y
     git clone https://github.com/kfish/xsel /tmp/xsel
     cd /tmp/xsel
     ./autogen.sh --prefix=$HOME/local
