@@ -988,7 +988,7 @@ fi
 if [[ $oh_my_tmux = 'True' ]]; then
     cd
     git clone https://github.com/gpakosz/.tmux.git
-    ln -s -f .tmux/.tmux.conf ~/.tmux
+    ln -s -f .tmux/.tmux.conf
     cp .tmux/.tmux.conf.local .
 
     cp /tmp/dotfiles/tmux/tmux.conf.local ~/.tmux.conf.local
