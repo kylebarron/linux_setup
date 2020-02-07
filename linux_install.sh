@@ -737,17 +737,6 @@ if [[ $flat-plat = 'True' ]]; then
     fi
 fi
 
-if [[ $flux ]]; then
-    # # Install f.lux
-    # sudo apt install -y git python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
-    # git clone "https://github.com/xflux-gui/xflux-gui.git"
-    # cd xflux-gui
-    # python download-xflux.py
-    # sudo python setup.py install
-    # cd ../
-    # rm -rf xflux-gui
-fi
-
 if [[ $fuzzy-file-finder = 'True' ]]; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
