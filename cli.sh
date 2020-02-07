@@ -4,10 +4,10 @@ sudo='True'
 
 if [[ $1 == 'zsh' ]]; then
     zsh='True'
-    oh-my-zsh='True'
+    oh_my_zsh='True'
     materialshell='True'
-    zsh-autosuggestions='True'
-    zsh-syntax-highlighting='True'
+    zsh_autosuggestions='True'
+    zsh_syntax_highlighting='True'
     zshrc='True'
 elif [[ $1 == 'anaconda' ]]; then
     anaconda3='True'
@@ -20,7 +20,8 @@ elif [[ $1 == 'utilities' ]]; then
     ag='True'
     ripgrep='True'
     tmux='True'
-    fuzzy-file-finder='True'
+    oh_my_tmux='True'
+    fuzzy_file_finder='True'
     xclip='True'
     xsel='True'
     yapf='True'
@@ -32,8 +33,8 @@ elif [[ $1 == 'docker' ]]; then
     docker='True'
     docker_compose='True'
 elif [[ $1 == 'jupyter' ]]; then
-    jupyter-notebook-remote='True'
-    bash-kernel='True'
+    jupyter_notebook_remote='True'
+    bash_kernel='True'
     ijavascript='True'
 fi
 

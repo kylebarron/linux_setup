@@ -48,7 +48,7 @@ if [[ $zsh = 'True' ]]; then
     fi
 fi
 
-if [[ $oh-my-zsh = 'True' ]]; then
+if [[ $oh_my_zsh = 'True' ]]; then
     git clone --depth=1 git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
     # Breaks the flow:
@@ -57,11 +57,11 @@ if [[ $oh-my-zsh = 'True' ]]; then
     # fi
 fi
 
-if [[ $zsh-autosuggestions = 'True' ]]; then
+if [[ $zsh_autosuggestions = 'True' ]]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
-if [[ $zsh-syntax-highlighting = 'True' ]]; then
+if [[ $zsh_syntax_highlighting = 'True' ]]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
@@ -80,7 +80,7 @@ if [[ $bashrc = 'True' ]]; then
     fi
 fi
 
-if [[ $ssh-server = 'True' ]]; then
+if [[ $ssh_server = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         # Install SSH Server
         sudo apt install -y openssh-server
@@ -130,7 +130,7 @@ if [[ $anaconda2 = 'True' ]]; then
     export PATH=$HOME/local/anaconda2/bin:$PATH
 fi
 
-if [[ $jupyter-notebook-remote = 'True' ]]; then
+if [[ $jupyter_notebook_remote = 'True' ]]; then
     jupyter notebook --generate-config
     sed -i "s@#c.NotebookApp.port = 8888@c.NotebookApp.port = 8888@g" ~/.jupyter/jupyter_notebook_config.py
     sed -i "s@#c.NotebookApp.open_browser = True@c.NotebookApp.open_browser = False@g" ~/.jupyter/jupyter_notebook_config.py
@@ -159,7 +159,7 @@ if [[ $r = 'True' ]]; then
     fi
 fi
 
-if [[ $r-tidyverse = 'True' ]]; then
+if [[ $r_tidyverse = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo chown -R $USER:$USER /usr/local/lib/R/site-library
         sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev
@@ -170,7 +170,7 @@ if [[ $r-tidyverse = 'True' ]]; then
     Rscript -e "install.packages('tidyverse', repos='https://cran.us.r-project.org')"
 fi
 
-if [[ $r-all = 'True' ]]; then
+if [[ $r_all = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt -fy install
         sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev gdal-bin libgdal-dev python-software-properties
@@ -181,7 +181,7 @@ if [[ $r-all = 'True' ]]; then
     fi
 fi
 
-if [[ $rstudio-desktop = 'True' ]]; then
+if [[ $rstudio_desktop = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         latest="$(curl https://www.rstudio.com/products/rstudio/download/ | grep 'href' | grep -i -E 'rstudio-xenial-1\.[[:digit:]]+\.[[:digit:]]+-amd64\.deb' | cut -d '"' -f 2)"
         if [[ -n "$latest" ]]; then
@@ -201,7 +201,7 @@ if [[ $rstudio-desktop = 'True' ]]; then
     fi
 fi
 
-if [[ $rstudio-server = 'True' ]]; then
+if [[ $rstudio_server = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         latest="$(curl https://www.rstudio.com/products/rstudio/download-server/ | grep '$ wget' | grep 'amd64' | grep -o -P 'http.+?(?=</code)')"
         if [[ -n "$latest" ]]; then
@@ -362,13 +362,13 @@ if [[ $atom = 'True' ]]; then
         sudo_not_installed+=$'- Atom\n'
     fi
 
-    if [[ $atom-packages = 'True' ]]; then
+    if [[ $atom_packages = 'True' ]]; then
         apm install --packages-file "/tmp/dotfiles/atom/desktop_package_list.txt"
         apm update
     fi
 fi
 
-if [[ $fira-code = 'True' ]]; then
+if [[ $fira_code = 'True' ]]; then
     mkdir -p ~/.local/share/fonts
     for type in Bold Light Medium Regular Retina; do
         wget -O ~/.local/share/fonts/FiraCode-${type}.ttf \
@@ -377,7 +377,7 @@ if [[ $fira-code = 'True' ]]; then
     fc-cache -f
 fi
 
-if [[ $sublime-text = 'True' ]]; then
+if [[ $sublime_text = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
         echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
@@ -406,7 +406,7 @@ if [[ $pandoc = 'True' ]]; then
     fi
 fi
 
-if [[ $autokey-gtk = 'True' ]]; then
+if [[ $autokey_gtk = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo add-apt-repository ppa:troxor/autokey
         sudo apt update
@@ -484,7 +484,7 @@ elif [[ $nodejs9 = 'True' ]]; then
     fi
 fi
 
-if [[ $google-chrome = 'True' ]]; then
+if [[ $google_chrome = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y libappindicator1
         sudo apt -fy install
@@ -495,7 +495,7 @@ if [[ $google-chrome = 'True' ]]; then
     fi
 fi
 
-if [[ $google-earth = 'True' ]]; then
+if [[ $google_earth = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y lsb-core
         sudo apt -fy install
@@ -611,7 +611,7 @@ if [[ $ag = 'True' ]]; then
     make && make install
 fi
 
-if [[ $bash-kernel = 'True' ]]; then
+if [[ $bash_kernel = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         pip install bash_kernel
         sudo mkdir /usr/local/share/jupyter
@@ -725,7 +725,7 @@ if [[ $filezilla = 'True' ]]; then
     fi
 fi
 
-if [[ $flat-plat = 'True' ]]; then
+if [[ $flat_plat = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         # Flat plat design
         sudo apt install -y gnome-themes-standard gnome-tweak-tool pixmap
@@ -737,7 +737,7 @@ if [[ $flat-plat = 'True' ]]; then
     fi
 fi
 
-if [[ $fuzzy-file-finder = 'True' ]]; then
+if [[ $fuzzy_file_finder = 'True' ]]; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
 fi
@@ -782,7 +782,7 @@ if [[ $keybase = 'True' ]]; then
     fi
 fi
 
-if [[ $lastpass-cli = 'True' ]]; then
+if [[ $lastpass_cli = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         ## Lastpass CLI
         sudo apt install -y openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
@@ -949,7 +949,7 @@ if [[ $smem = 'True' ]]; then
     mv /tmp/smem/smem.8 ~/local/man/man8/
 fi
 
-if [[ $speed-test = 'True' ]]; then
+if [[ $speed_test = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo npm install -g speed-test
     else
