@@ -996,13 +996,17 @@ if [[ $tmux = 'True' ]]; then
         make && make install
     fi
 
-    link="$(curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4)"
-    wget $link -O /tmp/tmux.tar.gz
-    mkdir /tmp/tmux
-    tar -xvzf /tmp/tmux.tar.gz -C /tmp/tmux --strip-components 1
-    cd /tmp/tmux
-    ./configure --prefix=$HOME/local
-    make && make install
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y tmux
+    else
+        link="$(curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep 'browser_download_url' | grep -P '.tar.gz(?!\.asc)' | cut -d '"' -f 4)"
+        wget $link -O /tmp/tmux.tar.gz
+        mkdir /tmp/tmux
+        tar -xvzf /tmp/tmux.tar.gz -C /tmp/tmux --strip-components 1
+        cd /tmp/tmux
+        ./configure --prefix=$HOME/local
+        make && make install
+    fi
 fi
 
 if [[ $tree = 'True' ]]; then

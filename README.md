@@ -13,3 +13,22 @@ command -v <program>
 ```
 where `<program>` is the program you want to know is installed. If installed, it'll print the path to the program.
 
+### Download
+
+```bash
+git clone https://github.com/kylebarron/linux_setup/
+cd linux_setup
+```
+
+### Zsh
+
+```bash
+export sudo='True'
+export zsh='True'
+export oh-my-zsh='True'
+export zsh-autosuggestions='True'
+export zsh-syntax-highlighting='True'
+export materialshell='True'
+export zshrc='True'
+bash ./linux_install.sh
+```
