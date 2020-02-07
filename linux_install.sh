@@ -114,14 +114,12 @@ if [[ $anaconda3 = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         sudo apt install -y python3-dev python3-pip
     fi
-    ~/local/anaconda3/bin/conda update --all
     export PATH=$HOME/local/anaconda3/bin:$PATH
     rm ~/local/anaconda3/bin/curl
 elif [[ $miniconda3 = 'True' ]]; then
     echo "Installing miniconda\n\n"
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda3.sh
     bash /tmp/miniconda3.sh -b -p ~/local/miniconda3
-    ~/local/miniconda3/bin/conda update --all
     export PATH=$HOME/local/miniconda3/bin:$PATH
 fi
 
@@ -1081,10 +1079,6 @@ if [[ $darktable = 'True' ]]; then
         sudo_not_installed+=$'- Darktable\n'
     fi
 fi
-
-# if [[ $digikam = 'True' ]]; then
-#     wget https://download.kde.org/stable/digikam/digikam-5.7.0-01-x86-64.appimage -O digikam.appimage
-# fi
 
 rm -rf /tmp/*
 
