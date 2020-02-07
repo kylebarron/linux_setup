@@ -699,6 +699,11 @@ if [[ $docker = 'True' ]]; then
     fi
 fi
 
+if [[ $docker_compose = 'True' ]]; then
+    sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+fi
+
 if [[ $dropbox = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
         # MANUAL INSTALLS:
@@ -1007,6 +1012,15 @@ if [[ $tmux = 'True' ]]; then
         ./configure --prefix=$HOME/local
         make && make install
     fi
+fi
+
+if [[ $oh_my_tmux = 'True' ]]; then
+    cd
+    git clone https://github.com/gpakosz/.tmux.git
+    ln -s -f .tmux/.tmux.conf ~/.tmux
+    cp .tmux/.tmux.conf.local .
+
+    cp /tmp/dotfiles/tmux/tmux.conf.local ~/.tmux.conf.local
 fi
 
 if [[ $tree = 'True' ]]; then

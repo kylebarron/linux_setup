@@ -20,15 +20,12 @@ git clone https://github.com/kylebarron/linux_setup/
 cd linux_setup
 ```
 
-### Zsh
-
+Options:
 ```bash
-export sudo='True'
-export zsh='True'
-export oh-my-zsh='True'
-export zsh-autosuggestions='True'
-export zsh-syntax-highlighting='True'
-export materialshell='True'
-export zshrc='True'
-bash ./linux_install.sh
+bash ./cli.sh zsh
+bash ./cli.sh anaconda
+bash ./cli.sh miniconda
+bash ./cli.sh utilities
+bash ./cli.sh docker
+bash ./cli.sh jupyter
 ```
