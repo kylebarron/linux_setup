@@ -1082,4 +1082,7 @@ fi
 
 rm -rf /tmp/*
 
-echo "$sudo_not_installed"
+if [[ $sudo != 'True' ]]; then
+    echo "$sudo_not_installed"
+fi
+
