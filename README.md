@@ -23,7 +23,6 @@ cd linux_setup
 Options:
 ```bash
 bash ./cli.sh zsh
-bash ./cli.sh anaconda
 bash ./cli.sh miniconda
 bash ./cli.sh utilities
 bash ./cli.sh docker
