@@ -21,7 +21,8 @@ elif [[ $1 == 'utilities' ]]; then
     ripgrep='True'
     tmux='True'
     oh_my_tmux='True'
-    fuzzy_file_finder='True'
+    # Comment out because rarely used and prevents non-interactive install
+    # fuzzy_file_finder='True'
     xclip='True'
     xsel='True'
     yapf='True'
