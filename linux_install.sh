@@ -106,6 +106,34 @@ if [[ $ssh_server = 'True' ]]; then
     fi
 fi
 
+if [[ $pyenv = 'True' ]]; then
+    echo "Installing pyenv\n\n"
+    # Install build dependencies
+    # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+    sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
+        libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+        libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
+    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+    # From https://github.com/pyenv/pyenv/blob/1e79a5222bd00b95c11155f33646cd6b477c12f3/README.md
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+    echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
+
+    echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+
+    zsh -c "pyenv install 3.8.12 && pyenv global 3.8.12"
+fi
+
+if [[ $poetry = 'True' ]]; then
+    echo "Installing Poetry\n\n"
+
+    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+
+    echo 'export PATH="$HOME/.poetry/bin:$PATH"' >> ~/.zshrc
+fi
+
 if [[ $anaconda3 = 'True' ]]; then
     echo "Installing anaconda\n\n"
     latest="$(curl https://repo.continuum.io/archive/ | grep -P 'Anaconda3-\d\.\d\.\d-Linux-x86_64' | sed -n 1p | cut -d '"' -f 2)"

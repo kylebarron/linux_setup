@@ -9,6 +9,9 @@ if [[ $1 == 'zsh' ]]; then
     zsh_autosuggestions='True'
     zsh_syntax_highlighting='True'
     zshrc='True'
+elif [[ $1 == 'python' ]]; then
+    pyenv='True'
+    poetry='True'
 elif [[ $1 == 'anaconda' ]]; then
     anaconda3='True'
 elif [[ $1 == 'miniconda' ]]; then
