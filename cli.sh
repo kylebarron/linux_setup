@@ -11,6 +11,7 @@ elementIn () {
 }
 
 if elementIn "zsh" "$@"; then
+    echo "Setting zsh on"
     zsh='True'
     oh_my_zsh='True'
     materialshell='True'
@@ -18,13 +19,17 @@ if elementIn "zsh" "$@"; then
     zsh_syntax_highlighting='True'
     zshrc='True'
 elif elementIn "python" "$@"; then
+    echo "Setting python on"
     pyenv='True'
     poetry='True'
 elif elementIn "anaconda" "$@"; then
+    echo "Setting anaconda on"
     anaconda3='True'
 elif elementIn "miniconda" "$@"; then
+    echo "Setting miniconda on"
     miniconda3='True'
 elif elementIn "utilities" "$@"; then
+    echo "Setting utilities on"
     micro='True'
     fd='True'
     jq='True'
@@ -41,9 +46,11 @@ elif elementIn "utilities" "$@"; then
     gtop='True'
     shellcheck='True'
 elif elementIn 'docker' "$@"; then
+    echo "Setting docker on"
     docker='True'
     docker_compose='True'
 elif elementIn 'jupyter' "$@"; then
+    echo "Setting jupyter on"
     jupyter_notebook_remote='True'
     bash_kernel='True'
     ijavascript='True'
