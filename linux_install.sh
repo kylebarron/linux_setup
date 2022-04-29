@@ -1050,8 +1050,6 @@ if [[ $darktable = 'True' ]]; then
     fi
 fi
 
-rm -rf /tmp/*
-
 if [[ $sudo != 'True' ]]; then
     echo "$sudo_not_installed"
 fi
