@@ -2,21 +2,29 @@
 
 sudo='True'
 
-if [[ $1 == 'zsh' ]]; then
+# https://stackoverflow.com/a/8574392
+elementIn () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
+if elementIn "zsh" "$@"; then
     zsh='True'
     oh_my_zsh='True'
     materialshell='True'
     zsh_autosuggestions='True'
     zsh_syntax_highlighting='True'
     zshrc='True'
-elif [[ $1 == 'python' ]]; then
+elif elementIn "python" "$@"; then
     pyenv='True'
     poetry='True'
-elif [[ $1 == 'anaconda' ]]; then
+elif elementIn "anaconda" "$@"; then
     anaconda3='True'
-elif [[ $1 == 'miniconda' ]]; then
+elif elementIn "miniconda" "$@"; then
     miniconda3='True'
-elif [[ $1 == 'utilities' ]]; then
+elif elementIn "utilities" "$@"; then
     micro='True'
     fd='True'
     jq='True'
@@ -32,10 +40,10 @@ elif [[ $1 == 'utilities' ]]; then
     tree='True'
     gtop='True'
     shellcheck='True'
-elif [[ $1 == 'docker' ]]; then
+elif elementIn 'docker' "$@"; then
     docker='True'
     docker_compose='True'
-elif [[ $1 == 'jupyter' ]]; then
+elif elementIn 'jupyter' "$@"; then
     jupyter_notebook_remote='True'
     bash_kernel='True'
     ijavascript='True'

@@ -22,9 +22,8 @@ cd linux_setup
 
 Options:
 ```bash
-bash ./cli.sh zsh
+bash ./cli.sh zsh python utilities docker
 bash ./cli.sh python
-# bash ./cli.sh miniconda
 bash ./cli.sh utilities
 bash ./cli.sh docker
 bash ./cli.sh jupyter
