@@ -18,17 +18,21 @@ if elementIn "zsh" "$@"; then
     zsh_autosuggestions='True'
     zsh_syntax_highlighting='True'
     zshrc='True'
-elif elementIn "python" "$@"; then
+fi
+if elementIn "python" "$@"; then
     echo "Setting python on"
     pyenv='True'
     poetry='True'
-elif elementIn "anaconda" "$@"; then
+fi
+if elementIn "anaconda" "$@"; then
     echo "Setting anaconda on"
     anaconda3='True'
-elif elementIn "miniconda" "$@"; then
+fi
+if elementIn "miniconda" "$@"; then
     echo "Setting miniconda on"
     miniconda3='True'
-elif elementIn "utilities" "$@"; then
+fi
+if elementIn "utilities" "$@"; then
     echo "Setting utilities on"
     micro='True'
     fd='True'
@@ -45,11 +49,13 @@ elif elementIn "utilities" "$@"; then
     tree='True'
     gtop='True'
     shellcheck='True'
-elif elementIn 'docker' "$@"; then
+fi
+if elementIn 'docker' "$@"; then
     echo "Setting docker on"
     docker='True'
     docker_compose='True'
-elif elementIn 'jupyter' "$@"; then
+fi
+if elementIn 'jupyter' "$@"; then
     echo "Setting jupyter on"
     jupyter_notebook_remote='True'
     bash_kernel='True'
