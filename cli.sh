@@ -28,7 +28,6 @@ elif [[ $1 == 'utilities' ]]; then
     # fuzzy_file_finder='True'
     xclip='True'
     xsel='True'
-    yapf='True'
     smem='True'
     tree='True'
     gtop='True'

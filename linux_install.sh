@@ -2,112 +2,63 @@
 
 cd /tmp
 export PATH=$HOME/local/bin:$PATH
-sudo_not_installed=$'The following programs were not able to be installed without sudo:\n'
 
-if [[ $sudo = 'True' ]]; then
-    echo "Apt update and bare basics\n\n"
-    sudo apt update -y
-    sudo apt upgrade -y
-    sudo apt install -y build-essential autoconf unzip curl
-fi
+printf "Apt update and bare basics\n\n"
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install -y build-essential autoconf unzip curl
 
 if [[ $git = 'True' ]]; then
-    echo "Installing Git\n\n"
-    if [[ $sudo = 'True' ]]; then
-        sudo add-apt-repository ppa:git-core/ppa -y
-        sudo apt-get update -y
-        sudo apt-get install git -y
-    else
-        link="https://www.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz"
-        wget $link -O /tmp/git.tar.gz
-        mkdir /tmp/git
-        tar -xzvf /tmp/git.tar.gz -C /tmp/git --strip-components 1
-
-        cd /tmp/git
-        ./configure --prefix=$HOME/local/
-        make && make install
-    fi
+    printf "Installing Git\n\n"
+    sudo add-apt-repository ppa:git-core/ppa -y
+    sudo apt-get update -y
+    sudo apt-get install git -y
 fi
 
 # Download my dotfiles
 git clone https://github.com/kylebarron/dotfiles.git /tmp/dotfiles
 
 if [[ $gitconfig = 'True' ]]; then
-    cp /tmp/dotfiles/git/gitconfig_desktop ~/.gitconfig
+    cp /tmp/dotfiles/git/gitconfig ~/.gitconfig
 fi
 
 if [[ $zsh = 'True' ]]; then
-    echo "Installing Zsh\n\n"
-    if [[ $sudo = 'True' ]]; then
-        sudo apt install -y zsh
-    else
-        wget -O /tmp/zsh.tar.gz https://sourceforge.net/projects/zsh/files/latest/download
-        cd /tmp
-        mkdir zsh && tar -xvJf zsh.tar.gz -C zsh --strip-components 1
-        cd /tmp/zsh
-
-        ./configure --prefix=$HOME/local/
-        make && make install
-    fi
+    printf "Installing Zsh\n\n"
+    sudo apt install -y zsh
 fi
 
 if [[ $oh_my_zsh = 'True' ]]; then
-    echo "Installing oh my zsh\n\n"
-    git clone --depth=1 git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    printf "Installing oh my zsh\n\n"
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
 if [[ $zsh_autosuggestions = 'True' ]]; then
-    echo "Installing zsh autosuggestions\n\n"
+    printf "Installing zsh autosuggestions\n\n"
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
 if [[ $zsh_syntax_highlighting = 'True' ]]; then
-    echo "Installing zsh syntax highlighting\n\n"
+    printf "Installing zsh syntax highlighting\n\n"
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
 if [[ $materialshell = 'True' ]]; then
-    echo "Installing zsh materialshell\n\n"
+    printf "Installing zsh materialshell\n\n"
     cp /tmp/dotfiles/zsh/materialshell.zsh-theme ~/.oh-my-zsh/themes/
 fi
 
 if [[ $zshrc = 'True' ]]; then
-    echo "Installing zshrc\n\n"
+    printf "Installing zshrc\n\n"
     cp /tmp/dotfiles/zsh/zshrc_desktop ~/.zshrc
 fi
 
 if [[ $bashrc = 'True' ]]; then
-    echo "Installing bashrc\n\n"
+    printf "Installing bashrc\n\n"
     cp /tmp/dotfiles/bash/bashrc_desktop ~/.bashrc
-    if [[ $sudo != 'True' ]]; then
-        cat 'exec $HOME/bin/zsh -l' >> ~/.bashrc
-    fi
-fi
-
-if [[ $ssh_server = 'True' ]]; then
-    if [[ $sudo = 'True' ]]; then
-        # Install SSH Server
-        sudo apt install -y openssh-server
-
-        # SSH Server for encrypted home folder
-        sudo mkdir -p /etc/ssh/$(whoami)
-        sudo chmod 755 /etc/ssh/$(whoami)
-        #sudo mv ~/.ssh/authorized_keys /etc/ssh/$(whoami)/authorized_keys
-        sudo touch /etc/ssh/$(whoami)/authorized_keys
-        sudo chmod 644 /etc/ssh/$(whoami)/authorized_keys
-        echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDqIiTcGgYb0DHwLG+WQXgt7t+pBFYdyO494VFFsv5KFa1g+pqdcvZyPoyVqV2ZT2h5w055gKau+GLbtavyK74GRDJFYBNomuEIXp9RBWTt6/qzpnMKTvmMAKgLTujIrUjtYbVhncUB7mV438FecbnNBQW61jqCkEQQSwUlli94RD3C+qOjnLIe9vrIlvcYbZMZUfCmL7VUQByJlkvfhpiteRzXfpXamuCgQAn8GiE9c9S1EFkqcT/7ECLkJNL8ToNVDU7DieQP1ZIIPy6ktG3EOYAcmJwVQ3kSYJcQqL8cy4PVHrZuLyKefKrqeRaSFs1uA83DpjOCxfSBmmqBMR9kLAdG+rkA+a8/Fjn6BPyab6Kr0Uxy0LJfHGgUGA5hKwZExfLzioSIXH9veHUETOcUhG4fmhCWuRGD2ZW2231R/s9ZVjZrdkzCoIrrcnhN4LrnQb29aP15V3RH6hJhWPG8e+paOfIvW8zQaQoqPf9exGhV+CaPPh3OqLKPU1qSZDjyShb4GxKqCJz3ScKIf+bAi+8T/rvQVsw3gLzc+kD9yLdbX30HIUI5sQdyYZAKVNfpuWgIe9e7Q1DVZP3IeBot5GZyTUave7FpTum4TPxc3vUn5ktz7HRMt03Ff64hV3b5RMJbV8s2zaoMUyid79wNUGU2AZAxOWjnVZuaIzPtXw== kyle@mac.local" | sudo tee --append /etc/ssh/$(whoami)/authorized_keys
-        sudo sed -i 's@#AuthorizedKeysFile@AuthorizedKeysFile@g' /etc/ssh/sshd_config
-        sudo sed -i 's@%h/.ssh/authorized_keys@/etc/ssh/%u/authorized_keys@g' /etc/ssh/sshd_config
-        sudo sed -i 's@#PasswordAuthentication yes@PasswordAuthentication no@g' /etc/ssh/sshd_config
-        sudo sed -i 's@LogLevel INFO@LogLevel VERBOSE@g' /etc/ssh/sshd_config
-        sudo service ssh restart
-    else
-        sudo_not_installed+=$'- openssh-server\n'
-    fi
 fi
 
 if [[ $pyenv = 'True' ]]; then
-    echo "Installing pyenv\n\n"
+    printf "Installing pyenv\n\n"
     # Install build dependencies
     # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
     sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
@@ -123,15 +74,16 @@ if [[ $pyenv = 'True' ]]; then
 
     echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 
-    zsh -c "pyenv install 3.8.12 && pyenv global 3.8.12"
+    zsh -c "$HOME/.pyenv/bin/pyenv install 3.8.12 && $HOME/.pyenv/bin/pyenv global 3.8.12"
 fi
 
 if [[ $poetry = 'True' ]]; then
-    echo "Installing Poetry\n\n"
+    printf "Installing Poetry\n\n"
 
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+    python_path="$("$HOME"/.pyenv/bin/pyenv which python)"
+    curl -sSL https://install.python-poetry.org | $python_path -
 
-    echo 'export PATH="$HOME/.poetry/bin:$PATH"' >> ~/.zshrc
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 fi
 
 if [[ $anaconda3 = 'True' ]]; then
@@ -155,16 +107,6 @@ if [[ $jupyter_notebook_remote = 'True' ]]; then
     jupyter notebook --generate-config
     sed -i "s@#c.NotebookApp.port = 8888@c.NotebookApp.port = 8888@g" ~/.jupyter/jupyter_notebook_config.py
     sed -i "s@#c.NotebookApp.open_browser = True@c.NotebookApp.open_browser = False@g" ~/.jupyter/jupyter_notebook_config.py
-fi
-
-if [[ $mkdocs = 'True' ]]; then
-    pip install mkdocs mkdocs-material
-fi
-
-if [[ $yapf = 'True' ]]; then
-    pip install yapf
-    mkdir -p ~/.config/yapf/
-    cp /tmp/dotfiles/yapf/yapf.py ~/.config/yapf/style
 fi
 
 if [[ $r = 'True' ]]; then
