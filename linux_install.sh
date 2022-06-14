@@ -454,7 +454,13 @@ fi
 
 if [[ $bat = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
-        sudo apt install bat
+        sudo apt install -y bat
+    fi
+fi
+
+if [[ $awscli = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install -y awscli
     fi
 fi
 

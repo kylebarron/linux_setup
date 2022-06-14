@@ -53,6 +53,7 @@ if elementIn "utilities" "$@"; then
     gtop='True'
     shellcheck='True'
     bat='True'
+    awscli='True'
 fi
 if elementIn 'docker' "$@"; then
     echo "Setting docker on"
