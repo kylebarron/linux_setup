@@ -181,6 +181,11 @@ if [[ $rstudio_server = 'True' ]]; then
     fi
 fi
 
+if [[ $rust = 'True' ]]; then
+    # https://stackoverflow.com/a/57251636
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+fi
+
 if [[ $julia = 'True' ]]; then
     latest="$(curl https://julialang.org/downloads/ | grep 'href' | grep -io -P 'http.+?julia-[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+-linux-x86_64.tar.gz' | head -n 1)"
     if [[ -n "$latest" ]]; then
@@ -444,6 +449,12 @@ elif [[ $nodejs9 = 'True' ]]; then
     if [[ $ijavascript = 'True' ]]; then
         npm install -g ijavascript
         ijsinstall
+    fi
+fi
+
+if [[ $bat = 'True' ]]; then
+    if [[ $sudo = 'True' ]]; then
+        sudo apt install bat
     fi
 fi
 

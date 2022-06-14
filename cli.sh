@@ -24,6 +24,9 @@ if elementIn "python" "$@"; then
     pyenv='True'
     poetry='True'
 fi
+if elementIn "rust" "$@"; then
+    rust='True'
+fi
 if elementIn "anaconda" "$@"; then
     echo "Setting anaconda on"
     anaconda3='True'
@@ -49,6 +52,7 @@ if elementIn "utilities" "$@"; then
     tree='True'
     gtop='True'
     shellcheck='True'
+    bat='True'
 fi
 if elementIn 'docker' "$@"; then
     echo "Setting docker on"

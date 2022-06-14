@@ -22,7 +22,7 @@ cd linux_setup
 
 Options:
 ```bash
-bash ./cli.sh zsh python utilities docker
+bash ./cli.sh zsh python utilities docker rust
 bash ./cli.sh python
 bash ./cli.sh utilities
 bash ./cli.sh docker
