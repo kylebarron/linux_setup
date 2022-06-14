@@ -454,7 +454,8 @@ fi
 
 if [[ $bat = 'True' ]]; then
     if [[ $sudo = 'True' ]]; then
-        sudo apt install -y bat
+        wget `curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | grep 'browser_download_url' | grep 'deb' | grep 'bat_' | grep 'amd64' | cut -d '"' -f 4` -O /tmp/bat.deb
+        sudo dpkg -i /tmp/bat.deb
     fi
 fi
 
