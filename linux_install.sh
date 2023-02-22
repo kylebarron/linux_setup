@@ -74,7 +74,7 @@ if [[ $pyenv = 'True' ]]; then
 
     echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 
-    zsh -c "$HOME/.pyenv/bin/pyenv install 3.8.12 && $HOME/.pyenv/bin/pyenv global 3.8.12"
+    zsh -c "$HOME/.pyenv/bin/pyenv install 3.11.2 && $HOME/.pyenv/bin/pyenv global 3.11.2"
 fi
 
 if [[ $poetry = 'True' ]]; then
